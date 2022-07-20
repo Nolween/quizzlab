@@ -19,6 +19,12 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->boolean('is_banned')->default('0');
+            $table->foreignId('role_id')
+            ->constrained('roles')
+            ->default('2')
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
         });
