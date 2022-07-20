@@ -26,10 +26,13 @@ class DatabaseSeeder extends Seeder
         // Création des paramètres
         $this->call(RoleSeeder::class);
         $this->call(TagSeeder::class);
+        $this->call(GameRuleSeeder::class);
         
         // Création des jeux de test
         $this->call(UserSeeder::class);
         $this->call(QuestionSeeder::class);
         $this->call(QuestionTagSeeder::class);
+        $this->call(GameSeeder::class);
+        $this->call(GameTagSeeder::class);
     }
 }
