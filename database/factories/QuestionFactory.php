@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,7 @@ class QuestionFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => rand(1,20),
+            'user_id' => User::inRandomOrder()->first()->id,
             'question' => fake()->unique()->sentence(10),
             'answer' => fake()->sentence(),
             'image' => rand(1,40) . '.jpg',
