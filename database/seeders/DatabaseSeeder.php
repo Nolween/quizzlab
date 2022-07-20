@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Question;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -27,5 +29,6 @@ class DatabaseSeeder extends Seeder
         
         // Création des jeux de test
         $this->call(UserSeeder::class);
+        $this->call(QuestionSeeder::class);
     }
 }
