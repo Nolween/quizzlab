@@ -1,0 +1,2688 @@
+{
+  "canvas": {
+    "version": "2.2.11",
+    "width": 2500,
+    "height": 2500,
+    "scrollTop": 0,
+    "scrollLeft": 0,
+    "zoomLevel": 1,
+    "show": {
+      "tableComment": true,
+      "columnComment": true,
+      "columnDataType": true,
+      "columnDefault": true,
+      "columnAutoIncrement": false,
+      "columnPrimaryKey": true,
+      "columnUnique": false,
+      "columnNotNull": true,
+      "relationship": true
+    },
+    "database": "MySQL",
+    "databaseName": "quizzlab",
+    "canvasType": "ERD",
+    "language": "GraphQL",
+    "tableCase": "pascalCase",
+    "columnCase": "camelCase",
+    "highlightTheme": "VS2015",
+    "bracketType": "none",
+    "setting": {
+      "relationshipDataTypeSync": true,
+      "relationshipOptimization": false,
+      "columnOrder": [
+        "columnName",
+        "columnDataType",
+        "columnNotNull",
+        "columnUnique",
+        "columnAutoIncrement",
+        "columnDefault",
+        "columnComment"
+      ]
+    },
+    "pluginSerializationMap": {}
+  },
+  "table": {
+    "tables": [
+      {
+        "name": "users",
+        "comment": "utilisateurs",
+        "columns": [
+          {
+            "name": "id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": true,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": true,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "d83d2ba2-aa7e-4576-bdcb-0f7a49466f7d"
+          },
+          {
+            "name": "name",
+            "comment": "",
+            "dataType": "VARCHAR",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "15e75083-6124-4f8c-848e-ad4a9e625eb1"
+          },
+          {
+            "name": "email",
+            "comment": "",
+            "dataType": "VARCHAR",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "747cfdfe-72da-4780-a38b-4c7cd7d5bd54"
+          },
+          {
+            "name": "password",
+            "comment": "",
+            "dataType": "VARCHAR",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60.92893981933594,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "ebfc6ad8-7c82-4e26-9378-5f9830013b69"
+          },
+          {
+            "name": "is_banned",
+            "comment": "",
+            "dataType": "BOOLEAN",
+            "default": "false",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 64.03593444824219,
+              "widthComment": 60,
+              "widthDataType": 62.98297119140625,
+              "widthDefault": 60
+            },
+            "id": "63804719-adf2-4093-a578-46973983e3b9"
+          },
+          {
+            "name": "role_id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "4d195d27-095b-4013-b50f-cae512948df3"
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 708.2046,
+          "top": 949.7199,
+          "zIndex": 7,
+          "widthName": 60,
+          "widthComment": 69.96389770507812,
+          "color": "#E91E63"
+        },
+        "visible": true,
+        "id": "146eefbf-954d-4a18-8671-4e4490182f53"
+      },
+      {
+        "name": "role",
+        "comment": "role des utilisateurs",
+        "columns": [
+          {
+            "name": "id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": true,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": true,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "103fea22-d1e3-4b3f-a9b3-3ad339e9af29"
+          },
+          {
+            "name": "name",
+            "comment": "",
+            "dataType": "VARCHAR",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "7e240c59-69f0-4bee-897b-fdac56a906da"
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 1175.8078,
+          "top": 795.5389,
+          "zIndex": 14,
+          "widthName": 60,
+          "widthComment": 120,
+          "color": "#FF5300"
+        },
+        "visible": true,
+        "id": "fce31a43-33d6-4b92-934b-b5cb782dd986"
+      },
+      {
+        "name": "questions",
+        "comment": "questions posées par les utilisateurs",
+        "columns": [
+          {
+            "name": "id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": true,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": true,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "dfa69463-1ee8-4fd8-bd95-1e20d5567536"
+          },
+          {
+            "name": "user_id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "0638c87e-b4d6-48a6-a7a4-6b051186cc9f"
+          },
+          {
+            "name": "question",
+            "comment": "",
+            "dataType": "TEXT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "07d8eb33-3360-4fb4-8528-806eb487da15"
+          },
+          {
+            "name": "answer",
+            "comment": "",
+            "dataType": "TEXT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "45af50e3-a60c-47a5-8cbb-44b1514ff0ad"
+          },
+          {
+            "name": "image",
+            "comment": "",
+            "dataType": "VARCHAR",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "64145924-4fd8-46c9-9577-596559cd9bd4"
+          },
+          {
+            "name": "created_at",
+            "comment": "",
+            "dataType": "DATETIME",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 65.75192260742188,
+              "widthComment": 60,
+              "widthDataType": 63.736968994140625,
+              "widthDefault": 60
+            },
+            "id": "97ce9bef-d659-4c09-a2da-4cb8e9b6087b"
+          },
+          {
+            "name": "updated_at",
+            "comment": "",
+            "dataType": "DATETIME",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 71.09494018554688,
+              "widthComment": 60,
+              "widthDataType": 63.736968994140625,
+              "widthDefault": 60
+            },
+            "id": "abc895c5-75ed-4f8a-9485-dfe814386555"
+          },
+          {
+            "name": "is_integrated",
+            "comment": "",
+            "dataType": "BOOLEAN",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 81.18289184570312,
+              "widthComment": 60,
+              "widthDataType": 62.98297119140625,
+              "widthDefault": 60
+            },
+            "id": "c91e7beb-6b08-4159-9d88-3e8a84ff19c4"
+          },
+          {
+            "name": "vote",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "0",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "5023e548-0cc5-45ee-82a4-c2b004101b83"
+          },
+          {
+            "name": "ratio_score",
+            "comment": "",
+            "dataType": "FLOAT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 68.85890197753906,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "5f2e3d2e-4520-4a1d-994c-503efef03e83"
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 11.4592,
+          "top": 908.5603,
+          "zIndex": 6,
+          "widthName": 61.76092529296875,
+          "widthComment": 120,
+          "color": "#673AB7"
+        },
+        "visible": true,
+        "id": "febc21bb-b091-4d07-b011-07130268f1d0"
+      },
+      {
+        "name": "question_votes",
+        "comment": "Vote des utilisateurs pour une question",
+        "columns": [
+          {
+            "name": "id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": true,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": true,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "0010234e-b62d-42c4-9c55-bdd0e9071f25"
+          },
+          {
+            "name": "has_approved",
+            "comment": "",
+            "dataType": "BOOL",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 87.25392150878906,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "022a4f34-d868-44c6-bce7-7d31805641ea"
+          },
+          {
+            "name": "question_id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 72.6549072265625,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "8c31e06a-8e12-4960-a1e4-92d232f63de4"
+          },
+          {
+            "name": "created_at",
+            "comment": "",
+            "dataType": "DATETIME",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 65.75192260742188,
+              "widthComment": 60,
+              "widthDataType": 63.736968994140625,
+              "widthDefault": 60
+            },
+            "id": "ab93c06e-4837-4d1e-8769-fd2dde60b61e"
+          },
+          {
+            "name": "updated_at",
+            "comment": "",
+            "dataType": "DATETIME",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 71.09494018554688,
+              "widthComment": 60,
+              "widthDataType": 63.736968994140625,
+              "widthDefault": 60
+            },
+            "id": "ede4a9a2-de92-4560-9267-295b760386c9"
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 0,
+          "top": 311.0322,
+          "zIndex": 4,
+          "widthName": 94.02687072753906,
+          "widthComment": 120
+        },
+        "visible": true,
+        "id": "8a8fd910-7c18-4a2e-a293-375728d47b5c"
+      },
+      {
+        "name": "question_tags",
+        "comment": "",
+        "columns": [
+          {
+            "name": "id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": true,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": true,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "84378e66-0119-4d0f-9215-330fe3a2460f"
+          },
+          {
+            "name": "question_id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 72.6549072265625,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "dcf8d6cf-c464-40c2-900c-80084f15e5af"
+          },
+          {
+            "name": "tag_id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "d1172476-e0a8-48bf-8d51-35578001967b"
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 10,
+          "top": 1320.0015,
+          "zIndex": 3,
+          "widthName": 87.51390075683594,
+          "widthComment": 60,
+          "color": "#009688"
+        },
+        "visible": true,
+        "id": "c50567a8-dda4-4aa8-bad6-1eb2b962b9a4"
+      },
+      {
+        "name": "tags",
+        "comment": "tags que comportent les questions et quizz",
+        "columns": [
+          {
+            "name": "id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": true,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": true,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "0ae23793-d8bd-4033-bb66-8654a34e0a34"
+          },
+          {
+            "name": "name",
+            "comment": "",
+            "dataType": "VARCHAR",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "ed39e1b9-009c-4b7d-982b-f0622da82521"
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 9.9998,
+          "top": 1649.1002,
+          "zIndex": 2,
+          "widthName": 60,
+          "widthComment": 120,
+          "color": "#FF9800"
+        },
+        "visible": true,
+        "id": "5a0b2842-3f37-4703-89a0-8d5660872151"
+      },
+      {
+        "name": "question_comments",
+        "comment": "commentaire sur une question",
+        "columns": [
+          {
+            "name": "id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": true,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": true,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "3f294323-b419-429d-b58c-c398aca5e80d"
+          },
+          {
+            "name": "comment",
+            "comment": "",
+            "dataType": "TEXT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60.47395324707031,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "28d34ae3-d158-4912-befc-c1108f6d352b"
+          },
+          {
+            "name": "question_id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 72.6549072265625,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "d059fae9-11db-4aad-897f-e918991b28c6"
+          },
+          {
+            "name": "user_id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "f657ed99-6cd5-4da9-9c35-810de7d4d3f8"
+          },
+          {
+            "name": "created_at",
+            "comment": "",
+            "dataType": "DATETIME",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 65.75192260742188,
+              "widthComment": 60,
+              "widthDataType": 63.736968994140625,
+              "widthDefault": 60
+            },
+            "id": "7643a65a-f0cf-4ed4-b464-a09f19681323"
+          },
+          {
+            "name": "updated_at",
+            "comment": "",
+            "dataType": "DATETIME",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 71.09494018554688,
+              "widthComment": 60,
+              "widthDataType": 63.736968994140625,
+              "widthDefault": 60
+            },
+            "id": "2bcbb029-a83b-4993-8e4d-76bec3f1e8a8"
+          },
+          {
+            "name": "disapprovals",
+            "comment": "",
+            "dataType": "INT",
+            "default": "0",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 79.05091857910156,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "23bdff7b-793d-4844-8414-77e537b26a54"
+          },
+          {
+            "name": "approvals",
+            "comment": "",
+            "dataType": "INT",
+            "default": "0",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 61.474945068359375,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "f7edc06e-711f-4afb-8c3f-a6a88cd131fd"
+          },
+          {
+            "name": "comment_response_id",
+            "comment": "A quel autre id de commentaire répond ce commentaire",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 139.4878387451172,
+              "widthComment": 120,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "763a2e9e-5ba9-4c8b-8ebb-75b240d1e262"
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 686.7271,
+          "top": 206.6352,
+          "zIndex": 5,
+          "widthName": 126.00686645507812,
+          "widthComment": 120
+        },
+        "visible": true,
+        "id": "55554c9f-a52b-45e2-8331-84db87fc0310"
+      },
+      {
+        "name": "comment_approvals",
+        "comment": "Action des utilisateurs sur des commentaires de question",
+        "columns": [
+          {
+            "name": "id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": true,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": true,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "c1448f33-056d-47f4-b869-9582679be663"
+          },
+          {
+            "name": "comment_id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 77.59492492675781,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "e35e8d01-1f12-4515-b562-20038793bb9f"
+          },
+          {
+            "name": "user_id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "afdeadb2-18ca-4bcb-b2a9-a88559e196f9"
+          },
+          {
+            "name": "has_approved",
+            "comment": "",
+            "dataType": "BOOL",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 87.25392150878906,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "f4dd0013-a356-46ba-ae3e-e32c48a1ac40"
+          },
+          {
+            "name": "created_at",
+            "comment": "",
+            "dataType": "DATETIME",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 65.75192260742188,
+              "widthComment": 60,
+              "widthDataType": 63.736968994140625,
+              "widthDefault": 60
+            },
+            "id": "e9f370f9-389b-437a-9128-6c1b4c585f98"
+          },
+          {
+            "name": "updated_at",
+            "comment": "",
+            "dataType": "DATETIME",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 71.09494018554688,
+              "widthComment": 60,
+              "widthDataType": 63.736968994140625,
+              "widthDefault": 60
+            },
+            "id": "43ff73e0-9376-49e8-930f-94188a39072a"
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 607.4204,
+          "top": 625.9202,
+          "zIndex": 9,
+          "widthName": 125.72088623046875,
+          "widthComment": 120
+        },
+        "visible": true,
+        "id": "f9f41302-3aab-415c-83db-35d61d885836"
+      },
+      {
+        "name": "games",
+        "comment": "Parties de quizz",
+        "columns": [
+          {
+            "name": "id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": true,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": true,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "82a4a965-d2d3-4ceb-ae79-55e52e51fa66"
+          },
+          {
+            "name": "user_id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "8cb7f613-5bfe-48c1-9a04-b45c73c5afc9"
+          },
+          {
+            "name": "game_rule_id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 83.75689697265625,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "1fdfdf74-307d-41f0-b0bb-438dd08140e9"
+          },
+          {
+            "name": "max_players",
+            "comment": "",
+            "dataType": "TINYINT",
+            "default": "10",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 78.29692077636719,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "5188acd2-4e09-4f6f-83d8-63147ef69e35"
+          },
+          {
+            "name": "response_time",
+            "comment": "Délais de réponse",
+            "dataType": "TINYINT",
+            "default": "20",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 91.4268798828125,
+              "widthComment": 111.03083801269531,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "07d16e00-859f-4b00-9296-5d9924a62dfe"
+          },
+          {
+            "name": "question_count",
+            "comment": "Nombre questions pour le quizz",
+            "dataType": "TINYINT",
+            "default": "20",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 96.17189025878906,
+              "widthComment": 120,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "0158dbf2-3a80-48d5-9345-75d2f77a19bb"
+          },
+          {
+            "name": "has_begun",
+            "comment": "",
+            "dataType": "BOOLEAN",
+            "default": "false",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 68.7159423828125,
+              "widthComment": 60,
+              "widthDataType": 62.98297119140625,
+              "widthDefault": 60
+            },
+            "id": "6bab6b65-b024-48bb-8ff5-258c472b0e92"
+          },
+          {
+            "name": "is_finished",
+            "comment": "",
+            "dataType": "BOOLEAN",
+            "default": "false",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 66.1549072265625,
+              "widthComment": 60,
+              "widthDataType": 62.98297119140625,
+              "widthDefault": 60
+            },
+            "id": "06bba472-83cb-48a2-b1a8-eb8323703611"
+          },
+          {
+            "name": "game_code",
+            "comment": "",
+            "dataType": "VARCHAR",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 71.97892761230469,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "eaf3b296-dd34-4eda-8f26-71b5241aa0a5"
+          },
+          {
+            "name": "question_step",
+            "comment": "Question actuelle",
+            "dataType": "TINYINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 87.55288696289062,
+              "widthComment": 108.703857421875,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "c983efdc-2687-4d71-bb12-34568f91bc5e"
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 587.7347,
+          "top": 1675.7236,
+          "zIndex": 13,
+          "widthName": 60,
+          "widthComment": 97.82284545898438,
+          "color": "#0000FF"
+        },
+        "visible": true,
+        "id": "a0fdeb75-1075-4c78-844b-b266ee34a76f"
+      },
+      {
+        "name": "game_rules",
+        "comment": "règles de marquage de point",
+        "columns": [
+          {
+            "name": "id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": true,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": true,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "dba4f1c6-4707-4a67-ab4c-cae902802e74"
+          },
+          {
+            "name": "name",
+            "comment": "",
+            "dataType": "VARCHAR",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "f16922eb-2682-4556-81e9-8e9e6bd0984b"
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 651.6157,
+          "top": 2122.1023,
+          "zIndex": 8,
+          "widthName": 72.8629150390625,
+          "widthComment": 120,
+          "color": "#CDDC39"
+        },
+        "visible": true,
+        "id": "e748383a-c277-4d64-a7f6-548bee3cea48"
+      },
+      {
+        "name": "game_players",
+        "comment": "Joueurs de la partie",
+        "columns": [
+          {
+            "name": "id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": true,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": true,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "ffa2a2eb-b0e5-4990-92f6-771cc2a4b714"
+          },
+          {
+            "name": "game_id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "8b19ecb8-93de-4a0d-be24-23f95563b35d"
+          },
+          {
+            "name": "user_id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "f8d09ed5-565a-4388-b021-04324df5d722"
+          },
+          {
+            "name": "is_ready",
+            "comment": "",
+            "dataType": "BOOLEAN",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 62.98297119140625,
+              "widthDefault": 60
+            },
+            "id": "afb777af-fd02-4691-9071-c8fb396fd7e8"
+          },
+          {
+            "name": "final_score",
+            "comment": "",
+            "dataType": "FLOAT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 67.05191040039062,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "404cda2a-276d-4850-b658-40b907ecf742"
+          },
+          {
+            "name": "final_place",
+            "comment": "",
+            "dataType": "TINYINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 66.492919921875,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "f225cb21-95c5-4dea-8df5-dbcb3668edc0"
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 1712.9651,
+          "top": 1311.4353,
+          "zIndex": 10,
+          "widthName": 86.74690246582031,
+          "widthComment": 120
+        },
+        "visible": true,
+        "id": "058af893-7ce2-459c-b722-2ac01cb6fc77"
+      },
+      {
+        "name": "game_tags",
+        "comment": "Thèmes de la partie",
+        "columns": [
+          {
+            "name": "id",
+            "comment": "",
+            "dataType": "bigin",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": true,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": true,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "3132704b-b9d1-4541-8498-267bfde8da74"
+          },
+          {
+            "name": "game_id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "42a941ec-fa2a-4de5-acd6-54414044ef2e"
+          },
+          {
+            "name": "tag_id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "4e2e3e49-0443-44e1-9dc0-faaf652e910b"
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 0,
+          "top": 1927.5159,
+          "zIndex": 1,
+          "widthName": 68.75494384765625,
+          "widthComment": 120
+        },
+        "visible": true,
+        "id": "364f43be-aa85-4b61-801d-5545aa627a9b"
+      },
+      {
+        "name": "game_chat",
+        "comment": "Discussion de la partie",
+        "columns": [
+          {
+            "name": "id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": true,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": true,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "f3a920c2-cfa6-4bc9-ac0b-63fec5d3b09e"
+          },
+          {
+            "name": "text",
+            "comment": "",
+            "dataType": "TEXT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "2ec2bf01-000d-4ded-bf0e-46fe37535ecf"
+          },
+          {
+            "name": "game_id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "b804b1ac-7c05-4b96-8d29-acb18fddeb00"
+          },
+          {
+            "name": "user_id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "005ad66c-fa15-4b8e-baa5-601d3af8663c"
+          },
+          {
+            "name": "created_at",
+            "comment": "",
+            "dataType": "DATETIME",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 65.75192260742188,
+              "widthComment": 60,
+              "widthDataType": 63.736968994140625,
+              "widthDefault": 60
+            },
+            "id": "d136187c-92cf-43ce-82df-1c19d5c7226c"
+          },
+          {
+            "name": "updated_at",
+            "comment": "",
+            "dataType": "DATETIME",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 71.09494018554688,
+              "widthComment": 60,
+              "widthDataType": 63.736968994140625,
+              "widthDefault": 60
+            },
+            "id": "89e57b73-668e-4c16-985e-d837591cce1b"
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 1156.1005,
+          "top": 1379.9388,
+          "zIndex": 11,
+          "widthName": 68.80694580078125,
+          "widthComment": 120
+        },
+        "visible": true,
+        "id": "6df3d8b4-b94e-4f44-9a8d-7bf5daa41f5f"
+      },
+      {
+        "name": "game_questions",
+        "comment": "Questions de la partie",
+        "columns": [
+          {
+            "name": "id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": true,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": true,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "6dd74f8b-d5b5-4c29-bb67-048bb92df517"
+          },
+          {
+            "name": "game_id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "f0af9919-c70c-4996-8f9e-4bbc00a912f2"
+          },
+          {
+            "name": "question_id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 72.6549072265625,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "113337ce-4585-46b8-b637-ce7cb9952bdf"
+          },
+          {
+            "name": "order",
+            "comment": "",
+            "dataType": "TINYINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "447e13c1-a10f-44ee-b105-1e873781b8f7"
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 509.5597,
+          "top": 1301.8863,
+          "zIndex": 12,
+          "widthName": 102.30789184570312,
+          "widthComment": 120
+        },
+        "visible": true,
+        "id": "be160ef9-01e4-448c-8d41-4e2c0ee93edb"
+      },
+      {
+        "name": "game_results",
+        "comment": "Résultats des questions",
+        "columns": [
+          {
+            "name": "id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": true,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": true,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "54cadda0-afba-4827-a947-068d29cada8e"
+          },
+          {
+            "name": "game_question_id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 113.20187377929688,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "531042d2-e6ab-40d5-99b8-0ac2ab2933c0"
+          },
+          {
+            "name": "user_id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "126be27d-7600-4187-b02c-dd717bd1931c"
+          },
+          {
+            "name": "response",
+            "comment": "",
+            "dataType": "VARCHAR",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "50995d3e-4a8c-4cd6-a659-22109a172875"
+          },
+          {
+            "name": "is_correct",
+            "comment": "",
+            "dataType": "BOOLEAN",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60.200897216796875,
+              "widthComment": 60,
+              "widthDataType": 62.98297119140625,
+              "widthDefault": 60
+            },
+            "id": "d6d899bd-a37e-4513-b0b4-0b30752ffe27"
+          },
+          {
+            "name": "score",
+            "comment": "",
+            "dataType": "FLOAT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "3fb255bf-add6-4c0a-85d5-7a82f8cae327"
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 1589.3152,
+          "top": 976.7576,
+          "zIndex": 15,
+          "widthName": 83.52290344238281,
+          "widthComment": 120
+        },
+        "visible": true,
+        "id": "97f1007e-94eb-47d9-a23c-b4e8da986149"
+      }
+    ],
+    "indexes": []
+  },
+  "memo": {
+    "memos": []
+  },
+  "relationship": {
+    "relationships": [
+      {
+        "identification": false,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "fce31a43-33d6-4b92-934b-b5cb782dd986",
+          "columnIds": [
+            "103fea22-d1e3-4b3f-a9b3-3ad339e9af29"
+          ],
+          "x": 1175.8078,
+          "y": 850.5389,
+          "direction": "left"
+        },
+        "end": {
+          "tableId": "146eefbf-954d-4a18-8671-4e4490182f53",
+          "columnIds": [
+            "4d195d27-095b-4013-b50f-cae512948df3"
+          ],
+          "x": 1062.2235056396485,
+          "y": 981.7199,
+          "direction": "right"
+        },
+        "constraintName": "fk_role_to_users",
+        "visible": true,
+        "id": "c24ce214-e14a-4514-8e79-cec55a82b259"
+      },
+      {
+        "identification": false,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "146eefbf-954d-4a18-8671-4e4490182f53",
+          "columnIds": [
+            "d83d2ba2-aa7e-4576-bdcb-0f7a49466f7d"
+          ],
+          "x": 708.2046,
+          "y": 1045.7199,
+          "direction": "left"
+        },
+        "end": {
+          "tableId": "febc21bb-b091-4d07-b011-07130268f1d0",
+          "columnIds": [
+            "0638c87e-b4d6-48a6-a7a4-6b051186cc9f"
+          ],
+          "x": 383.37906083984376,
+          "y": 977.0603,
+          "direction": "right"
+        },
+        "constraintName": "fk_users_to_questions",
+        "visible": true,
+        "id": "8dfc3792-24da-4ce0-a998-c697c5015a24"
+      },
+      {
+        "identification": false,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "febc21bb-b091-4d07-b011-07130268f1d0",
+          "columnIds": [
+            "dfa69463-1ee8-4fd8-bd95-1e20d5567536"
+          ],
+          "x": 104.43916520996093,
+          "y": 908.5603,
+          "direction": "top"
+        },
+        "end": {
+          "tableId": "8a8fd910-7c18-4a2e-a293-375728d47b5c",
+          "columnIds": [
+            "8c31e06a-8e12-4960-a1e4-92d232f63de4"
+          ],
+          "x": 188.99544525146484,
+          "y": 482.5322,
+          "direction": "bottom"
+        },
+        "constraintName": "fk_questions_to_question_votes",
+        "visible": true,
+        "id": "306cea0a-9660-4f46-b66f-ce69c8cb16fe"
+      },
+      {
+        "identification": false,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "febc21bb-b091-4d07-b011-07130268f1d0",
+          "columnIds": [
+            "dfa69463-1ee8-4fd8-bd95-1e20d5567536"
+          ],
+          "x": 197.41913041992188,
+          "y": 1182.5603,
+          "direction": "bottom"
+        },
+        "end": {
+          "tableId": "c50567a8-dda4-4aa8-bad6-1eb2b962b9a4",
+          "columnIds": [
+            "dcf8d6cf-c464-40c2-900c-80084f15e5af"
+          ],
+          "x": 189.82745361328125,
+          "y": 1320.0015,
+          "direction": "top"
+        },
+        "constraintName": "fk_questions_to_question_tags",
+        "visible": true,
+        "id": "06eb98bb-9db2-412a-8d5e-78e12b6b4fbb"
+      },
+      {
+        "identification": false,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "5a0b2842-3f37-4703-89a0-8d5660872151",
+          "columnIds": [
+            "0ae23793-d8bd-4033-bb66-8654a34e0a34"
+          ],
+          "x": 183.4998,
+          "y": 1649.1002,
+          "direction": "top"
+        },
+        "end": {
+          "tableId": "c50567a8-dda4-4aa8-bad6-1eb2b962b9a4",
+          "columnIds": [
+            "d1172476-e0a8-48bf-8d51-35578001967b"
+          ],
+          "x": 189.82745361328125,
+          "y": 1450.5015,
+          "direction": "bottom"
+        },
+        "constraintName": "fk_tags_to_question_tags",
+        "visible": true,
+        "id": "9fdc7ee2-0402-4df2-9431-38c12ca272a9"
+      },
+      {
+        "identification": false,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "febc21bb-b091-4d07-b011-07130268f1d0",
+          "columnIds": [
+            "dfa69463-1ee8-4fd8-bd95-1e20d5567536"
+          ],
+          "x": 290.3990956298828,
+          "y": 908.5603,
+          "direction": "top"
+        },
+        "end": {
+          "tableId": "55554c9f-a52b-45e2-8331-84db87fc0310",
+          "columnIds": [
+            "d059fae9-11db-4aad-897f-e918991b28c6"
+          ],
+          "x": 686.7271,
+          "y": 333.3852,
+          "direction": "left"
+        },
+        "constraintName": "fk_questions_to_question_comments",
+        "visible": true,
+        "id": "ada9c4bc-e7e6-4ea7-9717-8e2f86e9d95b"
+      },
+      {
+        "identification": false,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "146eefbf-954d-4a18-8671-4e4490182f53",
+          "columnIds": [
+            "d83d2ba2-aa7e-4576-bdcb-0f7a49466f7d"
+          ],
+          "x": 973.7187792297364,
+          "y": 949.7199,
+          "direction": "top"
+        },
+        "end": {
+          "tableId": "55554c9f-a52b-45e2-8331-84db87fc0310",
+          "columnIds": [
+            "f657ed99-6cd5-4da9-9c35-810de7d4d3f8"
+          ],
+          "x": 1054.3957058044434,
+          "y": 460.1352,
+          "direction": "bottom"
+        },
+        "constraintName": "fk_users_to_question_comments",
+        "visible": true,
+        "id": "5c3ba752-8b77-433e-b924-cbb285c49ee8"
+      },
+      {
+        "identification": false,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "55554c9f-a52b-45e2-8331-84db87fc0310",
+          "columnIds": [
+            "3f294323-b419-429d-b58c-c398aca5e80d"
+          ],
+          "x": 809.2833019348144,
+          "y": 460.1352,
+          "direction": "bottom"
+        },
+        "end": {
+          "tableId": "f9f41302-3aab-415c-83db-35d61d885836",
+          "columnIds": [
+            "e35e8d01-1f12-4515-b562-20038793bb9f"
+          ],
+          "x": 796.4158452514648,
+          "y": 625.9202,
+          "direction": "top"
+        },
+        "constraintName": "fk_question_comments_to_comment_approvals",
+        "visible": true,
+        "id": "6a69a47d-a9f8-48c2-ae62-32e9d952b49d"
+      },
+      {
+        "identification": false,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "146eefbf-954d-4a18-8671-4e4490182f53",
+          "columnIds": [
+            "d83d2ba2-aa7e-4576-bdcb-0f7a49466f7d"
+          ],
+          "x": 796.7093264099121,
+          "y": 949.7199,
+          "direction": "top"
+        },
+        "end": {
+          "tableId": "f9f41302-3aab-415c-83db-35d61d885836",
+          "columnIds": [
+            "afdeadb2-18ca-4bcb-b2a9-a88559e196f9"
+          ],
+          "x": 796.4158452514648,
+          "y": 817.9202,
+          "direction": "bottom"
+        },
+        "constraintName": "fk_users_to_comment_approvals",
+        "visible": true,
+        "id": "3fb7845e-6e5a-4c48-8402-8cec5b5ed20a"
+      },
+      {
+        "identification": false,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "146eefbf-954d-4a18-8671-4e4490182f53",
+          "columnIds": [
+            "d83d2ba2-aa7e-4576-bdcb-0f7a49466f7d"
+          ],
+          "x": 973.7187792297364,
+          "y": 1141.7199,
+          "direction": "bottom"
+        },
+        "end": {
+          "tableId": "a0fdeb75-1075-4c78-844b-b266ee34a76f",
+          "columnIds": [
+            "8cb7f613-5bfe-48c1-9a04-b45c73c5afc9"
+          ],
+          "x": 922.3508460876465,
+          "y": 1675.7236,
+          "direction": "top"
+        },
+        "constraintName": "fk_users_to_games",
+        "visible": true,
+        "id": "6522d93f-8f83-41b6-b5a6-3629ea2d9a75"
+      },
+      {
+        "identification": false,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "e748383a-c277-4d64-a7f6-548bee3cea48",
+          "columnIds": [
+            "dba4f1c6-4707-4a67-ab4c-cae902802e74"
+          ],
+          "x": 825.1157,
+          "y": 2122.1023,
+          "direction": "top"
+        },
+        "end": {
+          "tableId": "a0fdeb75-1075-4c78-844b-b266ee34a76f",
+          "columnIds": [
+            "1fdfdf74-307d-41f0-b0bb-438dd08140e9"
+          ],
+          "x": 810.8121307250976,
+          "y": 1949.7236,
+          "direction": "bottom"
+        },
+        "constraintName": "fk_game_rules_to_games",
+        "visible": true,
+        "id": "d37a951f-4145-468c-a37d-7fe26a17cc51"
+      },
+      {
+        "identification": false,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "a0fdeb75-1075-4c78-844b-b266ee34a76f",
+          "columnIds": [
+            "82a4a965-d2d3-4ceb-ae79-55e52e51fa66"
+          ],
+          "x": 1033.8895614501953,
+          "y": 1881.2236,
+          "direction": "right"
+        },
+        "end": {
+          "tableId": "058af893-7ce2-459c-b722-2ac01cb6fc77",
+          "columnIds": [
+            "8b19ecb8-93de-4a0d-be24-23f95563b35d"
+          ],
+          "x": 1712.9651,
+          "y": 1455.4353,
+          "direction": "left"
+        },
+        "constraintName": "fk_games_to_game_players",
+        "visible": true,
+        "id": "414ff9c9-abab-4ab3-960f-517f2e61b175"
+      },
+      {
+        "identification": false,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "146eefbf-954d-4a18-8671-4e4490182f53",
+          "columnIds": [
+            "d83d2ba2-aa7e-4576-bdcb-0f7a49466f7d"
+          ],
+          "x": 1062.2235056396485,
+          "y": 1109.7199,
+          "direction": "right"
+        },
+        "end": {
+          "tableId": "058af893-7ce2-459c-b722-2ac01cb6fc77",
+          "columnIds": [
+            "f8d09ed5-565a-4388-b021-04324df5d722"
+          ],
+          "x": 1712.9651,
+          "y": 1359.4353,
+          "direction": "left"
+        },
+        "constraintName": "fk_users_to_game_players",
+        "visible": true,
+        "id": "db5e41e5-a2f2-410a-b2e8-22599098bc68"
+      },
+      {
+        "identification": false,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "a0fdeb75-1075-4c78-844b-b266ee34a76f",
+          "columnIds": [
+            "82a4a965-d2d3-4ceb-ae79-55e52e51fa66"
+          ],
+          "x": 587.7347,
+          "y": 1812.7236,
+          "direction": "left"
+        },
+        "end": {
+          "tableId": "364f43be-aa85-4b61-801d-5545aa627a9b",
+          "columnIds": [
+            "42a941ec-fa2a-4de5-acd6-54414044ef2e"
+          ],
+          "x": 347,
+          "y": 1992.7659,
+          "direction": "right"
+        },
+        "constraintName": "fk_games_to_game_tags",
+        "visible": true,
+        "id": "66ddfba8-2918-430c-ab1b-4166d2306617"
+      },
+      {
+        "identification": false,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "5a0b2842-3f37-4703-89a0-8d5660872151",
+          "columnIds": [
+            "0ae23793-d8bd-4033-bb66-8654a34e0a34"
+          ],
+          "x": 183.4998,
+          "y": 1759.1002,
+          "direction": "bottom"
+        },
+        "end": {
+          "tableId": "364f43be-aa85-4b61-801d-5545aa627a9b",
+          "columnIds": [
+            "4e2e3e49-0443-44e1-9dc0-faaf652e910b"
+          ],
+          "x": 173.5,
+          "y": 1927.5159,
+          "direction": "top"
+        },
+        "constraintName": "fk_tags_to_game_tags",
+        "visible": true,
+        "id": "e119a027-ac31-4586-9af2-9563133c0fe1"
+      },
+      {
+        "identification": false,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "a0fdeb75-1075-4c78-844b-b266ee34a76f",
+          "columnIds": [
+            "82a4a965-d2d3-4ceb-ae79-55e52e51fa66"
+          ],
+          "x": 1033.8895614501953,
+          "y": 1744.2236,
+          "direction": "right"
+        },
+        "end": {
+          "tableId": "6df3d8b4-b94e-4f44-9a8d-7bf5daa41f5f",
+          "columnIds": [
+            "b804b1ac-7c05-4b96-8d29-acb18fddeb00"
+          ],
+          "x": 1156.1005,
+          "y": 1427.9388,
+          "direction": "left"
+        },
+        "constraintName": "fk_games_to_game_chat",
+        "visible": true,
+        "id": "39eae6b9-37b5-4a14-96a2-4d0a1d0b58e1"
+      },
+      {
+        "identification": false,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "146eefbf-954d-4a18-8671-4e4490182f53",
+          "columnIds": [
+            "d83d2ba2-aa7e-4576-bdcb-0f7a49466f7d"
+          ],
+          "x": 796.7093264099121,
+          "y": 1141.7199,
+          "direction": "bottom"
+        },
+        "end": {
+          "tableId": "6df3d8b4-b94e-4f44-9a8d-7bf5daa41f5f",
+          "columnIds": [
+            "005ad66c-fa15-4b8e-baa5-601d3af8663c"
+          ],
+          "x": 1156.1005,
+          "y": 1523.9388,
+          "direction": "left"
+        },
+        "constraintName": "fk_users_to_game_chat",
+        "visible": true,
+        "id": "2e2c0315-2c1f-4557-b859-c6467c3d9cc8"
+      },
+      {
+        "identification": false,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "febc21bb-b091-4d07-b011-07130268f1d0",
+          "columnIds": [
+            "dfa69463-1ee8-4fd8-bd95-1e20d5567536"
+          ],
+          "x": 383.37906083984376,
+          "y": 1114.0603,
+          "direction": "right"
+        },
+        "end": {
+          "tableId": "be160ef9-01e4-448c-8d41-4e2c0ee93edb",
+          "columnIds": [
+            "113337ce-4585-46b8-b637-ce7cb9952bdf"
+          ],
+          "x": 509.5597,
+          "y": 1377.3863,
+          "direction": "left"
+        },
+        "constraintName": "fk_questions_to_game_questions",
+        "visible": true,
+        "id": "f3a0a8d4-5d27-46cc-bdae-3063b37a4916"
+      },
+      {
+        "identification": false,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "a0fdeb75-1075-4c78-844b-b266ee34a76f",
+          "columnIds": [
+            "82a4a965-d2d3-4ceb-ae79-55e52e51fa66"
+          ],
+          "x": 699.2734153625488,
+          "y": 1675.7236,
+          "direction": "top"
+        },
+        "end": {
+          "tableId": "be160ef9-01e4-448c-8d41-4e2c0ee93edb",
+          "columnIds": [
+            "f0af9919-c70c-4996-8f9e-4bbc00a912f2"
+          ],
+          "x": 689.3871536132813,
+          "y": 1452.8863,
+          "direction": "bottom"
+        },
+        "constraintName": "fk_games_to_game_questions",
+        "visible": true,
+        "id": "537493a7-ad02-4e45-866f-2a19c8570d71"
+      },
+      {
+        "identification": false,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "be160ef9-01e4-448c-8d41-4e2c0ee93edb",
+          "columnIds": [
+            "6dd74f8b-d5b5-4c29-bb67-048bb92df517"
+          ],
+          "x": 869.2146072265625,
+          "y": 1377.3863,
+          "direction": "right"
+        },
+        "end": {
+          "tableId": "97f1007e-94eb-47d9-a23c-b4e8da986149",
+          "columnIds": [
+            "531042d2-e6ab-40d5-99b8-0ac2ab2933c0"
+          ],
+          "x": 1589.3152,
+          "y": 1120.7576,
+          "direction": "left"
+        },
+        "constraintName": "fk_game_questions_to_game_results",
+        "visible": true,
+        "id": "18e132e1-0b37-4d3c-9f46-6f21d2ea4b03"
+      },
+      {
+        "identification": false,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "146eefbf-954d-4a18-8671-4e4490182f53",
+          "columnIds": [
+            "d83d2ba2-aa7e-4576-bdcb-0f7a49466f7d"
+          ],
+          "x": 1062.2235056396485,
+          "y": 1045.7199,
+          "direction": "right"
+        },
+        "end": {
+          "tableId": "97f1007e-94eb-47d9-a23c-b4e8da986149",
+          "columnIds": [
+            "126be27d-7600-4187-b02c-dd717bd1931c"
+          ],
+          "x": 1589.3152,
+          "y": 1024.7576,
+          "direction": "left"
+        },
+        "constraintName": "fk_users_to_game_results",
+        "visible": true,
+        "id": "171aa01b-3d8d-4812-887c-e08cae5ac4a3"
+      }
+    ]
+  }
+}
