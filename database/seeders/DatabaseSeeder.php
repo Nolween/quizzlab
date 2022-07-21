@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\CommentApproval;
 use App\Models\GameQuestion;
 use App\Models\Question;
 use App\Models\QuestionTag;
@@ -42,5 +43,6 @@ class DatabaseSeeder extends Seeder
         $this->call(GameResultSeeder::class);
         $this->call(QuestionVoteSeeder::class);
         $this->call(QuestionCommentSeeder::class);
+        $this->call(CommentApprovalSeeder::class);
     }
 }
