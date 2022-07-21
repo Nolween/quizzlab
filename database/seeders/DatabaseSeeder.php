@@ -24,12 +24,12 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-        
+
         // Création des paramètres
         $this->call(RoleSeeder::class);
         $this->call(TagSeeder::class);
         $this->call(GameRuleSeeder::class);
-        
+
         // Création des jeux de test
         $this->call(UserSeeder::class);
         $this->call(QuestionSeeder::class);
@@ -40,5 +40,6 @@ class DatabaseSeeder extends Seeder
         $this->call(GamePlayerSeeder::class);
         $this->call(GameChatSeeder::class);
         $this->call(GameResultSeeder::class);
+        $this->call(QuestionVoteSeeder::class);
     }
 }

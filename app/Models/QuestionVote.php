@@ -5,35 +5,30 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class QuestionTag extends Model
+class QuestionVote extends Model
 {
     use HasFactory;
 
-    
-    // Pas besoin des created_at et updated_at
-    public $timestamps = false;
-
-
     protected $fillable = [
-        'tag_id',
         'question_id',
+        'user_id',
+        'has_approved'
     ];
 
-
+    
     /**
-     * Quelle est la question?
+     * A quel question correspond le vote?
      */
     public function question()
     {
         return $this->belongsTo(Question::class);
     }
-    
-    /**
-     * Quel est le thème?
-     */
-    public function tag()
-    {
-        return $this->belongsTo(Tag::class);
-    }
 
+    /**
+     * A quel utilisateur correspond le vote?
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
