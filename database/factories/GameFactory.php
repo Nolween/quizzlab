@@ -19,7 +19,7 @@ class GameFactory extends Factory
     public function definition()
     {
         $questionCount = rand(5, 50);
-        $hasBegun = rand(0, 1);
+        $hasBegun = fake()->boolean(90);
         $isFinished = $hasBegun == 1 ? fake()->boolean(90) : 0;
         if ($isFinished == 1) {
             $questionStep = $questionCount;

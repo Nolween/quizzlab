@@ -4,7 +4,9 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\GameQuestion;
 use App\Models\Question;
+use App\Models\QuestionTag;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -34,5 +36,8 @@ class DatabaseSeeder extends Seeder
         $this->call(QuestionTagSeeder::class);
         $this->call(GameSeeder::class);
         $this->call(GameTagSeeder::class);
+        $this->call(GameQuestionSeeder::class);
+        $this->call(GamePlayerSeeder::class);
+        $this->call(GameChatSeeder::class);
     }
 }

@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\GameTag;
+use App\Models\GameChat;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class GameTagSeeder extends Seeder
+class GameChatSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,6 +15,6 @@ class GameTagSeeder extends Seeder
      */
     public function run()
     {
-        GameTag::factory(150)->create();
+        GameChat::factory(80)->create();
     }
 }

@@ -19,7 +19,7 @@ class QuestionFactory extends Factory
     {
         return [
             'user_id' => User::inRandomOrder()->first()->id,
-            'question' => fake()->unique()->sentence(10),
+            'question' => substr_replace(fake()->unique()->sentence(10), '?', -1),
             'answer' => fake()->sentence(),
             'image' => rand(1,40) . '.jpg',
             'is_integrated' => rand(0, 1),

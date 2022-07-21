@@ -16,6 +16,6 @@ class UserSeeder extends Seeder
     public function run()
     {
         User::create(['name' => 'Cashandrick', 'email' => 'nolween.lopez@gmail.com', 'password' => bcrypt('123456'), 'role_id' => 1, 'is_banned' => false, 'email_verified_at' => now()]);
-        User::factory(20)->create();
+        User::factory(50)->create();
     }
 }
