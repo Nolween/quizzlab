@@ -18,7 +18,7 @@ class GameFactory extends Factory
      */
     public function definition()
     {
-        $questionCount = rand(5, 50);
+        $questionCount = rand(5, 15);
         $hasBegun = fake()->boolean(90);
         $isFinished = $hasBegun == 1 ? fake()->boolean(90) : 0;
         if ($isFinished == 1) {

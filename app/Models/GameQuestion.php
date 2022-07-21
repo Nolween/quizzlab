@@ -18,4 +18,22 @@ class GameQuestion extends Model
         'question_id',
         'order',
     ];
+
+    
+    /**
+     * Dans quelle partie la question est-elle?
+     */
+    public function game()
+    {
+        return $this->belongsTo(Game::class);
+    }
+    
+    /**
+     * Quelle est la question?
+     */
+    public function question()
+    {
+        return $this->belongsTo(Question::class);
+    }
+
 }

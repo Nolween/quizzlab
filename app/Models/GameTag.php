@@ -17,4 +17,21 @@ class GameTag extends Model
         'tag_id',
         'game_id',
     ];
+
+
+    /**
+     * A quelle partie appartient l'association?
+     */
+    public function game()
+    {
+        return $this->belongsTo(Game::class);
+    }
+
+    /**
+     * A quelle thème appartient l'association?
+     */
+    public function tag()
+    {
+        return $this->belongsTo(Tag::class);
+    }
 }

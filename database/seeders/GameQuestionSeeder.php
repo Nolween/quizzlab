@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Game;
 use App\Models\GameQuestion;
+use App\Models\Question;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -15,13 +17,19 @@ class GameQuestionSeeder extends Seeder
      */
     public function run()
     {
-        GameQuestion::factory(150)->create();
 
-        // Définition des ordres de questions
-        $questionGames = GameQuestion::all();
-        foreach ($questionGames as $questionGame) {
-            $questionGame->order = GameQuestion::where('game_id', $questionGame->game_id)->orderBy('order', 'DESC')->first()->order + 1 ?? 1;
-            $questionGame->save();
-        }
+        // Parcours de toutes les parties
+        $games = Game::all();
+        foreach($games as $game) {
+            // Attribution des questions selon le nombre de questions défini
+            for ($i=1; $i <= $game->question_count; $i++) {
+                GameQuestion::create([
+                    'game_id' => $game->id,
+                    'question_id' => Question::inRandomOrder()->first()->id,
+                    'order' => $i
+                ]);
+            } 
+        } 
+
     }
 }

@@ -20,4 +20,20 @@ class GamePlayer extends Model
         'final_place',
     ];
 
+    /**
+     * Quel joueur est dans cette partie?
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    
+    /**
+     * Dans quelle partie le joueur est-il?
+     */
+    public function game()
+    {
+        return $this->belongsTo(Game::class);
+    }
 }

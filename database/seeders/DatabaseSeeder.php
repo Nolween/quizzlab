@@ -39,5 +39,6 @@ class DatabaseSeeder extends Seeder
         $this->call(GameQuestionSeeder::class);
         $this->call(GamePlayerSeeder::class);
         $this->call(GameChatSeeder::class);
+        $this->call(GameResultSeeder::class);
     }
 }

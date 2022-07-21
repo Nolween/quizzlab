@@ -18,4 +18,11 @@ class GameRule extends Model
         'name',
     ];
 
+    /**
+     * Quelle parties utilisent cette règle?
+     */
+    public function games()
+    {
+        return $this->hasMany(Game::class);
+    }
 }

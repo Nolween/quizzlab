@@ -27,4 +27,22 @@ class Question extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * Quelles sont les parties qui utilisent cette question?
+     */
+    public function games()
+    {
+        return $this->hasMany(GameQuestion::class);
+    }
+    
+
+    /**
+     * Quels sont les thèmes de cette question?
+     */
+    public function tags()
+    {
+        return $this->hasMany(QuestionTag::class);
+    }
+    
 }

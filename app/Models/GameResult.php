@@ -5,34 +5,37 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class QuestionTag extends Model
+class GameResult extends Model
 {
     use HasFactory;
 
-    
     // Pas besoin des created_at et updated_at
     public $timestamps = false;
 
 
     protected $fillable = [
-        'tag_id',
-        'question_id',
+        'game_question_id',
+        'user_id',
+        'response',
+        'is_correct',
+        'score'
     ];
 
 
     /**
-     * Quelle est la question?
+     * Quelle est la question appartient le résultat?
      */
     public function question()
     {
         return $this->belongsTo(Question::class);
     }
+
     /**
-     * Quel est le thème?
+     * A quel joueur appartient le résultat de la question?
      */
-    public function tag()
+    public function user()
     {
-        return $this->belongsTo(Tag::class);
+        return $this->belongsTo(User::class);
     }
 
 }

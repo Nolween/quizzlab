@@ -21,8 +21,8 @@ class Role extends Model
     ];
 
     
-    /**
-     * Get the users that owns the role.
+    /** 
+     * Quels sont les utilisateurs ayant ce rôle?
      */
     public function users()
     {

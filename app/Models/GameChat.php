@@ -14,4 +14,22 @@ class GameChat extends Model
         'user_id',
         'text'
     ];
+
+
+    /**
+     * Qui a écrit le message?
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Dans quelle partie a été écrit le message?
+     */
+    public function game()
+    {
+        return $this->belongsTo(Game::class);
+    }
+
 }
