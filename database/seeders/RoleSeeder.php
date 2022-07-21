@@ -18,9 +18,7 @@ class RoleSeeder extends Seeder
         $source = [['name' => 'Administrateur'], ['name' => 'Utilisateur']];
         
         foreach ($source as $item) {
-            $role = new Role(['name' => $item['name']]);
-            $role->timestamps = false;
-            $role->save();
+            Role::create($item);
         }
     }
 }

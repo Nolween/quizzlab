@@ -35,6 +35,5 @@ class GamePlayerSeeder extends Seeder
                 ]);
             }
         }
-        // GamePlayer::factory()->create();
     }
 }
