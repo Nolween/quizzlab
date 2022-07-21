@@ -90,4 +90,20 @@ class User extends Authenticatable
         return $this->hasMany(GamePlayer::class);
     }
 
+    /**
+     * Quels sont les commentaires de l'utilisateur?
+     */
+    public function comments()
+    {
+        return $this->hasMany(QuestionComment::class);
+    }
+
+    /**
+     * Quels sont les votes de l'utilisateur?
+     */
+    public function votes()
+    {
+        return $this->hasMany(QuestionVote::class);
+    }
+
 }
