@@ -5,15 +5,11 @@ import Alpine from 'alpinejs';
 import { createApp } from 'vue';
 import router from './router'
 
-import WelcomeButton from './components/WelcomeButton.vue';
+import App from './views/App.vue';
 
 window.Alpine = Alpine;
 
 Alpine.start();
 
 
-createApp({
-    components: {
-      WelcomeButton
-    }
-}).use(router).mount('#app')
+createApp(App).use(router).mount('#app')

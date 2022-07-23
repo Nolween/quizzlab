@@ -22,7 +22,7 @@ class UserFactory extends Factory
             'name' => fake()->unique()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => 123456, // password
+            'password' => bcrypt(123456), // password
             'remember_token' => Str::random(10),
             'is_banned' => false,
             'role_id' => Role::inRandomOrder()->first()->id

@@ -1,12 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import WelcomeButton from '../components/WelcomeButton.vue'
+import App from '../views/App.vue'
 
 const routes = [
     {
-        path: '/dashboard',
-        name: 'companies.index',
-        component: WelcomeButton
+        path: '/',
+        component: App
     }
 ];
 
