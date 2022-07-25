@@ -15,6 +15,6 @@ class CommentApprovalSeeder extends Seeder
      */
     public function run()
     {
-        CommentApproval::factory(150)->create();
+        CommentApproval::factory(80)->create();
     }
 }

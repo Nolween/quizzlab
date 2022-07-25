@@ -9,7 +9,7 @@ class Question extends Model
 {
     use HasFactory;
 
-    
+
     protected $fillable = [
         'user_id',
         'question',
@@ -19,7 +19,7 @@ class Question extends Model
         'vote',
         'ratio_score',
     ];
-    
+
     /**
      * A qui appartient la question
      */
@@ -35,7 +35,7 @@ class Question extends Model
     {
         return $this->hasMany(GameQuestion::class);
     }
-    
+
 
     /**
      * Quels sont les thèmes de cette question?
@@ -44,5 +44,13 @@ class Question extends Model
     {
         return $this->hasMany(QuestionTag::class);
     }
-    
+
+
+    /**
+     * Quels sont les commentaires de cette question?
+     */
+    public function comments()
+    {
+        return $this->hasMany(QuestionComment::class);
+    }
 }
