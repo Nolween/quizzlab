@@ -23,15 +23,14 @@ require __DIR__.'/auth.php';
 
 //! Bien mettre les routes après le require, sinon erreur
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+// Route::get('/', function () {
+//     return view('welcome');
+// })->name('welcome');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth'])->name('dashboard');
 
 
 Route::view('/{any}', 'welcome')
-    ->middleware(['auth'])
     ->where('any', '.*');

@@ -1,6 +1,5 @@
 <template>
-    <Navigation />
-    <div class="min-h-screen bg-quizzlab-primary pt-24 flex justify-center">
+    <div class="pt-24 flex justify-center">
         <div class="w-5/6 lg:w-4/5">
             <Question
                 :answer="question.answer"
@@ -15,16 +14,12 @@
                 :key="question.id"
             />
         </div>
-        <!-- <template v-for="question in questions" :key="question.id">
-                {{ question.answer }}
-        </template> -->
     </div>
 </template>
 <script setup>
 // Imports de fonctionnalités essentielles de Vue (hook, ...)
 import { onMounted, ref } from "vue";
 // Import des composants
-import Navigation from "../components/Navigation.vue";
 import Question from "../components/Question.vue";
 // Imports de composables
 import useQuestions from "../../js/composables/questions";

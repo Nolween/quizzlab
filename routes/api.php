@@ -20,5 +20,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 //! Si besoin d'ajouter d'autres actions dans les Controller avec resources, les déclarer avant
+Route::middleware('auth:sanctum')->get('/questions','QuestionController@index')->name('questions.index');
 // Route::get('/questions/vote', [QuestionController::class, 'vote']);
 Route::apiResource('questions', QuestionController::class);

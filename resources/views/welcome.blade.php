@@ -12,9 +12,8 @@
 </head>
 
 <body class="antialiased">
-    {{-- Menu de navigation --}}
-    {{-- <x-navigation.menu /> --}}
-    <div id="app"></div>
+    <div id="app">
+    </div>
     @vite('resources/js/app.js')
 </body>
 
