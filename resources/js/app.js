@@ -1,16 +1,20 @@
-import './bootstrap';
+import "./bootstrap";
 
-import Alpine from 'alpinejs';
+// Utilisé pour la page d'accueil 
+import Alpine from "alpinejs";
 
-import { createApp } from 'vue';
-import router from './router'
+import { createApp } from "vue";
+import router from "./router";
+// Remplaçant de vuex pour les state management
+import { createPinia } from "pinia";
 
-import App from './App.vue';
-import Login from './views/Login.vue';
+// Import du composant root
+import App from "./App.vue";
 
 window.Alpine = Alpine;
 
 Alpine.start();
 
-
-createApp(App).use(router).mount('#app')
+const app = createApp(App);
+app.use(createPinia());
+app.use(router).mount("#app");

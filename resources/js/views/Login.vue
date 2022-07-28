@@ -1,5 +1,5 @@
 <template>
-    <div class="pt-24 flex justify-evenly">
+    <div class="pt-24 flex justify-evenly bg-quizzlab-primary">
         <form class="space-y-6" @submit.prevent="sendLogin">
             <div>
                 <input

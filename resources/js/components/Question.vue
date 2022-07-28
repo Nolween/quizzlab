@@ -5,16 +5,18 @@
                 class="w-40 border-gray-300 border-2 px-3 m-2 pt-2 flex flex-wrap justify-between"
             >
                 <svg-icon
+                    @click="props.hasVoted == null ? prepareVote(false) : ''"
                     :path="mdiMinusThick"
-                    class="text-quizzlab-ternary cursor-pointer"
+                    :class="negativeClass"
                     type="mdi"
                 ></svg-icon>
                 <div class="text-quizzlab-primary font-bold text-xl">
                     {{ vote }}°
                 </div>
                 <svg-icon
+                    @click="props.hasVoted == null ? prepareVote(true) : ''"
                     :path="mdiPlusThick"
-                    class="text-quizzlab-secondary cursor-pointer"
+                    :class="positiveClass"
                     type="mdi"
                 ></svg-icon>
             </div>
@@ -74,7 +76,8 @@
     </div>
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, reactive, computed } from "vue";
+// Icones
 import SvgIcon from "@jamescoyle/vue-icon";
 import {
     mdiAccount,
@@ -83,8 +86,14 @@ import {
     mdiTimerOutline,
     mdiCommentText,
 } from "@mdi/js";
+// Import du store des questions
+import { useQuestionStore } from "@/stores/question";
+// Déclaration du store des questions
+const questionStore = useQuestionStore();
+
 // Définition des props du composant
-defineProps({
+const props = defineProps({
+    questionId: Number,
     answer: String,
     question: String,
     avatar: String,
@@ -93,5 +102,35 @@ defineProps({
     userName: String,
     ago: String,
     tags: Array,
+    hasVoted: {
+        type: Number,
+        required: false,
+    },
 });
+
+//? Computed
+// Vote de la question
+const statusVote = computed(() => {
+    return props.hasVoted;
+});
+
+// Couleur des pastilles positives
+const positiveClass = computed(() => ({
+    "cursor-pointer": props.hasVoted == null,
+    "text-quizzlab-secondary": props.hasVoted == null || props.hasVoted == 0,
+    "bg-quizzlab-secondary text-white": props.hasVoted == 1,
+}));
+
+// Couleur des pastilles négatives
+const negativeClass = computed(() => ({
+    "cursor-pointer": props.hasVoted == null,
+    "text-quizzlab-ternary": props.hasVoted == null || props.hasVoted == 1,
+    "bg-quizzlab-ternary text-white": props.hasVoted == 0,
+}));
+
+//? Fonctions du composant
+function prepareVote(ispositive) {
+    const data = { questionid: props.questionId, ispositive };
+    questionStore.voteQuestion(data);
+}
 </script>
