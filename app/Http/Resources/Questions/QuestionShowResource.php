@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Questions;
 
 use App\Models\QuestionVote;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
 
-class QuestionIndexResource extends JsonResource
+class QuestionShowResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -32,6 +32,12 @@ class QuestionIndexResource extends JsonResource
             // A t-il voté pour cette question?
             $questionVote = QuestionVote::select('has_approved')->where('question_id', $this->id)->where('user_id', $user->id)->first();
         }
+        // Construction des commentaires
+        foreach ($this->comments as $comment) {
+            $comment['avatar'] = $comment->user->avatar;
+            $comment['userName'] = $comment->user->name;
+            $comment['ago'] = $comment->updated_at->diffForHumans(Carbon::now(), true);
+        };
         return [
             'id' => $this->id,
             'question' => $this->question,
@@ -40,10 +46,11 @@ class QuestionIndexResource extends JsonResource
             'avatar' => $this->user->avatar,
             'userName' => $this->user->name,
             'tags' => $tagArray,
+            'comments' => $this->comments,
             'commentsCount' => $this->comments->count(),
             'ago' => $ago,
-            'hasVoted' => $questionVote->has_approved ?? null
+            'hasVoted' => $questionVote->has_approved ?? null,
         ];
-        // return parent::toArray($request);
+
     }
 }

@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Route;
 
 //! Si besoin d'ajouter d'autres actions dans les Controller avec resources, les déclarer avant
 Route::get('/questions',[QuestionController::class, 'index'])->name('questions.index');
+Route::get('/question/{question}',[QuestionController::class, 'show'])->name('questions.show');
 Route::middleware(['auth:sanctum'])->controller(QuestionController::class)->group(function() {
     Route::patch('/question/{question}/vote','vote')->name('question.vote');
 });

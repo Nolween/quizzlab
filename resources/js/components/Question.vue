@@ -31,6 +31,7 @@
         <!-- Question -->
         <div
             class="text-quizzlab-primary font-medium text-3xl px-3 lg:px-8 py-2 cursor-pointer"
+             @click="$router.push({name: 'question.show', params: {id: props.questionId}})"
         >
             {{ question }}
         </div>
@@ -48,7 +49,7 @@
                     class="w-10 h-10 object-cover rounded-md mr-3"
                     alt=""
                 />
-                <span class="text-quizzlab-primary text-xl font-medium pt-1">{{
+                <span class="text-quizzlab-quinary text-xl font-medium pt-1">{{
                     userName
                 }}</span>
             </div>
@@ -62,7 +63,7 @@
                     ago
                 }}</span>
             </div>
-            <div class="flex flex-wrap cursor-pointer pt-1">
+            <div class="flex flex-wrap cursor-pointer pt-1" @click="$router.push({name: 'question.show', params: {id: props.questionId}})">
                 <svg-icon
                     :path="mdiCommentText"
                     class="text-quizzlab-quaternary w-7 h-7 mr-2"
@@ -77,6 +78,7 @@
 </template>
 <script setup>
 import { ref, reactive, computed } from "vue";
+import router from "@/router";
 // Icones
 import SvgIcon from "@jamescoyle/vue-icon";
 import {

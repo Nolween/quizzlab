@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\QuestionRequest;
 use App\Http\Requests\Questions\QuestionVoteRequest;
 use App\Http\Resources\QuestionIndexResource;
+use App\Http\Resources\Questions\QuestionShowResource;
 use App\Http\Resources\Questions\QuestionVoteResource;
 use App\Models\Question;
 use App\Models\QuestionVote;
@@ -42,11 +43,11 @@ class QuestionController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Question  $question
-     * @return \App\Http\Resources\QuestionIndexResource
+     * @return \App\Http\Resources\QuestionShowResource
      */
     public function show(Question $question)
     {
-        return new QuestionIndexResource($question);
+        return new QuestionShowResource($question);
     }
 
     /**

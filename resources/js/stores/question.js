@@ -4,7 +4,7 @@ import router from "@/router";
 import { useUserStore } from "@/stores/user";
 
 export const useQuestionStore = defineStore("question", {
-    state: () => ({ questions: [] }),
+    state: () => ({ questions: [], question: [] }),
     // could also be defined as
     // state: () => {
     //   return { count: 0 }
@@ -15,6 +15,19 @@ export const useQuestionStore = defineStore("question", {
             try {
                 let response = await axios.get("/api/questions");
                 this.questions = response.data.data;
+            } catch (error) {
+                // Vérification de l'erreur
+                const userStore = useUserStore();
+                userStore.checkError(error);
+            }
+        },
+        // Récupérer les questions dans le back
+        async getQuestion(questionId) {
+            try {
+                let response = await axios.get(
+                    `/api/question/${questionId}`
+                );
+                this.question = response.data.data;
             } catch (error) {
                 // Vérification de l'erreur
                 const userStore = useUserStore();
