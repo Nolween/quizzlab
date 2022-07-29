@@ -9,7 +9,7 @@ export default function useUsers() {
     const errors = ref("");
     const router = useRouter();
 
-    const getLogin = async (data) => {
+    const doLogin = async (data) => {
         errors.value = "";
         try {
             let response = await axios.post("/login", data);
@@ -31,6 +31,6 @@ export default function useUsers() {
         errors,
         user,
         users,
-        getLogin,
+        doLogin,
     };
 }

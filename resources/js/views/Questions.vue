@@ -20,13 +20,19 @@
 </template>
 <script setup>
 // Imports de fonctionnalités essentielles de Vue (hook, ...)
-import { onMounted, ref, reactive } from "vue";
-// Import du store des questions
+import { onMounted, onBeforeMount, ref, reactive } from "vue";
+// Import des stores
 import { useQuestionStore } from "@/stores/question";
+import { useUserStore } from "@/stores/user";
 // Import des composants
 import Question from "../components/Question.vue";
 // Déclaration du store des questions
-const questionStore = useQuestionStore()
+const questionStore = useQuestionStore();
+//? Vérification si l'utilisateur est connecté
+const userStore = useUserStore();
+onBeforeMount(() => {
+    userStore.checkAuth();
+});
 
 // Lorsque le composant est monté, on va chercher via l'API les ressources
 onMounted(questionStore.getQuestions());

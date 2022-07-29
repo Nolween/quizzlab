@@ -15,14 +15,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 //! Si besoin d'ajouter d'autres actions dans les Controller avec resources, les déclarer avant
-Route::middleware(['auth'])->get('/questions','QuestionController@index')->name('questions.index');
-Route::middleware(['auth'])->controller(QuestionController::class)->group(function() {
+Route::get('/questions',[QuestionController::class, 'index'])->name('questions.index');
+Route::middleware(['auth:sanctum'])->controller(QuestionController::class)->group(function() {
     Route::patch('/question/{question}/vote','vote')->name('question.vote');
 });
-// Route::get('/questions/vote', [QuestionController::class, 'vote']);
-Route::apiResource('questions', QuestionController::class);
+Route::get('/questions/vote', [QuestionController::class, 'vote']);
+// Route::middleware(['auth:sanctum'])->apiResource('questions', QuestionController::class);
