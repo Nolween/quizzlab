@@ -117,7 +117,8 @@ const statusVote = computed(() => {
 // Couleur des pastilles positives
 const positiveClass = computed(() => ({
     "cursor-pointer": props.hasVoted == null,
-    "text-quizzlab-secondary": props.hasVoted == null || props.hasVoted == 0,
+    "text-quizzlab-secondary ": props.hasVoted == null || props.hasVoted == 0,
+    "hover:bg-quizzlab-secondary hover:text-white": props.hasVoted == null,
     "bg-quizzlab-secondary text-white": props.hasVoted == 1,
 }));
 
@@ -125,6 +126,7 @@ const positiveClass = computed(() => ({
 const negativeClass = computed(() => ({
     "cursor-pointer": props.hasVoted == null,
     "text-quizzlab-ternary": props.hasVoted == null || props.hasVoted == 1,
+    "hover:bg-quizzlab-ternary hover:text-white": props.hasVoted == null,
     "bg-quizzlab-ternary text-white": props.hasVoted == 0,
 }));
 

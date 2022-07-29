@@ -36,6 +36,19 @@ export const useUserStore = defineStore("user", {
                 this.checkError(error);
             }
         },
+        // Tentative d'inscription'
+        async doRegistration(data) {
+            this.errors = "";
+            try {
+                await axios.post("/register", data);
+                // // Stockage de l'ID de l'utilisateur
+                // this.setIsConnected(true);
+                // localStorage.setItem('auth', true)
+                router.push({ name: "questions.index" });
+            } catch (error) {
+                this.checkError(error);
+            }
+        },
         // Tentative de connexion au back
         async doLogout(data) {
             try {
