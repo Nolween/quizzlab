@@ -23,7 +23,7 @@ return new class extends Migration
                 ->constrained('question_comments')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->boolean('has_approved');
+            $table->boolean('has_approved')->nullable();
             $table->timestamps();
         });
     }

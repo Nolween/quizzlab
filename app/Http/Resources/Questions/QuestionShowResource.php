@@ -37,6 +37,8 @@ class QuestionShowResource extends JsonResource
             $comment['avatar'] = $comment->user->avatar;
             $comment['userName'] = $comment->user->name;
             $comment['ago'] = $comment->updated_at->diffForHumans(Carbon::now(), true);
+            $comment['hasReacted'] = $comment->userOpinion->has_approved ?? null;
+            $comment['ownComment'] = isset($user->id) && $comment->user_id === $user->id ?? null;
         };
         return [
             'id' => $this->id,

@@ -24,8 +24,8 @@ return new class extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->text('comment');
-            $table->integer('disapprovals');
-            $table->integer('approvals');
+            $table->integer('disapprovals_count');
+            $table->integer('approvals_count');
             $table->bigInteger('comment_id')
                 ->nullable();
             $table->timestamps();

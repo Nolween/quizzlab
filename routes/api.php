@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Api\CommentApprovalController;
 use App\Http\Controllers\Api\QuestionController;
+use App\Models\CommentApproval;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,10 +22,10 @@ use Illuminate\Support\Facades\Route;
 // });
 
 //! Si besoin d'ajouter d'autres actions dans les Controller avec resources, les déclarer avant
-Route::get('/questions',[QuestionController::class, 'index'])->name('questions.index');
-Route::get('/question/{question}',[QuestionController::class, 'show'])->name('questions.show');
-Route::middleware(['auth:sanctum'])->controller(QuestionController::class)->group(function() {
+Route::controller(QuestionController::class)->group(function() {
     Route::patch('/question/{question}/vote','vote')->name('question.vote');
 });
 Route::get('/questions/vote', [QuestionController::class, 'vote']);
-// Route::middleware(['auth:sanctum'])->apiResource('questions', QuestionController::class);
+// API Resources (middleware définis au __construct du Controller)
+Route::apiResource('questions', QuestionController::class);
+Route::apiResource('approvals', CommentApprovalController::class);

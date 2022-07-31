@@ -15,6 +15,18 @@ use Illuminate\Support\Facades\Auth;
 
 class QuestionController extends Controller
 {
+    
+    /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        // Ajout des middleware nécessaire selon les actions
+        $this->middleware('auth:sanctum')->except(['index','show']);
+    }
+
     /**
      * Affiche la liste des questions
      * /api/questions
@@ -74,9 +86,6 @@ class QuestionController extends Controller
     public function vote(QuestionVoteRequest $request, Question $question)
     {
         $user = Auth::user();
-        if (!$user) {
-            dd('NOP');
-        }
         // Mise en place du vote, si il existe déjà une ligne avec cet utilisateur et cette question, update, sinon create
         $questionVote = QuestionVote::updateOrCreate(
             ['user_id' => $user->id, 'question_id' => $question->id],

@@ -24,9 +24,7 @@ export const useQuestionStore = defineStore("question", {
         // Récupérer les questions dans le back
         async getQuestion(questionId) {
             try {
-                let response = await axios.get(
-                    `/api/question/${questionId}`
-                );
+                let response = await axios.get(`/api/questions/${questionId}`);
                 this.question = response.data.data;
             } catch (error) {
                 // Vérification de l'erreur
@@ -53,6 +51,9 @@ export const useQuestionStore = defineStore("question", {
                 })
                 .indexOf(data.questionid);
             this.questions[questionIndex].hasVoted = data.ispositive;
+        },
+        resetQuestion() {
+            this.question = [];
         },
     },
 });

@@ -18,6 +18,8 @@ export const useUserStore = defineStore("user", {
             // Si l'utilisateur n'est pas autorisé
             if (error.response.status === 401) {
                 this.setIsConnected(false);
+                // On vire la variable locale
+                localStorage.removeItem('auth')
                 // Redirect vers la connexion
                 router.push({ name: "login.create" });
             }

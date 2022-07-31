@@ -19,14 +19,12 @@ class QuestionCommentFactory extends Factory
     public function definition()
     {
         $randomSentencesCount = rand(1,5);
-        $approvals = rand(0, User::all()->count());
-        $disapprovals = rand(0, User::all()->count() - $approvals);
         return [
             'question_id' => Question::inRandomOrder()->first()->id,
             'user_id' => User::inRandomOrder()->first()->id,
             'comment' => fake()->sentences($randomSentencesCount, true),
-            'disapprovals' => $approvals,
-            'approvals' => $disapprovals,
+            'disapprovals_count' => 0,
+            'approvals_count' => 0,
             'comment_id' => null,
         ];
     }

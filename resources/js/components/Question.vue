@@ -56,7 +56,7 @@
             <div class="flex flex-wrap pt-1">
                 <svg-icon
                     :path="mdiTimerOutline"
-                    class="text-quizzlab-ternary w-7 h-7"
+                    class="text-quizzlab-ternary w-7 h-7 mr-1"
                     type="mdi"
                 ></svg-icon>
                 <span class="text-quizzlab-ternary text-xl font-medium">{{
@@ -137,4 +137,5 @@ function prepareVote(ispositive) {
     const data = { questionid: props.questionId, ispositive };
     questionStore.voteQuestion(data);
 }
+
 </script>
