@@ -10,6 +10,9 @@ export const useQuestionStore = defineStore("question", {
     //   return { count: 0 }
     // },
     actions: {
+        resetQuestion() {
+            this.question = [];
+        },
         // Récupérer les questions dans le back
         async getQuestions() {
             try {
@@ -51,9 +54,6 @@ export const useQuestionStore = defineStore("question", {
                 })
                 .indexOf(data.questionid);
             this.questions[questionIndex].hasVoted = data.ispositive;
-        },
-        resetQuestion() {
-            this.question = [];
         },
     },
 });
