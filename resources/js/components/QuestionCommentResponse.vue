@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white w-full">
+    <div class="bg-white">
         <!-- Nom + Temps -->
         <div
             class="flex flex-wrap justify-center sm:justify-between px-4 lg:px-12 mb-4 pt-4"
@@ -33,7 +33,7 @@
         <div
             class="text-2xl text-quizzlab-primary font-medium px-4 lg:px-12 mb-3"
         >
-            <span v-if="props.modified == true" class="text-slate-400">(Modifié)</span> {{ props.comment }}
+           <span v-if="props.modified == true" class="text-slate-400">(Modifié)</span> {{ props.comment }}
         </div>
         <!-- Actions -->
         <div
@@ -104,7 +104,9 @@
                     :path="mdiCommentArrowRight"
                     class="text-quizzlab-quaternary w-7 h-7 cursor-pointer"
                     type="mdi"
-                    @click="commentStore.replyComment(props.id, 1)"
+                    @click="
+                        commentStore.replyComment(props.id, 2, props.parentId)
+                    "
                 ></svg-icon>
             </span>
             <span
@@ -115,41 +117,17 @@
                     :path="mdiPencil"
                     class="text-quizzlab-quaternary w-7 h-7 cursor-pointer"
                     type="mdi"
-                    @click="commentStore.editComment(props.id, 1)"
+                    @click="commentStore.editComment(props.id, 2, props.parentId)"
                 ></svg-icon>
             </span>
         </div>
-    </div>
-    <!-- Parcours des réponses aux commentaires -->
-    <div v-if="props.responses && props.responses.length > 0" class="mb-5 w-11/12 flex justify-end">
-        <div class="w-full border-l-8 border-quizzlab-quinary">
-        <QuestionCommentResponse
-            v-for="(response, responseKey) in props.responses"
-            :key="responseKey"
-            :id="response.id"
-            :parentId="props.id"
-            :questionId="response.questionId"
-            :comment="response.comment"
-            :avatar="response.avatar"
-            :userName="response.userName"
-            :ago="response.ago"
-            :ownComment="response.ownComment"
-            :approvalsCount="response.approvals_count"
-            :disapprovalsCount="response.disapprovals_count"
-            :hasReacted="response.hasReacted"
-            :responses="response.responses"
-            :responseDisplay="false"
-            :modified="response.modified"
-        />
-        </div>
+        <!-- Rédaction commentaire utilisateur -->
+        <div></div>
     </div>
 </template>
 <script setup>
 import router from "@/router";
 import { useRoute } from "vue-router";
-
-// Import des composants
-import QuestionCommentResponse from "../components/QuestionCommentResponse.vue";
 
 // Import de composables
 import useComments from "@/composables/comments.js";
@@ -167,7 +145,6 @@ import {
     mdiThumbDown,
     mdiThumbDownOutline,
     mdiCommentArrowRight,
-    mdiReplyAll,
     mdiPencil,
 } from "@mdi/js";
 
@@ -179,6 +156,7 @@ const userStore = useUserStore();
 const props = defineProps({
     id: Number,
     questionId: Number,
+    parentId: Number,
     comment: String,
     avatar: String,
     userName: String,
@@ -186,7 +164,6 @@ const props = defineProps({
     ownComment: Boolean,
     approvalsCount: Number,
     disapprovalsCount: Number,
-    responses: Array,
     hasReacted: {
         type: [Number, Boolean],
         required: false,

@@ -53,4 +53,12 @@ class Question extends Model
     {
         return $this->hasMany(QuestionComment::class);
     }
+
+    /**
+     * Quels sont les commentaires de premier niveau de cette question?
+     */
+    public function primary_comments()
+    {
+        return $this->hasMany(QuestionComment::class)->where('comment_id', null)->orderBy('created_at', 'ASC');
+    }
 }

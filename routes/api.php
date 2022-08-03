@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\CommentApprovalController;
+use App\Http\Controllers\Api\QuestionCommentController;
 use App\Http\Controllers\Api\QuestionController;
 use App\Models\CommentApproval;
 use Illuminate\Http\Request;
@@ -29,3 +30,4 @@ Route::get('/questions/vote', [QuestionController::class, 'vote']);
 // API Resources (middleware définis au __construct du Controller)
 Route::apiResource('questions', QuestionController::class);
 Route::apiResource('approvals', CommentApprovalController::class);
+Route::apiResource('comments', QuestionCommentController::class);

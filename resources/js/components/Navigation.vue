@@ -1,6 +1,6 @@
 <template>
     <div
-        class="fixed z-40 w-full text-4xl bg-white flex flex-wrap py-4 text-center justify-center"
+        class="fixed z-40 w-full text-4xl bg-white flex flex-wrap py-4 text-center justify-center drop-shadow-md"
     >
         <div class="text-quizzlab-ternary px-1 basis-1/4 sm:flex-1">
             <span

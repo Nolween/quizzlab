@@ -62,6 +62,8 @@ class CommentApprovalController extends Controller
             $commentUpdate = QuestionComment::findOrFail($request->commentid);
             $commentUpdate->approvals_count = $positiveApprovals;
             $commentUpdate->disapprovals_count = $negativeApprovals;
+            // On sauvegarde sans toucher aux timestamps du commentaire, pour ne pas fausser le (modifié) 
+            $commentUpdate->timestamps = false;
             $commentUpdate->save();
             // Constitution du tableau de retour
             $response = [

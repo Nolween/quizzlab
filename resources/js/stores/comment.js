@@ -6,11 +6,13 @@ import { useQuestionStore } from "@/stores/question";
 
 export const useCommentStore = defineStore("comment", {
     state: () => ({
+        commentId: null,
         commentReplyId: null,
         commentReplyContent: {},
-        responseMod: false,
+        responseMod: 0,
+        editMod: false,
         comments: [],
-        comment: [],
+        comment: "",
     }),
     actions: {
         //? MODIFICATION DE STORE
@@ -22,9 +24,21 @@ export const useCommentStore = defineStore("comment", {
             this.comment = [];
         },
 
-        // Activation du mod réponse à un commentaire
+        /**
+         * Activation du mod réponse à un commentaire
+         * @param {int} value 0 = pas de réponse, 1 = réponse commentaire, 2 = réponse de réponse de commentaire
+         */
         updateResponseMod(value) {
             this.responseMod = value;
+        },
+
+        // Modification du mode d'édition
+        updateEditMod(value) {
+            this.editMod = value;
+        },
+        // Modification de l'ID du commentaire à modifier
+        updateCommentId(value) {
+            this.commentId = value;
         },
 
         // Mise à jour du contenu indiquant le commentaire auquel on répond
@@ -33,27 +47,111 @@ export const useCommentStore = defineStore("comment", {
         },
 
         // Répondre à un commentaire
-        replyComment(commentId) {
-            this.updateResponseMod(true);
+        replyComment(commentId, responseMod, parentId = null) {
+            this.updateCommentId(null)
+            this.updateEditMod(false);
+            this.updateResponseMod(responseMod);
             this.commentReplyId = commentId;
-            // Quel est l'index du commentaire par rapport à son ID?
+            // Réinitialisation du champ
+            this.updateComment("")
             const question = useQuestionStore();
-            const commentIndex = question.question.comments
-                .map(function (e) {
-                    return e.id;
-                })
-                .indexOf(commentId);
-            this.commentReplyContent = question.question.comments[commentIndex];
-            // On descen en bas de l'écran
-            window.scrollTo(0, document.body.scrollHeight);
+            // Si on répond à un commentaire
+            if (responseMod === 1) {
+                // Quel est l'index du commentaire par rapport à son ID?
+                const commentIndex = question.question.comments
+                    .map(function (e) {
+                        return e.id;
+                    })
+                    .indexOf(commentId);
+                this.commentReplyContent =
+                    question.question.comments[commentIndex];
+            }
+            // Si on répond à un commentaire
+            else if (responseMod === 2) {
+                // Quel est l'index du commentaire par rapport à son ID?
+                const commentIndex = question.question.comments
+                    .map(function (e) {
+                        return e.id;
+                    })
+                    .indexOf(parentId);
+                // Quel est l'index du commentaire par rapport à son ID?
+                const responseIndex = question.question.comments[
+                    commentIndex
+                ].responses
+                    .map(function (e) {
+                        return e.id;
+                    })
+                    .indexOf(commentId);
+                this.commentReplyContent =
+                    question.question.comments[commentIndex].responses[
+                        responseIndex
+                    ];
+            }
             // Focus sur l'input
-            
+            document.getElementById("commentInput").focus();
+            // Focus sur l'input
         },
 
-        // Répondre à un commentaire
-        cancelReplyComment(commentId) {
-            this.updateResponseMod(false);
+        // Modifier un de ses commentaires
+        editComment(commentId, responseMod, parentId = null) {
+            this.updateCommentId(commentId)
+            this.updateEditMod(true);
+            this.updateResponseMod(responseMod);
+            this.commentReplyId = commentId;
+            // Réinitialisation du champ
+            this.updateComment("")
+            // Si on répond à un commentaire
+            if (responseMod === 1) {
+                const question = useQuestionStore();
+                // Quel est l'index du commentaire par rapport à son ID?
+                const commentIndex = question.question.comments
+                    .map(function (e) {
+                        return e.id;
+                    })
+                    .indexOf(commentId);
+                this.commentReplyContent =
+                    question.question.comments[commentIndex];
+                this.comment = question.question.comments[commentIndex].comment
+            }
+            // Si on répond à un commentaire
+            else if (responseMod === 2) {
+                const question = useQuestionStore();
+                // Quel est l'index du commentaire par rapport à son ID?
+                const commentIndex = question.question.comments
+                    .map(function (e) {
+                        return e.id;
+                    })
+                    .indexOf(parentId);
+                // Quel est l'index du commentaire par rapport à son ID?
+                const responseIndex = question.question.comments[
+                    commentIndex
+                ].responses
+                    .map(function (e) {
+                        return e.id;
+                    })
+                    .indexOf(commentId);
+                this.commentReplyContent =
+                    question.question.comments[commentIndex].responses[
+                        responseIndex
+                    ];
+                this.comment =
+                    question.question.comments[commentIndex].responses[
+                        responseIndex
+                    ].comment;
+            }
+            // Focus sur l'input
+            document.getElementById("commentInput").focus();
+            // Focus sur l'input
+        },
+
+        // Annuler la réponse
+        cancelReplyComment() {
+            this.updateResponseMod(0);
+            this.updateCommentId(null)
+            this.commentReplyContent = {};
             this.commentReplyId = null;
+            this.editMod = false;
+            this.comment = "";
         },
 
         //? API
@@ -107,12 +205,28 @@ export const useCommentStore = defineStore("comment", {
         async sendComment() {
             try {
                 const questionStore = useQuestionStore();
-                const data = {
-                    comment: this.comment,
-                    questionid: questionStore.question.id,
-                    commentresponseid: this.commentReplyId,
-                };
-                // let response = await axios.post("/api/comments", data);
+                // Nouveau commentaire
+                if (!this.commentId) {
+                    const data = {
+                        comment: this.comment,
+                        questionid: questionStore.question.id,
+                        commentreplyid: this.commentReplyId,
+                    };
+                    let response = await axios.post("/api/comments", data);
+                }
+                // Modification de commentaire
+                else if (this.commentId > 0) {
+                    const data = {
+                        comment: this.comment,
+                        questionid: questionStore.question.id,
+                        commentreplyid: this.commentReplyId,
+                        commentid: this.commentId,
+                    };
+                    let response = await axios.patch(
+                        `/api/comments/${this.commentid}`,
+                        data
+                    );
+                }
                 // await router.push({ name: 'question.show' })
                 // Rechargement de la page pour voir si d'autres commentaires sont également apparus
                 window.location.reload();

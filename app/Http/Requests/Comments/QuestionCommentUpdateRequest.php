@@ -3,9 +3,8 @@
 namespace App\Http\Requests\Comments;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
-class QuestionCommentStoreRequest extends FormRequest
+class QuestionCommentUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,6 +27,7 @@ class QuestionCommentStoreRequest extends FormRequest
             'comment' => ['required', 'string'  ],
             'questionid' => ['required', 'integer', 'exists:questions,id'],
             'commentreplyid' => ['nullable', 'integer', 'exists:question_comments,id'],
+            'commentid' => ['required', 'integer', 'exists:question_comments,id'],
         ];
     }
 }
