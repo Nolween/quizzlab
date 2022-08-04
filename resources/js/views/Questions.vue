@@ -10,6 +10,7 @@
                 :userName="question.userName"
                 :ago="question.ago"
                 :tags="question.tags"
+                :isIntegrated="question.isIntegrated"
                 :commentsCount="question.commentsCount"
                 :hasVoted="question.hasVoted"
                 v-for="question in questionStore.questions"

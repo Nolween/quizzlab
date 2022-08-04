@@ -28,7 +28,12 @@ export const useQuestionStore = defineStore("question", {
         async getQuestion(questionId) {
             try {
                 let response = await axios.get(`/api/questions/${questionId}`);
-                this.question = response.data.data;
+                // Si on a pas le droit d'aller sur la question car intégrée au quizz
+                if (response.data.data.forbidden) {
+                    this.question = [];
+                } else {
+                    this.question = response.data.data;
+                }
             } catch (error) {
                 // Vérification de l'erreur
                 const userStore = useUserStore();

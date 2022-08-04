@@ -35,10 +35,11 @@ class QuestionIndexResource extends JsonResource
         return [
             'id' => $this->id,
             'question' => $this->question,
-            'answer' => $this->answer,
+            'answer' => $this->is_integrated == true ? 'Intégrée au quizz!' : $this->answer,
             'vote' => $this->vote,
             'avatar' => $this->user->avatar,
             'userName' => $this->user->name,
+            'isIntegrated' => $this->is_integrated,
             'tags' => $tagArray,
             'commentsCount' => $this->comments->count(),
             'ago' => $ago,

@@ -1,5 +1,13 @@
 <template>
-    <div class="pt-24 flex flex-wrap justify-center bg-quizzlab-primary">
+    <div
+        class="pt-24 flex flex-wrap justify-center bg-quizzlab-primary"
+        v-if="questionStore.question && questionStore.question.length === 0"
+    >
+        <span class="text-center text-4xl text-white font-semibold mb-2">
+            QUESTION INTEGREE AU QUIZZ</span
+        >
+    </div>
+    <div v-else class="pt-24 flex flex-wrap justify-center bg-quizzlab-primary">
         <!-- QUESTION -->
         <div class="w-5/6 lg:w-4/5 mb-5">
             <div class="text-center text-4xl text-white font-semibold mb-2">
@@ -16,6 +24,7 @@
                 :tags="questionStore.question.tags"
                 :commentsCount="questionStore.question.commentsCount"
                 :hasVoted="questionStore.question.hasVoted"
+                :isIntegrated="questionStore.question.isIntegrated"
                 :responseDisplay="false"
             />
         </div>
@@ -126,7 +135,7 @@ import router from "@/router";
 import { useRoute } from "vue-router";
 
 // Import de composables
-import useComments from "@/composables/comments.js";
+// import useQuestions from "@/composables/questions.js";
 
 // Import des stores
 import { useQuestionStore } from "@/stores/question";
@@ -144,15 +153,16 @@ const commentStore = useCommentStore();
 //? Vérification si l'utilisateur est connecté
 const route = useRoute();
 
+// const { forbiddenQuestion, updateForbiddenQuestion } = useQuestions();
+
 //? CYCLE
 // Avant le montage du composant
 onBeforeMount(() => {
     userStore.checkAuth();
-});
-// Lorsque le composant est monté, on va chercher via l'API les ressources
-onMounted(() => {
     questionStore.getQuestion(route.params.id);
 });
+// Lorsque le composant est monté, on va chercher via l'API les ressources
+onMounted(() => {});
 onUnmounted(() => {
     questionStore.resetQuestion();
     commentStore.cancelReplyComment();

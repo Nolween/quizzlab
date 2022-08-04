@@ -80,7 +80,7 @@ import router from "@/router";
 import { reactive, computed } from "vue";
 // Import des stores
 import { useUserStore } from "@/stores/user";
-// Imports de composables
+// Déclaration des stores
 const userStore = useUserStore();
 
 const form = reactive({

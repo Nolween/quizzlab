@@ -1,7 +1,7 @@
 <template>
     <div class="mb-4 bg-white">
-        <div class="flex flex-wrap justify-start px-3 lg:px-8">
-            <div
+        <div class="flex flex-wrap px-3 lg:px-8 justify-start">
+            <div v-if="props.isIntegrated == false" 
                 class="w-40 border-gray-300 border-2 px-3 m-2 pt-2 flex flex-wrap justify-between"
             >
                 <svg-icon
@@ -20,6 +20,9 @@
                     type="mdi"
                 ></svg-icon>
             </div>
+            <div v-else class="w-40 border-gray-300 border-2 px-3 m-2 pt-2 text-center">
+                <span class="font-bold text-quizzlab-secondary">DANS LE QUIZZ</span>
+            </div>
             <!-- Thèmes -->
             <span
                 v-for="tag in tags"
@@ -30,14 +33,27 @@
         </div>
         <!-- Question -->
         <div
-            class="text-quizzlab-primary font-medium text-3xl px-3 lg:px-8 py-2 cursor-pointer"
-             @click="$router.push({name: 'question.show', params: {id: props.questionId}})"
+            class="text-quizzlab-primary font-medium text-3xl px-3 lg:px-8 py-2"
+            :class="props.isIntegrated == false ? 'cursor-pointer' : ''"
+            @click="
+                props.isIntegrated == false
+                    ? $router.push({
+                          name: 'question.show',
+                          params: { id: props.questionId },
+                      })
+                    : ''
+            "
         >
             {{ question }}
         </div>
         <!-- Réponse -->
         <div
-            class="bg-quizzlab-secondary text-white text-3xl font-semibold text-right px-3 lg:px-8 py-3"
+            :class="
+                props.isIntegrated == true
+                    ? 'bg-slate-300'
+                    : 'bg-quizzlab-secondary'
+            "
+            class="text-white text-3xl font-semibold text-right px-3 lg:px-8 py-3"
         >
             {{ answer }}
         </div>
@@ -63,7 +79,18 @@
                     ago
                 }}</span>
             </div>
-            <div class="flex flex-wrap cursor-pointer pt-1" @click="$router.push({name: 'question.show', params: {id: props.questionId}})">
+            <div
+                :class="props.isIntegrated == false ? 'cursor-pointer' : ''"
+                class="flex flex-wrap pt-1"
+                @click="
+                    props.isIntegrated == false
+                        ? $router.push({
+                              name: 'question.show',
+                              params: { id: props.questionId },
+                          })
+                        : ''
+                "
+            >
                 <svg-icon
                     :path="mdiCommentText"
                     class="text-quizzlab-quaternary w-7 h-7 mr-2"
@@ -104,6 +131,7 @@ const props = defineProps({
     userName: String,
     ago: String,
     tags: Array,
+    isIntegrated: Boolean,
     hasVoted: {
         type: Number,
         required: false,
@@ -137,5 +165,4 @@ function prepareVote(ispositive) {
     const data = { questionid: props.questionId, ispositive };
     questionStore.voteQuestion(data);
 }
-
 </script>
