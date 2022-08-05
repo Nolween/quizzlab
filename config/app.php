@@ -195,6 +195,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\TelescopeServiceProvider::class,
+        App\Providers\ElasticServiceProvider::class, // Enregistrement du service Elastic pour définir les infos de connexion
 
     ],
 

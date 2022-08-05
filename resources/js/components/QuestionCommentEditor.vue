@@ -29,7 +29,7 @@
 <script setup>
 import { ref, reactive, computed } from "vue";
 import router from "@/router";
-import useComments from "@/composables/comments.js";
+// import useComments from "@/composables/comments.js";
 import { useCommentStore } from "@/stores/comment";
 
 const commentStore = useCommentStore();

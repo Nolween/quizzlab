@@ -4,7 +4,7 @@ import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/user";
 import { useQuestionStore } from "@/stores/question";
 
-export default function useComments() {
+export function useComments() {
     const comment = ref("");
     const responseMod = ref(false);
 

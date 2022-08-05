@@ -25,9 +25,15 @@ use Illuminate\Support\Facades\Route;
 //! Si besoin d'ajouter d'autres actions dans les Controller avec resources, les déclarer avant
 Route::controller(QuestionController::class)->group(function() {
     Route::patch('/question/{question}/vote','vote')->name('question.vote');
+    Route::get('/questions/search','search')->name('questions.search');
 });
 Route::get('/questions/vote', [QuestionController::class, 'vote']);
 // API Resources (middleware définis au __construct du Controller)
 Route::apiResource('questions', QuestionController::class);
 Route::apiResource('approvals', CommentApprovalController::class);
 Route::apiResource('comments', QuestionCommentController::class);
+
+Route::fallback(function(){
+    return response()->json([
+        'message' => 'Page Not Found.'], 404);
+});

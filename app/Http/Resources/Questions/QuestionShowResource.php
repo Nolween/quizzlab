@@ -66,7 +66,7 @@ class QuestionShowResource extends JsonResource
                 'vote' => $this->vote,
                 'avatar' => $this->user->avatar,
                 'userName' => $this->user->name,
-                'isIntegrated' => $this->is_integrated,
+                'isIntegrated' => (bool)$this->is_integrated,
                 'tags' => $tagArray,
                 'comments' => $this->primary_comments,
                 'commentsCount' => $this->comments->count(),

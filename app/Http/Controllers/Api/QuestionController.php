@@ -4,18 +4,23 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\QuestionRequest;
+use App\Http\Requests\Questions\QuestionIndexRequest;
+use App\Http\Requests\Questions\QuestionSearchRequest;
 use App\Http\Requests\Questions\QuestionVoteRequest;
 use App\Http\Resources\QuestionIndexResource;
+use App\Http\Resources\Questions\QuestionSearchResource;
 use App\Http\Resources\Questions\QuestionShowResource;
 use App\Http\Resources\Questions\QuestionVoteResource;
 use App\Models\Question;
 use App\Models\QuestionVote;
+use App\Services\ElasticService;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class QuestionController extends Controller
 {
-    
+
     /**
      * Instantiate a new controller instance.
      *
@@ -23,8 +28,8 @@ class QuestionController extends Controller
      */
     public function __construct()
     {
-        // Ajout des middleware nécessaire selon les actions
-        $this->middleware('auth:sanctum')->except(['index','show']);
+        // Ajout des middleware nécessaire selon les actions en en exluant certains
+        $this->middleware('auth:sanctum')->except(['index', 'show', 'search']);
     }
 
     /**
@@ -33,9 +38,33 @@ class QuestionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(QuestionIndexRequest $request)
     {
-        return QuestionIndexResource::collection(Question::paginate(20));
+        // Si pas de recherche
+        if(empty($request->search)) {
+            return QuestionIndexResource::collection(Question::paginate(20));
+        }
+        // Si on a une recherche effectuée
+        else {
+            return QuestionIndexResource::collection(Question::where('question', 'like', "%$request->search%")->paginate(20));
+        }
+
+    }
+
+    public function search(QuestionSearchRequest $request, ElasticService $elasticService)
+    {
+        try {
+            // Connexion au serveur Elastic pour récupérer les 5 résultats les plus probables 
+            $response = $elasticService->getFromIndex('questions', 5, 'question', $request->question);
+            // Si on obtient bien des résultats
+            if ($response->ok()) {
+                return new QuestionSearchResource($response->json());
+            } else {
+                return response()->json(['message' => "Erreur dans l'accès aux questions'"], 404);
+            }
+        } catch (Exception $e) {
+            return response()->json(['message' => "Erreur dans la requete"], 500);
+        }
     }
 
     /**

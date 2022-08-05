@@ -5,18 +5,17 @@ import { useUserStore } from "@/stores/user";
 
 export const useQuestionStore = defineStore("question", {
     state: () => ({ questions: [], question: [] }),
-    // could also be defined as
-    // state: () => {
-    //   return { count: 0 }
-    // },
+
     actions: {
         resetQuestion() {
             this.question = [];
         },
         // Récupérer les questions dans le back
-        async getQuestions() {
+        async getQuestions(search = null) {
             try {
-                let response = await axios.get("/api/questions");
+                let response = await axios.get("/api/questions",{
+                    params: { search },
+                });
                 this.questions = response.data.data;
             } catch (error) {
                 // Vérification de l'erreur

@@ -152,7 +152,7 @@ import { useRoute } from "vue-router";
 import QuestionCommentResponse from "../components/QuestionCommentResponse.vue";
 
 // Import de composables
-import useComments from "@/composables/comments.js";
+// import useComments from "@/composables/comments.js";
 
 // Import des stores
 import { useCommentStore } from "@/stores/comment";

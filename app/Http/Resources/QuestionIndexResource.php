@@ -39,7 +39,7 @@ class QuestionIndexResource extends JsonResource
             'vote' => $this->vote,
             'avatar' => $this->user->avatar,
             'userName' => $this->user->name,
-            'isIntegrated' => $this->is_integrated,
+            'isIntegrated' => (bool)$this->is_integrated,
             'tags' => $tagArray,
             'commentsCount' => $this->comments->count(),
             'ago' => $ago,

@@ -130,7 +130,7 @@ import router from "@/router";
 import { useRoute } from "vue-router";
 
 // Import de composables
-import useComments from "@/composables/comments.js";
+// import useComments from "@/composables/comments.js";
 
 // Import des stores
 import { useCommentStore } from "@/stores/comment";

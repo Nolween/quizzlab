@@ -3,9 +3,10 @@
         class="pt-24 flex flex-wrap justify-center bg-quizzlab-primary"
         v-if="questionStore.question && questionStore.question.length === 0"
     >
-        <span class="text-center text-4xl text-white font-semibold mb-2">
+        <span v-if="loaded == true" class="text-center text-4xl text-white font-semibold mb-2">
             QUESTION INTEGREE AU QUIZZ</span
         >
+
     </div>
     <div v-else class="pt-24 flex flex-wrap justify-center bg-quizzlab-primary">
         <!-- QUESTION -->
@@ -130,7 +131,7 @@
 </template>
 <script setup>
 // Imports de fonctionnalités essentielles de Vue (hook, ...)
-import { onMounted, onBeforeMount, onUnmounted } from "vue";
+import { onMounted, onBeforeMount, onUnmounted, ref } from "vue";
 import router from "@/router";
 import { useRoute } from "vue-router";
 
@@ -155,11 +156,14 @@ const route = useRoute();
 
 // const { forbiddenQuestion, updateForbiddenQuestion } = useQuestions();
 
+const loaded = ref(false);
+
 //? CYCLE
 // Avant le montage du composant
 onBeforeMount(() => {
     userStore.checkAuth();
     questionStore.getQuestion(route.params.id);
+    loaded.value = true
 });
 // Lorsque le composant est monté, on va chercher via l'API les ressources
 onMounted(() => {});

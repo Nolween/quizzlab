@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Comments;
+namespace App\Http\Requests\Questions;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
-class QuestionCommentStoreRequest extends FormRequest
+class QuestionSearchRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +13,7 @@ class QuestionCommentStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::check();
+        return true;
     }
 
     /**
@@ -25,9 +24,7 @@ class QuestionCommentStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'comment' => ['required', 'string'],
-            'questionid' => ['required', 'integer', 'exists:questions,id'],
-            'commentreplyid' => ['nullable', 'integer', 'exists:question_comments,id'],
+            'question' => ['nullable', 'string'],
         ];
     }
 }
