@@ -71,4 +71,28 @@ class ElasticService
 
     return $response;
   }
+
+  /**
+   * Envoi d'une entrée à ajouter dans Elasticsearch 
+   *
+   * @param string $index Index / Table à récupérer
+   * @param array $data Tableau avec les clés/valeurs à envoyer
+   * @return Response Réponse entière (avec ->body(), ->status(),...)
+   */
+  public function insertInIndex(string $index, array $data = [])
+  {
+    // Paramètres à envoyer
+    $params = ['pretty' => ""];
+    // Corps de la requête, un tableau de clés / valeurs
+    $body = $data;
+    // Encodage JSON du body
+    $json = json_encode($body);
+
+    $response = Http::accept('application/json')
+      ->withBasicAuth($this->elasticUser, $this->elasticPassword)
+      ->withBody($json, 'application/json')
+      ->post("$this->elasticHost:$this->elasticPort/$index/_doc/", $params);
+
+    return $response;
+  }
 }
