@@ -9,18 +9,19 @@ class QuestionObserver
 {
 
     protected $elastic;
-
-    public function __construct(ElasticService $elasticService) {
-        $this->elastic = $elasticService;
-    }
-
-
+    
     /**
      * Handle events after all transactions are committed.
      *
      * @var bool
      */
     public $afterCommit = true;
+
+    public function __construct(ElasticService $elasticService) {
+        $this->elastic = $elasticService;
+    }
+
+
 
     /**
      * Handle the Question "created" event.

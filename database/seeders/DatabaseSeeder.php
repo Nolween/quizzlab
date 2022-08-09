@@ -8,7 +8,9 @@ use App\Models\CommentApproval;
 use App\Models\GameQuestion;
 use App\Models\Question;
 use App\Models\QuestionTag;
+use App\Services\ElasticService;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Artisan;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,15 +19,15 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(ElasticService $elasticService)
     {
-        // \App\Models\User::factory(10)->create();
+        
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
-
+        //? Partie Elasticsearch
+        // Initialisation via le lancement de la commande
+        Artisan::call('elastic:initialize-structure');
+        
+        //? PARTIE SQL
         // Création des paramètres
         $this->call(RoleSeeder::class);
         $this->call(TagSeeder::class);

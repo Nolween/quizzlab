@@ -12,7 +12,9 @@ use App\Http\Resources\Questions\QuestionSearchResource;
 use App\Http\Resources\Questions\QuestionShowResource;
 use App\Http\Resources\Questions\QuestionVoteResource;
 use App\Models\Question;
+use App\Models\QuestionTag;
 use App\Models\QuestionVote;
+use App\Models\Tag;
 use App\Services\ElasticService;
 use Exception;
 use Illuminate\Http\Request;
@@ -38,24 +40,41 @@ class QuestionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(QuestionIndexRequest $request)
+    public function index(QuestionIndexRequest $request, ElasticService $elasticService)
     {
+
         // Si pas de recherche
-        if(empty($request->search)) {
+        if (empty($request->search)) {
             return QuestionIndexResource::collection(Question::paginate(20));
         }
-        // Si on a une recherche effectuée
-        else {
+        // Si on a une recherche selon un tag / thème
+        else if ($request->searchMod == 0) {
+            // ID du tag correpsondant à la recherche 
+            $tag = Tag::where('name', $request->search)->first();
+            if (!empty($tag->id)) {
+                // Récupération de tous les questions ayant un rapport avec le thème recherché 
+                $questionTags = QuestionTag::where('tag_id', $tag->id)->orderBy('question_id', 'ASC')->paginate(20);
+                $questions = [];
+                // Construcion du tableau de réponses
+                foreach ($questionTags as $questionTags) {
+                    $questions[] = $questionTags->question;
+                }
+                return QuestionIndexResource::collection($questions);
+            } else {
+                return QuestionIndexResource::collection([]);
+            }
+        }
+        // Si on a une recherche selon une question
+        else if ($request->searchMod == 1) {
             return QuestionIndexResource::collection(Question::where('question', 'like', "%$request->search%")->paginate(20));
         }
-
     }
 
     public function search(QuestionSearchRequest $request, ElasticService $elasticService)
     {
         try {
             // Connexion au serveur Elastic pour récupérer les 5 résultats les plus probables 
-            $response = $elasticService->getFromIndex('questions', 5, 'question', $request->question);
+            $response = $elasticService->getMatchFromIndex('questions', 5, 'question', $request->question);
             // Si on obtient bien des résultats
             if ($response->ok()) {
                 return new QuestionSearchResource($response->json());

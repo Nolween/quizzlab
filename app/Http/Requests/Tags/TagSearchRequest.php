@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Questions;
+namespace App\Http\Requests\Tags;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class QuestionIndexRequest extends FormRequest
+class TagSearchRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,7 @@ class QuestionIndexRequest extends FormRequest
     public function rules()
     {
         return [
-            'search' => ['nullable', 'string'],
-            'searchMod' => ['nullable', 'integer'],
+            'tag' => ['nullable', 'string'],
         ];
     }
 }

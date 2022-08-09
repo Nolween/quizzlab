@@ -11,10 +11,10 @@ export const useQuestionStore = defineStore("question", {
             this.question = [];
         },
         // Récupérer les questions dans le back
-        async getQuestions(search = null) {
+        async getQuestions(search = null, searchMod = 0) {
             try {
                 let response = await axios.get("/api/questions",{
-                    params: { search },
+                    params: { search, searchMod},
                 });
                 this.questions = response.data.data;
             } catch (error) {

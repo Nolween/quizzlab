@@ -28,7 +28,7 @@ export function useQuestions() {
                 let response = await axios.get(`/api/questions/search`, {
                     params: { question: questionSearch.value },
                 });
-                // Si on a pas le droit d'aller sur la question car intégrée au quizz
+                // Si on a bien un retour d'Elastic
                 if (response.data.data) {
                     suggestedQuestions.value = response.data.data;
                 } else {
