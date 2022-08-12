@@ -91,17 +91,19 @@
                 :hasVoted="question.hasVoted"
                 v-for="question in questionStore.questions"
                 :key="question.id"
+                @change-search="updateQuestionSearch($event)"
             />
         </div>
     </div>
 </template>
 <script setup>
 // Imports de fonctionnalités essentielles de Vue (hook, ...)
-import { onMounted, onBeforeMount, ref, computed } from "vue";
+import { onMounted, onBeforeMount, onBeforeUpdate, ref, computed } from "vue";
 // Import des stores
 import { useQuestionStore } from "@/stores/question";
 import { useUserStore } from "@/stores/user";
 import { useQuestions } from "@/composables/questions.js";
+import { useRoute } from "vue-router";
 import { useTags } from "@/composables/tags.js";
 // Import des composants
 import Question from "../components/Question.vue";
@@ -125,7 +127,7 @@ const { getSuggestedTags, resetSuggestedTags, computedSuggestedTag } =
 const questionStore = useQuestionStore();
 //? Vérification si l'utilisateur est connecté
 const userStore = useUserStore();
-
+const route = useRoute();
 // Variable de recherche de question
 const searchInput = ref(null);
 const searchMod = ref(0);
@@ -137,7 +139,7 @@ const computedSearch = computed(() => {
 
 // Mise à jour du mod de recherche
 const updateSearchMod = (value) => {
-    searchInput.value = null
+    searchInput.value = null;
     // réinitialisation des des données de suggestions
     resetSuggestedQuestions();
     resetSuggestedTags();
@@ -150,6 +152,8 @@ const updateQuestionSearch = async (newQuestion) => {
     // Réinitialisation des suggestions de question
     resetSuggestedQuestions();
     resetSuggestedTags();
+    // On revient en haut de la page
+    window.scrollTo(0,0);
     // Soumission du formulaire dans le back pour récupérer les questions
     await questionStore.getQuestions(newQuestion, searchMod.value);
 };
@@ -185,5 +189,19 @@ onBeforeMount(() => {
 });
 
 // Lorsque le composant est monté, on va chercher via l'API les ressources
-onMounted(questionStore.getQuestions());
+onMounted(() => {
+    // Si on cherche un thème de question
+    if(route.params.theme) {
+        // Mise à jour des paramètres de recherche
+        searchInput.value = route.params.theme
+        searchMod.value = 0
+        // Récupération des questions dans le back
+        refreshQuestions(route.params.theme, 0)
+    }
+    // Si pas de paramètre de thème, on charge tout
+    else {
+        questionStore.getQuestions();
+    }
+});
+
 </script>

@@ -1,7 +1,8 @@
 <template>
     <div class="mb-4 bg-white">
         <div class="flex flex-wrap px-3 lg:px-8 justify-start">
-            <div v-if="props.isIntegrated == false" 
+            <div
+                v-if="props.isIntegrated == false"
                 class="w-40 border-gray-300 border-2 px-3 m-2 pt-2 flex flex-wrap justify-between"
             >
                 <svg-icon
@@ -20,14 +21,20 @@
                     type="mdi"
                 ></svg-icon>
             </div>
-            <div v-else class="w-40 border-gray-300 border-2 px-3 m-2 pt-2 text-center">
-                <span class="font-bold text-quizzlab-secondary">DANS LE QUIZZ</span>
+            <div
+                v-else
+                class="w-40 border-gray-300 border-2 px-3 m-2 pt-2 text-center"
+            >
+                <span class="font-bold text-quizzlab-secondary"
+                    >DANS LE QUIZZ</span
+                >
             </div>
             <!-- Thèmes -->
             <span
                 v-for="tag in tags"
                 :key="tag.id"
                 class="bg-quizzlab-quaternary text-white font-semibold m-2 p-2 text-2xl cursor-pointer"
+                @click="goToTheme(tag.name)"
                 >{{ tag.name }}</span
             >
         </div>
@@ -120,6 +127,7 @@ import { useQuestionStore } from "@/stores/question";
 // Déclaration du store des questions
 const questionStore = useQuestionStore();
 
+const emit = defineEmits(['changeSearch'])
 // Définition des props du composant
 const props = defineProps({
     questionId: Number,
@@ -165,4 +173,20 @@ function prepareVote(ispositive) {
     const data = { questionid: props.questionId, ispositive };
     questionStore.voteQuestion(data);
 }
+
+// Lorsque l'on clique sur un thème
+const goToTheme = (theme) => {
+    // Si on est sur la page d'accueil, on active le rafraichissement des questions
+    if (router.currentRoute.value.name == "questions.index") {
+        emit('changeSearch', theme)
+    } 
+    // Si pas la page d'accueil, on redirige avec le paramètre des thèmes
+    else {
+        // On active l'évènement changeSearch (change-search) présent dans le composant parent
+        router.push({
+            name: "questions.index",
+            params: { theme },
+        });
+    }
+};
 </script>

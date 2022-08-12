@@ -7,7 +7,7 @@ import Registration from '../views/Registration.vue'
 
 const routes = [
     {
-        path: '/',
+        path: '/:theme?',
         name: 'questions.index',
         component: Questions
     },
