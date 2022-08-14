@@ -23,14 +23,14 @@
             <div class="flex flex-wrap justify-center sm:justify-between mx-3 space-x-2">
                 <button
                 type="button"
-                    @click="$router.push({ name: 'registration.create' })"
-                    class="bg-quizzlab-quaternary text-white text-2xl py-2 px-3 rounded-sm"
+                    @click="$router.push({ name: 'inscription.create' })"
+                    class="bg-quizzlab-quaternary hover:bg-quizzlab-quinary text-white text-2xl py-2 px-3 rounded-sm"
                 >
                     Inscription
                 </button>
                 <button
                     type="submit"
-                    class="bg-quizzlab-secondary text-white text-2xl py-2 px-3 rounded-sm"
+                    class="bg-quizzlab-secondary hover:bg-quizzlab-quinary text-white text-2xl py-2 px-3 rounded-sm"
                 >
                     Connexion
                 </button>

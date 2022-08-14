@@ -13,7 +13,11 @@
             <a href="" class="cursor-pointer">Jouer</a>
         </div>
         <div class="text-quizzlab-primary px-1">
-            <a href="" class="cursor-pointer">Proposer</a>
+            <span
+                @click="$router.push({ name: 'proposition.create' })"
+                class="cursor-pointer"
+                >Proposer</span
+            >
         </div>
         <div
             v-if="userStore.isConnected == true"
@@ -25,7 +29,7 @@
         </div>
         <div v-else class="text-quizzlab-quinary px-1">
             <span
-                @click="$router.push({ name: 'login.create' })"
+                @click="$router.push({ name: 'connexion.create' })"
                 class="cursor-pointer"
                 >Connexion</span
             >

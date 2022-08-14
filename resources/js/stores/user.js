@@ -21,7 +21,7 @@ export const useUserStore = defineStore("user", {
                 // On vire la variable locale
                 localStorage.removeItem('auth')
                 // Redirect vers la connexion
-                router.push({ name: "login.create" });
+                router.push({ name: "connexion.create" });
             }
         },
         // Tentative de connexion au back

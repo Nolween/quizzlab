@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import Questions from '../views/Questions.vue'
 import QuestionCard from '../views/QuestionCard.vue'
+import QuestionProposal from '../views/QuestionProposal.vue'
 import Login from '../views/Login.vue'
 import Registration from '../views/Registration.vue'
 
@@ -17,13 +18,18 @@ const routes = [
         component: QuestionCard
     },
     {
-        path: '/login',
-        name: 'login.create',
+        path: '/connexion',
+        name: 'connexion.create',
         component: Login
     },
     {
-        path: '/registration',
-        name: 'registration.create',
+        path: '/proposition',
+        name: 'proposition.create',
+        component: QuestionProposal
+    },
+    {
+        path: '/inscription',
+        name: 'inscription.create',
         component: Registration
     }
 ];

@@ -18,7 +18,7 @@
                         v-focus
                     />
                     <button
-                        class="bg-quizzlab-secondary w-12 h-13 border-2 ml-1"
+                        class="bg-quizzlab-secondary w-14 h-14 border-2 ml-1"
                         @click="refreshQuestions"
                     >
                         <svg-icon
@@ -132,7 +132,7 @@ const route = useRoute();
 const searchInput = ref(null);
 const searchMod = ref(0);
 
-// Liste des question suggérées calculée
+// Champ de recherche en temps réel
 const computedSearch = computed(() => {
     return searchInput.value;
 });

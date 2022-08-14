@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Tags\TagSearchRequest;
+use App\Http\Resources\Tags\TagIndexResource;
 use App\Http\Resources\Tags\TagSearchResource;
 use App\Models\Tag;
 use App\Services\ElasticService;
@@ -12,13 +13,13 @@ use Illuminate\Http\Request;
 class TagController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Affiche la totalité des tags
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        return TagIndexResource::collection(Tag::all());
     }
 
     /**
