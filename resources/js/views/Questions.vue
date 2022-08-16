@@ -74,6 +74,7 @@
                 <SuggestedQuestions
                     @change-search="updateQuestionSearch($event)"
                     :suggestedQuestions="computedSuggestedQuestion"
+                    stitle="Questions suggérées"
                 />
             </div>
             <!-- Liste des question -->
@@ -153,7 +154,7 @@ const updateQuestionSearch = async (newQuestion) => {
     resetSuggestedQuestions();
     resetSuggestedTags();
     // On revient en haut de la page
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
     // Soumission du formulaire dans le back pour récupérer les questions
     await questionStore.getQuestions(newQuestion, searchMod.value);
 };
@@ -191,17 +192,16 @@ onBeforeMount(() => {
 // Lorsque le composant est monté, on va chercher via l'API les ressources
 onMounted(() => {
     // Si on cherche un thème de question
-    if(route.params.theme) {
+    if (route.params.theme) {
         // Mise à jour des paramètres de recherche
-        searchInput.value = route.params.theme
-        searchMod.value = 0
+        searchInput.value = route.params.theme;
+        searchMod.value = 0;
         // Récupération des questions dans le back
-        refreshQuestions(route.params.theme, 0)
+        refreshQuestions(route.params.theme, 0);
     }
     // Si pas de paramètre de thème, on charge tout
     else {
         questionStore.getQuestions();
     }
 });
-
 </script>

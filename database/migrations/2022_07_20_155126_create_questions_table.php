@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->boolean('is_integrated')->nullable();
             $table->integer('vote')->default('0');
-            $table->float('ratio_score')->nullable()->default('1');
+            $table->float('ratio_score')->nullable()->default('0.5');
             $table->timestamps();
         });
     }

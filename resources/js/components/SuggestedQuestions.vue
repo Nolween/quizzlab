@@ -1,7 +1,7 @@
 <template>
     <ul class="bg-white mb-4">
         <li class="py-1 px-4 text-xl font-semibold text-quizzlab-primary">
-            Questions suggérées
+            {{ props.stitle }}
         </li>
         <li
             v-for="(
@@ -21,14 +21,15 @@ import { ref } from "vue";
 
 // Définition des props du composant
 const props = defineProps({
+    stitle: String,
     suggestedQuestions: Array,
 });
 
-const emit = defineEmits(['changeSearch'])
+const emit = defineEmits(["changeSearch"]);
 
 // Lorque l'on clique sur une question suggérée
-const selectSuggestedQuestion = (params) =>  {
+const selectSuggestedQuestion = (params) => {
     // On active l'évènement changeSearch (change-search) présent dans le composant parent
-    emit('changeSearch', params)
-}
+    emit("changeSearch", params);
+};
 </script>

@@ -42,7 +42,7 @@ export function useTags() {
     //? Fonctions Asynchrones
     // Récupérer les tags suggérées selon la recherche dans le back
     const getSuggestedTags = async (tagSearch) => {
-        if (tagSearch.value.trim() !== "" && tagSearch.value !== null) {
+        if (tagSearch.value && tagSearch.value.trim() !== "" && tagSearch.value !== null) {
             try {
                 let response = await axios.get(`/api/tags/search`, {
                     params: { tag: tagSearch.value },

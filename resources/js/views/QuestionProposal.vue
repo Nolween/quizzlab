@@ -1,8 +1,8 @@
 <template>
     <div
-        class="pt-40 sm:pt-36 md:pt-28 justify-center bg-quizzlab-primary px-2 flex flex-wrap w-full"
+        class="pt-40 sm:pt-36 md:pt-28 justify-center bg-quizzlab-primary px-2 flex flex-wrap w-full md:px-10"
     >
-        <form class="space-y-6" @submit.prevent="sendProposition">
+        <form class="space-y-6" @submit.prevent="sendQuestion">
             <div class="text-center text-5xl text-white font-semibold">
                 Proposer une question
             </div>
@@ -23,6 +23,7 @@
                 <!-- Composant de proposition de question -->
                 <SuggestedQuestions
                     :suggestedQuestions="computedSuggestedQuestion"
+                    stitle="Questions relatives"
                 />
             </div>
             <input
@@ -85,13 +86,37 @@
                 >
             </div>
 
+            <div class="mt-1">
+                <input
+                    id="rules"
+                    type="checkbox"
+                    name="rules"
+                    v-model="form.rules"
+                    value="true"
+                    class="h-5 w-5 mb-3 rounded-full accent-quizzlab-primary checked:bg-gray-300 cursor-pointer"
+                />
+                <label for="rules" id="rules"
+                    ><span
+                        class="text-3xl text-white pl-2 cursor-pointer text-justify"
+                        >Je confirme que ma question ne figure pas parmis les
+                        questions relatives affichées</span
+                    ></label
+                >
+            </div>
+
             <!-- BOUTONS  -->
             <div class="flex flex-wrap justify-center mx-3 space-x-2">
                 <button
                     type="submit"
-                    class="hover:bg-quizzlab-quinary bg-quizzlab-secondary text-white text-2xl py-2 px-3 rounded-sm"
+                    class="py-2 px-3 rounded-sm mb-12"
+                    :class="
+                        completedForm
+                            ? 'hover:bg-quizzlab-secondary bg-white text-quizzlab-secondary hover:text-white'
+                            : 'bg-slate-400 text-white'
+                    "
+                    :disabled="!completedForm"
                 >
-                    Proposer
+                    <span class="font-semibold text-3xl">Proposer</span>
                 </button>
             </div>
         </form>
@@ -102,16 +127,18 @@
             class="h-screen bg-black bg-opacity-50 rounded-sm fixed inset-0 z-50 flex justify-center items-center"
         >
             <div class="w-4/5">
-                <div class="flex justify-between bg-quizzlab-quinary p-3">
-                    <span class="text-l md:text-2xl font-semibold text-white">
+                <div class="flex justify-between bg-white p-3">
+                    <span
+                        class="text-l md:text-2xl font-semibold text-quizzlab-ternary my-auto"
+                    >
                         CHERCHER UN THEME DANS LA LISTE</span
                     >
-                    <span class="w-5 text-right">
+                    <span class="w-10 text-right">
                         <svg-icon
                             @click="
                                 (tagSearch = null), (themeListOverlay = false)
                             "
-                            class="text-white my-auto cursor-pointer"
+                            class="text-quizzlab-ternary h-10 w-10 my-auto cursor-pointer"
                             :path="mdiCloseBox"
                             type="mdi"
                         ></svg-icon
@@ -128,15 +155,15 @@
                             ref="tagListRef"
                         />
                     </div>
-                    
-                        <div class="w-full text-center">
-                            <span class="text-white text-3xl"
-                                >{{ handlingTags.length }} thème{{
-                                    handlingTags.length > 1 ? "s" : ""
-                                }}
-                                à ajouter</span
-                            >
-                        </div>
+
+                    <div class="w-full text-center">
+                        <span class="text-white text-3xl"
+                            >{{ handlingTags.length }} thème{{
+                                handlingTags.length > 1 ? "s" : ""
+                            }}
+                            à ajouter</span
+                        >
+                    </div>
                     <div
                         class="w-full inset-0 p-3 flex flex-wrap justify-around"
                     >
@@ -167,20 +194,22 @@
                     >
                         <button
                             type="submit"
-                            class="hover:bg-white bg-quizzlab-ternary hover:text-quizzlab-ternary text-white text-2xl py-2 px-3 rounded-sm"
+                            class="bg-white hover:bg-quizzlab-ternary text-quizzlab-ternary hover:text-white text-2xl py-2 px-3 rounded-sm"
                             @click="
                                 (themeListOverlay = false), (handlingTags = [])
                             "
                         >
-                            Annuler
+                            <span class="font-semibold"> Annuler</span>
                         </button>
                         <button
                             :disabled="handlingTags.length == 0"
                             type="submit"
-                            class="bg-quizzlab-secondary text-white hover:bg-white hover:text-quizzlab-secondary text-2xl py-2 px-3 rounded-sm"
+                            class="hover:bg-quizzlab-secondary hover:text-white bg-white text-quizzlab-secondary text-2xl py-2 px-3 rounded-sm"
                             @click="addHandlingTags()"
                         >
-                            Ajouter aux thèmes
+                            <span class="font-semibold"
+                                >Ajouter aux thèmes</span
+                            >
                         </button>
                     </div>
                 </div>
@@ -189,7 +218,7 @@
     </div>
 </template>
 <script setup>
-import { ref, reactive, onBeforeMount } from "vue";
+import { ref, toRef, reactive, computed, onBeforeMount } from "vue";
 import router from "@/router";
 // Import des composants
 import SuggestedQuestions from "../components/SuggestedQuestions.vue";
@@ -216,6 +245,7 @@ const {
     getSuggestedQuestions,
     resetSuggestedQuestions,
     computedSuggestedQuestion,
+    sendQuestionProposition,
 } = useQuestions();
 const {
     getSuggestedTags,
@@ -239,14 +269,25 @@ const handlingTags = ref([]);
 const form = reactive({
     question: null,
     answer: null,
+    rules: false,
     selectedThemes: [],
 });
 
-// Variable de recherche de question
-const searchMod = ref(0);
 
-const sendProposition = async () => {
-    await userStore.doLogin({ ...form });
+// Activation du bouton de validation de formulaire
+const completedForm = computed(() => {
+    return (
+        form.question &&
+        form.question.length > 0 &&
+        form.answer &&
+        form.answer.length > 0 &&
+        form.selectedThemes.length > 0 &&
+        form.rules == true
+    );
+});
+
+const sendQuestion = async () => {
+    await sendQuestionProposition({ ...form });
 };
 
 // Retirer le thème sur lequel on clique
@@ -272,12 +313,12 @@ const addHandlingTags = () => {
 
 const getSuggestions = async (mod) => {
     // Si recherche de thème
-    if (mod == 0) {
+    if (theme && mod == 0) {
         await getSuggestedTags(theme);
     }
     // Si on recherche une question
-    else if (mod == 1) {
-        await getSuggestedQuestions(form.question);
+    else if (form.question && mod == 1) {
+        await getSuggestedQuestions(toRef(form, "question"));
     }
 };
 

@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\QuestionRequest;
 use App\Http\Requests\Questions\QuestionIndexRequest;
 use App\Http\Requests\Questions\QuestionSearchRequest;
+use App\Http\Requests\Questions\QuestionStoreRequest;
 use App\Http\Requests\Questions\QuestionVoteRequest;
 use App\Http\Resources\QuestionIndexResource;
 use App\Http\Resources\Questions\QuestionSearchResource;
 use App\Http\Resources\Questions\QuestionShowResource;
+use App\Http\Resources\Questions\QuestionStoreResource;
 use App\Http\Resources\Questions\QuestionVoteResource;
 use App\Models\Question;
 use App\Models\QuestionTag;
@@ -19,6 +21,7 @@ use App\Services\ElasticService;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class QuestionController extends Controller
 {
@@ -45,7 +48,7 @@ class QuestionController extends Controller
 
         // Si pas de recherche
         if (empty($request->search)) {
-            return QuestionIndexResource::collection(Question::paginate(20));
+            return QuestionIndexResource::collection(Question::orderBy('created_at', 'DESC')->paginate(20));
         }
         // Si on a une recherche selon un tag / thème
         else if ($request->searchMod == 0) {
@@ -92,11 +95,36 @@ class QuestionController extends Controller
      * @param  \App\Http\Requests\QuestionRequest  $request
      * @return \App\Http\Resources\QuestionIndexResource
      */
-    public function store(QuestionRequest $request)
+    public function store(QuestionStoreRequest $request)
     {
-        $question = Question::create($request->validated());
+        $userId = Auth::user()->id;
 
-        return new QuestionIndexResource($question);
+        DB::beginTransaction();
+        try {
+            // Création de la question
+            $question = Question::create([
+                'question' => $request->question,
+                'answer' => $request->answer,
+                'user_id' => $userId
+            ]);
+            // Association des thèmes pour la question
+            foreach ($request->selectedThemes as $theme) {
+                $tag = Tag::whereName($theme)->first();
+                QuestionTag::create([
+                    'question_id' => $question->id,
+                    'tag_id' => $tag->id,
+                ]);
+            }
+            // Validation de la transaction
+            DB::commit();
+        }
+        // Si erreur dans la transaction
+        catch (Exception $e) {
+            DB::rollback();
+            return response()->json(['success' => false, 'message' => "Erreur dans la requete"], 500);
+        }
+
+        return response()->json(['success' => true, 'message' => "Votre question a été proposée!"], 200);
     }
 
     /**
