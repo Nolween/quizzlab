@@ -26,6 +26,43 @@
                     stitle="Questions relatives"
                 />
             </div>
+            <!-- Checkbox besoin d'une image -->
+            <div class="mt-1">
+                <input
+                    id="imageNeeded"
+                    type="checkbox"
+                    name="imageNeeded"
+                    v-model="form.imageNeeded"
+                    value="true"
+                    class="h-5 w-5 mb-3 rounded-full accent-quizzlab-primary checked:bg-gray-300 cursor-pointer"
+                />
+                <label for="imageNeeded" id="imageNeeded"
+                    ><span
+                        class="text-3xl text-white pl-2 cursor-pointer text-justify"
+                        >Cette question a besoin de s’appuyer d’une image</span
+                    ></label
+                >
+            </div>
+            <!-- Upload d'image -->
+            <div class="mx-auto lg:w-1/2" v-if="form.imageNeeded == true">
+                <label for="image-input">
+                    <img
+                        :src="imgSrc"
+                        alt="Image de la question"
+                        class="cursor-pointer"
+                    />
+                </label>
+                <input
+                    id="image-input"
+                    type="file"
+                    accept=".jpg, .png, .jpeg, .avif, .webp"
+                    name="imageInput"
+                    @change="onFileChanged($event)"
+                    class="hidden"
+                    ref="imageInput"
+                />
+            </div>
+            <!-- Réponse -->
             <input
                 name="answer"
                 class="border-2 focus:border-quizzlab-ternary rounded-sm w-full px-3 placeholder:text-3xl placeholder:text-quizzlab-primary pt-4"
@@ -238,7 +275,9 @@ import { mdiCloseBox } from "@mdi/js";
 const userStore = useUserStore();
 // Déclaration des ref pour le focus
 const themeInput = ref(null);
+const imageInput = ref(null);
 const tagListRef = ref(null);
+const imgSrc = ref("http://127.0.0.1:8000/img/questions/big/0.avif");
 
 // Déclaration des composables
 const {
@@ -270,9 +309,10 @@ const form = reactive({
     question: null,
     answer: null,
     rules: false,
+    imageNeeded: false,
+    image: null,
     selectedThemes: [],
 });
-
 
 // Activation du bouton de validation de formulaire
 const completedForm = computed(() => {
@@ -282,9 +322,22 @@ const completedForm = computed(() => {
         form.answer &&
         form.answer.length > 0 &&
         form.selectedThemes.length > 0 &&
-        form.rules == true
+        form.rules == true &&
+        (!form.imageNeeded || (form.imageNeeded && form.image))
     );
 });
+
+// Changement d'image
+const onFileChanged = (event) => {
+    if (event.target.files[0]) {
+        // Attribution de l'url à la source de l'image
+        imgSrc.value = URL.createObjectURL(event.target.files[0]);
+        form.image = event.target.files[0];
+    }
+    else {
+        form.image = null;
+    }
+};
 
 const sendQuestion = async () => {
     await sendQuestionProposition({ ...form });

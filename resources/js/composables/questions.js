@@ -50,7 +50,22 @@ export function useQuestions() {
     // Proposition d'une nouvelle question
     const sendQuestionProposition = async (data) => {
         try {
-            let response = await axios.post(`/api/questions`, data);
+            // Création d'un formulaire
+            let formData = new FormData();
+            formData.append('question', data.question)
+            formData.append('answer', data.answer)
+            formData.append('rules', data.rules == true ? 1 : 0)
+            formData.append('imageNeeded', data.imageNeeded == true ? 1 : 0)
+            formData.append('image', data.image)
+            formData.append('selectedThemes[]', data.selectedThemes)
+            // Ajout d'uns entête pour les fichiers
+            let config = {
+              header : {
+               'Content-Type' : 'multipart/form-data'
+             }
+            };
+            // Envoi dans le back
+            let response = await axios.post(`/api/questions`, formData, config);
             // Si on a bien un retour d'Elastic
             if (response.data && response.data.success == true) {
                 // Notification

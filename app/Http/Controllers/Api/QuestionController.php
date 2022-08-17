@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\ImageTransformation;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\QuestionRequest;
 use App\Http\Requests\Questions\QuestionIndexRequest;
@@ -115,13 +116,68 @@ class QuestionController extends Controller
                     'tag_id' => $tag->id,
                 ]);
             }
+
+            //? Si on a une image valide
+            if ($request->imageNeeded == true && $request->image && function_exists('imageavif')) {
+                // Définition du nom de l'image
+                $question->image = $question->id . '.avif';
+                // Selon le type de l'image
+                switch ($request->image->extension()) {
+                    case 'jpg':
+                        $imgProperties = getimagesize($request->image->path());
+                        $gdImage = imagecreatefromjpeg($request->image->path());
+                        $resizeBigImg = ImageTransformation::image_resize_big($gdImage, $imgProperties[0], $imgProperties[1]);
+                        \imageavif($resizeBigImg, 'img/questions/big/' . $question->image);
+                        $resizeSmallImg = ImageTransformation::image_resize_small($gdImage, $imgProperties[0], $imgProperties[1]);
+                        \imageavif($resizeSmallImg, 'img/questions/small/' . $question->image);
+                        // Création d'une miniature
+                        break;
+                    case 'jpeg':
+                        $imgProperties = getimagesize($request->image->path());
+                        $gdImage = imagecreatefromjpeg($request->image->path());
+                        $resizeBigImg = ImageTransformation::image_resize_big($gdImage, $imgProperties[0], $imgProperties[1]);
+                        \imageavif($resizeBigImg, 'img/questions/big/' . $question->image);
+                        $resizeSmallImg = ImageTransformation::image_resize_small($gdImage, $imgProperties[0], $imgProperties[1]);
+                        \imageavif($resizeSmallImg, 'img/questions/small/' . $question->image);
+                        break;
+                    case 'png':
+                        $imgProperties = getimagesize($request->image->path());
+                        $gdImage = imagecreatefrompng($request->image->path());
+                        $resizeBigImg = ImageTransformation::image_resize_big($gdImage, $imgProperties[0], $imgProperties[1]);
+                        \imageavif($resizeBigImg, 'img/questions/big/' . $question->image);
+                        $resizeSmallImg = ImageTransformation::image_resize_small($gdImage, $imgProperties[0], $imgProperties[1]);
+                        \imageavif($resizeSmallImg, 'img/questions/small/' . $question->image);
+                        break;
+                    case 'avif':
+                        $gdImage = imagecreatefromavif($request->image->path());
+                        $resizeBigImg = ImageTransformation::image_resize_big($gdImage, $imgProperties[0], $imgProperties[1]);
+                        \imageavif($resizeBigImg, 'img/questions/big/' . $question->image);
+                        $resizeSmallImg = ImageTransformation::image_resize_small($gdImage, imagesx($gdImage), imagesy($gdImage));
+                        \imageavif($resizeSmallImg, 'img/questions/small/' . $question->image);
+                        break;
+                    default:
+                        $imgProperties = getimagesize($request->image->path());
+                        $gdImage = imagecreatefromjpeg($request->image->path());
+                        $resizeBigImg = ImageTransformation::image_resize_big($gdImage, $imgProperties[0], $imgProperties[1]);
+                        \imageavif($resizeBigImg, 'img/questions/big/' . $question->image);
+                        $resizeSmallImg = ImageTransformation::image_resize_small($gdImage, $imgProperties[0], $imgProperties[1]);
+                        \imageavif($resizeSmallImg, 'img/questions/small/' . $question->image);
+                        break;
+                }
+                imagedestroy($gdImage);
+                imagedestroy($resizeBigImg);
+                imagedestroy($resizeSmallImg);
+                $question->save();
+                
+            }
+
             // Validation de la transaction
             DB::commit();
         }
         // Si erreur dans la transaction
         catch (Exception $e) {
             DB::rollback();
-            return response()->json(['success' => false, 'message' => "Erreur dans la requete"], 500);
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
 
         return response()->json(['success' => true, 'message' => "Votre question a été proposée!"], 200);

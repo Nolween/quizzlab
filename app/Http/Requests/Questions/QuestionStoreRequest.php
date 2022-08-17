@@ -27,6 +27,8 @@ class QuestionStoreRequest extends FormRequest
         return [
             'question' => ['required', 'unique:questions', 'string', 'min:2'],
             'answer' => ['required', 'string'],
+            'imageNeeded' => ['boolean'],
+            'image' => ['nullable', 'mimes:jpg,png,jpeg,avif,webp'],
             'rules' => ['accepted'],
             'selectedThemes' => ['array'],
         ];
