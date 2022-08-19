@@ -19,6 +19,7 @@
                 :answer="questionStore.question.answer"
                 :question="questionStore.question.question"
                 :avatar="questionStore.question.avatar"
+                :imagePath="questionStore.question.image"
                 :vote="questionStore.question.vote"
                 :userName="questionStore.question.userName"
                 :ago="questionStore.question.ago"

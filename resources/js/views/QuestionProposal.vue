@@ -277,7 +277,7 @@ const userStore = useUserStore();
 const themeInput = ref(null);
 const imageInput = ref(null);
 const tagListRef = ref(null);
-const imgSrc = ref("http://127.0.0.1:8000/img/questions/big/0.avif");
+const imgSrc = ref("http://127.0.0.1:5173/public/storage/img/questions/0.avif");
 
 // Déclaration des composables
 const {

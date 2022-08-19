@@ -1,57 +1,78 @@
 <template>
     <div class="mb-4 bg-white">
-        <div class="flex flex-wrap px-3 lg:px-8 justify-start">
-            <div
-                v-if="props.isIntegrated == false"
-                class="w-40 border-gray-300 border-2 px-3 m-2 pt-2 flex flex-wrap justify-between"
-            >
-                <svg-icon
-                    @click="props.hasVoted == null ? prepareVote(false) : ''"
-                    :path="mdiMinusThick"
-                    :class="negativeClass"
-                    type="mdi"
-                ></svg-icon>
-                <div class="text-quizzlab-primary font-bold text-xl">
-                    {{ vote }}°
+        <div class="flex">
+            <div class="w-full">
+                <div class="flex flex-wrap px-3 lg:px-8 justify-start">
+                    <div
+                        v-if="props.isIntegrated == false"
+                        class="w-40 border-gray-300 border-2 px-3 m-2 pt-2 flex flex-wrap justify-between"
+                    >
+                        <svg-icon
+                            @click="
+                                props.hasVoted == null ? prepareVote(false) : ''
+                            "
+                            :path="mdiMinusThick"
+                            :class="negativeClass"
+                            type="mdi"
+                        ></svg-icon>
+                        <div class="text-quizzlab-primary font-bold text-xl">
+                            {{ vote }}°
+                        </div>
+                        <svg-icon
+                            @click="
+                                props.hasVoted == null ? prepareVote(true) : ''
+                            "
+                            :path="mdiPlusThick"
+                            :class="positiveClass"
+                            type="mdi"
+                        ></svg-icon>
+                    </div>
+                    <div
+                        v-else
+                        class="w-40 border-gray-300 border-2 px-3 m-2 pt-2 text-center"
+                    >
+                        <span class="font-bold text-quizzlab-secondary"
+                            >DANS LE QUIZZ</span
+                        >
+                    </div>
+                    <!-- Thèmes -->
+                    <span
+                        v-for="tag in tags"
+                        :key="tag.id"
+                        class="bg-quizzlab-quaternary text-white font-semibold m-2 p-2 text-2xl cursor-pointer"
+                        @click="goToTheme(tag.name)"
+                        >{{ tag.name }}</span
+                    >
                 </div>
-                <svg-icon
-                    @click="props.hasVoted == null ? prepareVote(true) : ''"
-                    :path="mdiPlusThick"
-                    :class="positiveClass"
-                    type="mdi"
-                ></svg-icon>
-            </div>
-            <div
-                v-else
-                class="w-40 border-gray-300 border-2 px-3 m-2 pt-2 text-center"
-            >
-                <span class="font-bold text-quizzlab-secondary"
-                    >DANS LE QUIZZ</span
+                <!-- Question -->
+                <div
+                    class="text-quizzlab-primary font-medium text-3xl px-3 lg:px-8 py-2"
+                    :class="props.isIntegrated == false ? 'cursor-pointer' : ''"
+                    @click="
+                        props.isIntegrated == false
+                            ? $router.push({
+                                  name: 'question.show',
+                                  params: { id: props.questionId },
+                              })
+                            : ''
+                    "
                 >
+                    {{ question }}
+                </div>
             </div>
-            <!-- Thèmes -->
-            <span
-                v-for="tag in tags"
-                :key="tag.id"
-                class="bg-quizzlab-quaternary text-white font-semibold m-2 p-2 text-2xl cursor-pointer"
-                @click="goToTheme(tag.name)"
-                >{{ tag.name }}</span
-            >
-        </div>
-        <!-- Question -->
-        <div
-            class="text-quizzlab-primary font-medium text-3xl px-3 lg:px-8 py-2"
-            :class="props.isIntegrated == false ? 'cursor-pointer' : ''"
-            @click="
-                props.isIntegrated == false
-                    ? $router.push({
-                          name: 'question.show',
-                          params: { id: props.questionId },
-                      })
-                    : ''
-            "
-        >
-            {{ question }}
+            <!-- Image -->
+            <div class="w-28" v-if="props.imagePath">
+                <img
+                    :src="
+                        'http://127.0.0.1:5173/public/storage/img/questions/small/' +
+                        props.imagePath
+                    "
+                    class="mt-2 w-20 h-20 object-cover rounded-md mr-3 cursor-pointer"
+                    :alt="props.imagePath"
+                    title="Aggrandir l'image"
+                    @click="displayBigImageQuestion(true)"
+                />
+            </div>
         </div>
         <!-- Réponse -->
         <div
@@ -68,7 +89,10 @@
         <div class="flex flex-wrap justify-around py-2 px-3 lg:px-8">
             <div class="flex flex-wrap cursor-pointer">
                 <img
-                    :src="'http://127.0.0.1:5173/public/storage/img/profile/' + avatar"
+                    :src="
+                        'http://127.0.0.1:5173/public/storage/img/profile/' +
+                        avatar
+                    "
                     class="w-10 h-10 object-cover rounded-md mr-3"
                     alt=""
                 />
@@ -109,6 +133,27 @@
             </div>
         </div>
     </div>
+
+    <!-- OVERLAY -->
+    <div
+        v-if="questionImageOverlay"
+        class="h-screen bg-black bg-opacity-50 rounded-sm fixed inset-0 z-50 flex justify-center items-center"
+    >
+        <div class="w-4/5">
+            <div class="flex justify-between bg-white p-3">
+                <img
+                    :src="
+                        'http://127.0.0.1:5173/public/storage/img/questions/big/' +
+                        props.imagePath
+                    "
+                    class="mt-2 object-cover rounded-md mr-3 cursor-pointer"
+                    :alt="props.imagePath"
+                    title="Ferme l'image"
+                    @click="displayBigImageQuestion(false)"
+                />
+            </div>
+        </div>
+    </div>
 </template>
 <script setup>
 import { ref, reactive, computed } from "vue";
@@ -127,7 +172,7 @@ import { useQuestionStore } from "@/stores/question";
 // Déclaration du store des questions
 const questionStore = useQuestionStore();
 
-const emit = defineEmits(['changeSearch'])
+const emit = defineEmits(["changeSearch"]);
 // Définition des props du composant
 const props = defineProps({
     questionId: Number,
@@ -138,6 +183,7 @@ const props = defineProps({
     commentsCount: Number,
     userName: String,
     ago: String,
+    imagePath: String,
     tags: Array,
     isIntegrated: Boolean,
     hasVoted: {
@@ -146,6 +192,7 @@ const props = defineProps({
     },
 });
 
+const questionImageOverlay = ref(false);
 //? Computed
 // Vote de la question
 const statusVote = computed(() => {
@@ -174,12 +221,17 @@ function prepareVote(ispositive) {
     questionStore.voteQuestion(data);
 }
 
+//? Fonctions du composant
+function displayBigImageQuestion(value) {
+    questionImageOverlay.value = value;
+}
+
 // Lorsque l'on clique sur un thème
 const goToTheme = (theme) => {
     // Si on est sur la page d'accueil, on active le rafraichissement des questions
     if (router.currentRoute.value.name == "questions.index") {
-        emit('changeSearch', theme)
-    } 
+        emit("changeSearch", theme);
+    }
     // Si pas la page d'accueil, on redirige avec le paramètre des thèmes
     else {
         // On active l'évènement changeSearch (change-search) présent dans le composant parent

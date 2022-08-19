@@ -7,7 +7,7 @@
             <div class="flex flex-wrap cursor-pointer">
                 <img
                     :src="
-                        'http://127.0.0.1:5173/public/img/profile/' +
+                        'http://127.0.0.1:5173/public/storage/img/profile/' +
                         props.avatar
                     "
                     class="w-10 h-10 object-cover rounded-md mr-3"

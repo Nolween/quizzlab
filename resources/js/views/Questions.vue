@@ -90,6 +90,7 @@
                 :isIntegrated="question.isIntegrated"
                 :commentsCount="question.commentsCount"
                 :hasVoted="question.hasVoted"
+                :imagePath="question.image"
                 v-for="question in questionStore.questions"
                 :key="question.id"
                 @change-search="updateQuestionSearch($event)"

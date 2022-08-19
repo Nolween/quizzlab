@@ -37,6 +37,7 @@ class QuestionIndexResource extends JsonResource
             'question' => $this->question,
             'answer' => $this->is_integrated == true ? 'Intégrée au quizz!' : $this->answer,
             'vote' => $this->vote,
+            'image' => $this->image,
             'avatar' => $this->user->avatar,
             'userName' => $this->user->name,
             'isIntegrated' => (bool)$this->is_integrated,
