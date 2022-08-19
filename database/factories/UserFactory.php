@@ -2,8 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Helpers\ImageTransformation;
 use App\Models\Role;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 /**
@@ -18,9 +20,25 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        $name = fake()->unique()->name();
+        $filename = Str::slug($name);
+
+        //? Image Avatar
+        Storage::disk('public')->put('img/profile/' . $filename . '.jpg', file_get_contents('https://loremflickr.com/300/300/all'));
+
+        // Transformation en avif
+        $gdImage = imagecreatefromjpeg(storage_path('app/public/img/profile/' . $filename . '.jpg'));
+        $resizeBigImg = ImageTransformation::image_resize_small($gdImage, 300, 300);
+        \imageavif($resizeBigImg, storage_path('app/public/img/profile/' . $filename . '.avif'));
+
+        imagedestroy($gdImage);
+        imagedestroy($resizeBigImg);
+        // On efface le png original
+        unlink(storage_path('app/public/img/profile/' . $filename . '.jpg'));
+
         return [
-            'name' => fake()->unique()->name(),
-            'avatar' => rand(1,30) . '.jpg',
+            'name' => $name,
+            'avatar' => $filename . '.avif',
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => bcrypt(123456), // password

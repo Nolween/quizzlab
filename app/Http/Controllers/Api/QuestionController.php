@@ -168,7 +168,6 @@ class QuestionController extends Controller
                 imagedestroy($resizeBigImg);
                 imagedestroy($resizeSmallImg);
                 $question->save();
-                
             }
 
             // Validation de la transaction

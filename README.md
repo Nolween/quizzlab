@@ -40,6 +40,9 @@
 -   Création de la structure de la DB avec jeu de données(Migration)
     -   `php artisan migrate:refresh --seed`
 
+-   Création d'un lien concernant le storage public et le public
+    -   `php artisan storage:link`
+
 ## Front
 
 -   Installation des librairies
