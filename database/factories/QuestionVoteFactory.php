@@ -19,7 +19,8 @@ class QuestionVoteFactory extends Factory
     public function definition()
     {
         $userId = User::inRandomOrder()->first()->id;
-        $questionId = Question::where('user_id', '!=', $userId)->inRandomOrder()->first()->id;
+        // On sélectionne une question dont la modération a été faite
+        $questionId = Question::where('user_id', '!=', $userId)->where('is_moderated', true)->inRandomOrder()->first()->id;
         return [
             'user_id' => $userId,
             'question_id' => $questionId,

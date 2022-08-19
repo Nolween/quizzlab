@@ -25,7 +25,7 @@ class GameQuestionFactory extends Factory
         $order = ($questionCount !== null) ? $questionCount->order + 1 : 1;
         return [
             'game_id' => $gameId,
-            'question_id' => Question::inRandomOrder()->first()->id,
+            'question_id' => Question::where('is_integrated', true)->inRandomOrder()->first()->id,
             'order' => 0
         ];
     }

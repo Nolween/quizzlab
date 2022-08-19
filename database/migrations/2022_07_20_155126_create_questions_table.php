@@ -22,6 +22,7 @@ return new class extends Migration
             $table->text('question');
             $table->text('answer');
             $table->string('image')->nullable();
+            $table->boolean('is_moderated')->nullable();
             $table->boolean('is_integrated')->nullable();
             $table->integer('vote')->default('0');
             $table->float('ratio_score')->nullable()->default('0.5');

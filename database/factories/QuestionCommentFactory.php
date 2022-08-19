@@ -20,7 +20,7 @@ class QuestionCommentFactory extends Factory
     {
         $randomSentencesCount = rand(1,5);
         return [
-            'question_id' => Question::inRandomOrder()->first()->id,
+            'question_id' => Question::where('is_moderated', true)->inRandomOrder()->first()->id,
             'user_id' => User::inRandomOrder()->first()->id,
             'comment' => fake()->sentences($randomSentencesCount, true),
             'disapprovals_count' => 0,

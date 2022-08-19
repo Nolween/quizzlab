@@ -24,7 +24,7 @@ class UserFactory extends Factory
         $filename = Str::slug($name);
 
         //? Image Avatar
-        Storage::disk('public')->put('img/profile/' . $filename . '.jpg', file_get_contents('https://loremflickr.com/300/300/all'));
+        Storage::disk('public')->put('img/profile/' . $filename . '.jpg', file_get_contents('https://loremflickr.com/300/300/girl,boy,man,woman'));
 
         // Transformation en avif
         $gdImage = imagecreatefromjpeg(storage_path('app/public/img/profile/' . $filename . '.jpg'));

@@ -49,7 +49,7 @@ class QuestionController extends Controller
 
         // Si pas de recherche
         if (empty($request->search)) {
-            return QuestionIndexResource::collection(Question::orderBy('created_at', 'DESC')->paginate(20));
+            return QuestionIndexResource::collection(Question::where('is_moderated', true)->orderBy('created_at', 'DESC')->paginate(20));
         }
         // Si on a une recherche selon un tag / thème
         else if ($request->searchMod == 0) {
