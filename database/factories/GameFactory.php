@@ -20,6 +20,7 @@ class GameFactory extends Factory
     {
         $questionCount = rand(5, 15);
         $hasBegun = fake()->boolean(90);
+        // Si la partie a commencé
         $isFinished = $hasBegun == 1 ? fake()->boolean(90) : 0;
         if ($isFinished == 1) {
             $questionStep = $questionCount;
@@ -34,6 +35,7 @@ class GameFactory extends Factory
             'max_players' => rand(1, 20),
             'response_time' => rand(10, 20),
             'question_count' => $questionCount,
+            'questions_have_all_tags' => fake()->boolean(50),
             'has_begun' => $hasBegun,
             'is_finished' => $isFinished,
             'game_code' => fake()->unique()->isbn13(),

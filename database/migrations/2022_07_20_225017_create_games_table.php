@@ -28,6 +28,7 @@ return new class extends Migration
             $table->tinyInteger('question_count')->default('20');
             $table->tinyInteger('question_step')->nullable();
             $table->boolean('has_begun');
+            $table->boolean('questions_have_all_tags')->default('0');
             $table->boolean('is_finished');
             $table->string('game_code')->nullable();
             $table->timestamps();

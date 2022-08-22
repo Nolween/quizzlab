@@ -61,4 +61,7 @@ class Question extends Model
     {
         return $this->hasMany(QuestionComment::class)->where('comment_id', null)->orderBy('created_at', 'ASC');
     }
+
+
+
 }
