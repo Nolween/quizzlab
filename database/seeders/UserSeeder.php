@@ -31,24 +31,15 @@ class UserSeeder extends Seeder
             $file->makeDirectory(storage_path('app/public/img/profile'));
         }
 
-
-        //? Image Avatar
-        Storage::disk('public')->put('img/profile/Cashandrick.jpg', file_get_contents('https://loremflickr.com/300/300'));
-        // Transformation en avif
-        $gdImage = imagecreatefromjpeg(storage_path('app/public/img/profile/Cashandrick.jpg'));
-        $resizeBigImg = ImageTransformation::image_resize_small($gdImage, 300, 300);
-        \imageavif($resizeBigImg, storage_path('app/public/img/profile/Cashandrick.avif'));
-
-        imagedestroy($gdImage);
-        imagedestroy($resizeBigImg);
-        // On efface le png original
-        unlink(storage_path('app/public/img/profile/Cashandrick.jpg'));
-
-
-        //? Data
         // Création de l'admin, fixe
-        User::create(['name' => 'Cashandrick', 'avatar' => 'Cashandrick.avif', 'email' => 'nolween.lopez@gmail.com', 'password' => bcrypt('123456'), 'role_id' => 1, 'is_banned' => false, 'email_verified_at' => now()]);
-
+        $adminUser = User::factory()->create([
+            'name' => 'Cashandrick',
+            'avatar' => 'Cashandrick.avif',
+            'email' => 'nolween.lopez@gmail.com',
+            'password' => bcrypt('123456'),
+            'role_id' => 1,
+            'is_banned' => false
+        ]);
         // Utilisateurs random
         User::factory(29)->create();
     }
