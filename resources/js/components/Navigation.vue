@@ -10,7 +10,11 @@
             >
         </div>
         <div class="text-quizzlab-secondary px-1">
-            <a href="" class="cursor-pointer">Jouer</a>
+            <span
+                @click="$router.push({ name: 'games.index' })"
+                class="cursor-pointer"
+                >Jouer</span
+            >
         </div>
         <div class="text-quizzlab-primary px-1">
             <span

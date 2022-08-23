@@ -43,7 +43,7 @@ import router from "@/router";
 import { reactive, onMounted } from "vue";
 // Import des stores
 import { useUserStore } from "@/stores/user";
-// Imports de composables
+// Déclaration de store
 const userStore = useUserStore();
 
 // Focus du premier champ au chargement de la vue

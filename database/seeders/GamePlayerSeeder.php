@@ -20,9 +20,11 @@ class GamePlayerSeeder extends Seeder
         // Parcours de toutes les parties existantes
         $games = Game::all();
         foreach ($games as $game) {
+            // Si la partie est en attente, on met moins de joueurs que le max, si la partie est lancée, le max
+            $playersCount =  $game->has_begun == 0 ? rand(1, $game->max_players) : $game->max_players;
             $finalCore = fake()->randomFloat(2, 20, 50);
-            // Tant qu'on a pas le nombre de joueurs max attein
-            for ($i = 1; $i <= $game->max_players; $i++) {
+            // Tant qu'on a pas le nombre de joueurs défini
+            for ($i = 1; $i <= $playersCount; $i++) {
                 $playerScore = $finalCore - ($i  + fake()->randomFloat(2, 0, 1)) ;
                 $playerScore = $playerScore < 0 ? 0 : $playerScore;
                 // Création d'un joueur dans la partie

@@ -393,7 +393,7 @@ onBeforeMount(() => {
     getAllTags();
     userStore.checkAuth();
     // Si l'utilisateur n'est pas connecté
-    if (!userStore.getIsConnected) {
+    if (!userStore.getIsConnected || userStore.getIsConnected == false) {
         // Redirection vers l'écran de connexion
         router.push({ name: "connexion.create" });
     }
