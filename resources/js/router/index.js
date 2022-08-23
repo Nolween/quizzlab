@@ -6,6 +6,7 @@ import QuestionProposal from '../views/QuestionProposal.vue'
 import Login from '../views/Login.vue'
 import Registration from '../views/Registration.vue'
 import Games from '../views/Games.vue'
+import GameCreation from '../views/GameCreation.vue'
 
 const routes = [
     {
@@ -32,6 +33,11 @@ const routes = [
         path: '/parties',
         name: 'games.index',
         component: Games
+    },
+    {
+        path: '/partie/creation',
+        name: 'games.create',
+        component: GameCreation
     },
     {
         path: '/inscription',

@@ -1,5 +1,5 @@
 <template>
-    <div class="mb-4 bg-white">
+    <div class="mb-10 bg-white">
         <div class="w-full">
             <div class="w-full flex flex-wrap px-10 py-3">
                 <img

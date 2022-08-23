@@ -1,23 +1,25 @@
 <template>
     <div class="pt-24 flex flex-wrap justify-center bg-quizzlab-primary">
-        <div class="w-5/6 lg:w-4/5 space-y-2">
-            <!-- Création de partie + Code de partie -->
-            <button
-                type="button"
-                class="bg-quizzlab-secondary text-white text-3xl font-semibold p-3 w-full md:w-1/2"
-            >
-                Créer
-            </button>
-            <button
-                type="button"
-                class="bg-quizzlab-quinary text-white text-3xl font-semibold p-3 w-full md:w-1/2"
-            >
-                Code de partie
-            </button>
-
+        <div class="w-5/6 lg:w-4/5">
+            <div class="w-full flex space-x-3 mb-6">
+                <!-- Création de partie + Code de partie -->
+                <button
+                    type="button"
+                    class="bg-quizzlab-secondary text-white text-3xl font-semibold p-3 w-full md:w-1/2"
+                    @click="router.push({ name: 'games.create' })"
+                >
+                    Créer
+                </button>
+                <button
+                    type="button"
+                    class="bg-quizzlab-quinary text-white text-3xl font-semibold p-3 w-full md:w-1/2"
+                >
+                    Code de partie
+                </button>
+            </div>
             <!-- Formulaire de recherche de question-->
             <form @submit.prevent="[refreshGames]">
-                <div class="flex flex-wrap w-full mb-1 justify-center">
+                <div class="flex flex-wrap w-full justify-center mb-10">
                     <input
                         name="tag"
                         class="border-2 rounded-sm w-4/5 lg:w-5/6 px-3 placeholder:text-3xl placeholder:text-quizzlab-primary placeholder:text-center pt-4"
@@ -41,7 +43,7 @@
                 </div>
 
                 <!-- Suggestion de Thèmes / Questions -->
-                <div v-if="computedSuggestedTag.length > 0" class="w-full z-50">
+                <div v-if="computedSuggestedTag.length > 0" class="w-full z-50 mb-4">
                     <!-- Composant de proposition de question -->
                     <SuggestedTags
                         @change-search="updateGameSearch($event)"
