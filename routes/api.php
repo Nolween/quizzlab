@@ -32,6 +32,9 @@ Route::controller(QuestionController::class)->group(function() {
 Route::controller(TagController::class)->group(function() {
     Route::get('/tags/search','search')->name('tags.search');
 });
+Route::controller(GameController::class)->group(function() {
+    Route::get('/games/join/{game}','join')->name('game.join');
+});
 
 Route::get('/questions/vote', [QuestionController::class, 'vote']);
 // API Resources (middleware définis au __construct du Controller)

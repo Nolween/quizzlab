@@ -29,8 +29,33 @@ export const useGameStore = defineStore("game", {
                 let response = await axios.get(`/api/games/${gameId}`);
                 // Si on a pas le droit d'aller sur la game car intégrée au quizz
                 if (response.data.data.forbidden) {
-                    this.game = [];
+                    // Notification
+                    const toast = useToast();
+                    toast.error(error.response.data.message);
                 } else {
+                    this.game = response.data.data;
+                }
+            } catch (error) {
+                // Vérification de l'erreur
+                const userStore = useUserStore();
+                userStore.checkError(error);
+            }
+        },
+        // Récupérer les informations de la salle d'attente de jeu
+        async getJoiningGame(gameId) {
+            try {
+                let response = await axios.get(`/api/games/join/${gameId}`);
+                // Si on a pas le droit d'aller sur la game car intégrée au quizz
+                if (response.data.data.forbidden) {
+                    this.game = [];
+                    // Notification
+                    const toast = useToast();
+                    toast.error(error.response.data.message);
+                    // Retour à la liste de jeux
+                    router.push({ name: "games.index" });
+                }
+                // Affichage des infos de la partie
+                else {
                     this.game = response.data.data;
                 }
             } catch (error) {

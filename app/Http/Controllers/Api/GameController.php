@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Games\GameIndexRequest;
+use App\Http\Requests\Games\GameJoinRequest;
 use App\Http\Requests\Games\GameStoreRequest;
 use App\Http\Resources\Games\GameIndexResource;
+use App\Http\Resources\Games\GameJoinResource;
 use App\Http\Resources\Games\GameStoreResource;
 use App\Models\Game;
 use App\Models\GamePlayer;
@@ -113,6 +115,22 @@ class GameController extends Controller
             }
         }
     }
+
+    /**
+     * Informations de la partie dans la salle d'attente
+     *
+     * @param  \App\Http\Requests\Games\GameJoinRequest $request
+     * @param  \App\Models\Game $game
+     * @return \App\Http\Resources\Games\GameJoinResource
+     */
+    public function join(GameJoinRequest $request, Game $game)
+    {
+        $user = Auth::user();
+        
+        // Retour dans le front des informations
+        return new GameJoinResource($game);
+    }
+
 
     /**
      * Store a newly created resource in storage.

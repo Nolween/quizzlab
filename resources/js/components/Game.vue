@@ -43,8 +43,18 @@
                 >
             </div>
         </div>
-        <!-- Sépararation -->
-        <div class="bg-quizzlab-secondary font-semibold text-right h-8"></div>
+        <!-- Rejoindre -->
+        <div
+            class="bg-quizzlab-secondary font-semibold hover:bg-quizzlab-ternary text-white text-center p-2 text-3xl cursor-pointer"
+            @click="
+                $router.push({
+                    name: hasBegun == true ? 'games.join' : 'games.join',
+                    params: { id },
+                })
+            "
+        >
+            REJOINDRE
+        </div>
         <!-- Infos -->
         <div class="flex flex-wrap justify-around py-2 px-3 lg:px-8">
             <div class="flex flex-wrap cursor-pointer">
