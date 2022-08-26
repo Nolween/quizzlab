@@ -55,19 +55,7 @@
                     v-model="form.responseTime"
                 />
             </div>
-            <!-- Code de partie -->
-            <div class="flex justify-center mb-4 space-x-3">
-                <span
-                    class="w-full md:w-1/2 text-center bg-white text-3xl text-quizzlab-primary px-3 py-3 border-2 border-slate-500 mb-3"
-                >
-                    Code de partie</span
-                >
-                <span
-                    class="w-full md:w-1/2 bg-white text-3xl text-quizzlab-primary px-3 py-3 border-2 border-slate-500 mb-3 cursor-pointer"
-                >
-                    BLA</span
-                >
-            </div>
+            <!-- THEME -->
             <div class="flex justify-between">
                 <input
                     name="theme"
@@ -303,7 +291,6 @@ const form = reactive({
     maxPlayers: 1,
     questionCount: 10,
     responseTime: 15,
-    gameCode: null,
     allTags: false,
     selectedThemes: [],
 });
@@ -316,9 +303,7 @@ const completedForm = computed(() => {
         form.questionCount &&
         form.questionCount > 0 &&
         form.responseTime &&
-        form.responseTime > 0 &&
-        form.gameCode &&
-        form.gameCode.length > 0
+        form.responseTime > 0
     );
 });
 

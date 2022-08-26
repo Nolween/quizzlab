@@ -37,6 +37,8 @@ class GameIndexResource extends JsonResource
             'responseTime' => $this->response_time,
             'avatar' => $this->user->avatar,
             'userName' => $this->user->name,
+            'hasBegun' => $this->has_begun,
+            'questionStep' => $this->question_step,
             'questions_have_all_tags' => $this->questions_have_all_tags,
             'tags' => $tagArray,
         ];

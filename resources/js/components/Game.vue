@@ -1,6 +1,14 @@
 <template>
     <div class="mb-10 bg-white">
         <div class="w-full">
+            <div
+                class="w-full text-3xl text-center bg-quizzlab-quinary text-white font-semibold p-1"
+                v-if="hasBegun == true"
+            >
+                Partie en cours ({{
+                    (questionStep || 0) + " / " + questionCount
+                }})
+            </div>
             <div class="w-full flex flex-wrap px-10 py-3">
                 <img
                     :src="
@@ -20,11 +28,18 @@
             <div class="w-full flex flex-wrap px-3 lg:px-8 justify-start">
                 <!-- Thèmes -->
                 <span
+                    v-if="tags.length > 0"
                     v-for="tag in tags"
                     :key="tag.id"
                     class="bg-quizzlab-quaternary text-white font-semibold m-2 p-2 text-2xl cursor-pointer"
                     @click="goToTheme(tag.name)"
                     >{{ tag.name }}</span
+                >
+                <span
+                    v-else
+                    class="bg-quizzlab-quaternary text-white font-semibold m-2 p-2 text-2xl"
+                >
+                    Tous les thèmes</span
                 >
             </div>
         </div>
@@ -97,6 +112,11 @@ const props = defineProps({
     commentsCount: Number,
     userName: String,
     ago: String,
+    hasBegun: Boolean,
+    questionStep: {
+        type: Number,
+        required: false,
+    },
     tags: Array,
 });
 

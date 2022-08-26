@@ -64,6 +64,8 @@
                 :avatar="game.avatar"
                 :commentsCount="game.commentsCount"
                 :userName="game.userName"
+                :hasBegun="game.hasBegun"
+                :questionStep="game.questionStep"
                 :ago="game.ago"
                 :tags="game.tags"
                 @change-search="updateGameSearch($event)"

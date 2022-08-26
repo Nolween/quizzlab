@@ -27,9 +27,9 @@ return new class extends Migration
             $table->tinyInteger('response_time')->default('20');
             $table->tinyInteger('question_count')->default('20');
             $table->tinyInteger('question_step')->nullable();
-            $table->boolean('has_begun');
+            $table->boolean('has_begun')->default('0');
             $table->boolean('questions_have_all_tags')->default('0');
-            $table->boolean('is_finished');
+            $table->boolean('is_finished')->default('0');
             $table->string('game_code')->nullable();
             $table->timestamps();
         });

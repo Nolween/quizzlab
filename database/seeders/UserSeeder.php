@@ -34,7 +34,6 @@ class UserSeeder extends Seeder
         // Création de l'admin, fixe
         $adminUser = User::factory()->create([
             'name' => 'Cashandrick',
-            'avatar' => 'Cashandrick.avif',
             'email' => 'nolween.lopez@gmail.com',
             'password' => bcrypt('123456'),
             'role_id' => 1,
