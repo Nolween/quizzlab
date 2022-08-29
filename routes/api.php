@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\CommentApprovalController;
+use App\Http\Controllers\Api\GameChatController;
 use App\Http\Controllers\Api\GameController;
 use App\Http\Controllers\Api\QuestionCommentController;
 use App\Http\Controllers\Api\QuestionController;
@@ -43,6 +44,7 @@ Route::apiResource('approvals', CommentApprovalController::class);
 Route::apiResource('comments', QuestionCommentController::class);
 Route::apiResource('tags', TagController::class);
 Route::apiResource('games', GameController::class);
+Route::apiResource('gamechats', GameChatController::class);
 
 Route::fallback(function(){
     return response()->json([

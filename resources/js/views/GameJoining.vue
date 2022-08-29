@@ -7,6 +7,7 @@
         <!-- INFOS -->
         <div
             class="text-4xl text-white font-bold text-center w-full mb-4 bg-white flex flex-wrap justify-center py-2"
+            v-if="gameStore.game.game"
         >
             <!-- Nombre de questions -->
             <div class="w-full sm:w-1/2 md:w-1/3 flex justify-center my-3">
@@ -16,7 +17,10 @@
                     type="mdi"
                 ></svg-icon>
                 <span class="text-quizzlab-primary text-2xl font-medium pb-1"
-                    >{{ gameStore.game.game.question_count }} Questions</span
+                    >{{
+                        gameStore.game.game.question_count || null
+                    }}
+                    Questions</span
                 >
             </div>
             <!-- Temps de réponse -->
@@ -71,7 +75,9 @@
             </div>
         </div>
         <!-- Frame de discussion -->
-        <div class="overflow-y-auto h-80 bg-white w-full p-4 flex flex-wrap">
+        <div
+            class="overflow-y-auto h-80 bg-white w-full p-4 flex flex-wrap border-2"
+        >
             <div
                 v-for="(chat, chatKey) in gameStore.game.chat"
                 :key="chatKey"
@@ -98,21 +104,28 @@
                 </div>
             </div>
         </div>
-        <div class="mb-4 w-full flex">
-            <!-- Rédaction commentaire -->
-            <textarea
-                v-model="comment"
-                name="comment"
-                class="w-full border-2"
-                rows="3"
-                id="commentInput"
-            ></textarea>
-            <button class="bg-quizzlab-secondary w-20 pl-6 border-2"><svg-icon
-                    :path="mdiSend"
-                    class="text-white w-7 h-7"
-                    type="mdi"
-                ></svg-icon></button>
-        </div>
+        <form class="space-y-6 w-full" @submit.prevent="sendMessage">
+            <input type="hidden" v-model="form.gameId" />
+            <div class="mb-4 w-full flex">
+                <!-- Rédaction commentaire -->
+                <textarea
+                    v-model="form.message"
+                    name="message"
+                    class="w-full border-2"
+                    rows="3"
+                    id="messageInput"
+                ></textarea>
+                <button type="button" class="bg-quizzlab-secondary w-20 pl-6 border-2">
+                    
+                    <svg-icon
+                        :path="mdiSend"
+                        class="text-white w-7 h-7"
+                        type="mdi"
+                        @click="sendMessage()"
+                    ></svg-icon>
+                </button>
+            </div>
+        </form>
         <!-- Thèmes associés -->
         <div class="text-4xl text-white font-bold text-center w-full mb-4">
             THEMES
@@ -143,21 +156,43 @@ import router from "@/router";
 import { useRoute } from "vue-router";
 // Icones
 import SvgIcon from "@jamescoyle/vue-icon";
-import { mdiMessageQuestion, mdiAccountGroup, mdiTimerOutline, mdiSend  } from "@mdi/js";
+import {
+    mdiMessageQuestion,
+    mdiAccountGroup,
+    mdiTimerOutline,
+    mdiSend,
+} from "@mdi/js";
 
 // Imports de stores;
 import { useGameStore } from "@/stores/game";
 import { useUserStore } from "@/stores/user";
+
+// Imports de composables
+import { useGameChats } from "@/composables/gamechats.js";
 
 const route = useRoute();
 // Déclararation de stores
 const gameStore = useGameStore();
 const userStore = useUserStore();
 
-const comment = ref(null);
+// Déclaration de composables
+const { sendGameChat } = useGameChats();
+
+const form = reactive({
+    message: null,
+    gameId: null,
+});
 // Focus du premier champ au chargement de la vue
 const vFocus = {
     mounted: (el) => el.focus(),
+};
+
+// Fonction d'envoi de message
+const sendMessage = async () => {
+    // Si le message n'est pas vide
+    if (form.message !== null && form.message.trim().length > 0) {
+        await sendGameChat({ ...form });
+    }
 };
 
 onBeforeMount(() => {
@@ -168,6 +203,7 @@ onBeforeMount(() => {
         router.push({ name: "connexion.create" });
     } else {
         gameStore.getJoiningGame(route.params.id);
+        form.gameId = route.params.id;
     }
 });
 
