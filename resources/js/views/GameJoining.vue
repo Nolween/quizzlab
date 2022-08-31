@@ -50,9 +50,14 @@
         <!-- JOUEURS -->
         <div class="w-full flex flex-wrap space-x-4 justify-evenly">
             <div
-                class="bg-quizzlab-secondary p-2 text-white text-2xl font-semibold mb-3 flex"
+                class="p-2 text-white text-2xl font-semibold mb-3 flex"
                 v-for="(player, playerKey) in gameStore.game.players"
                 :key="playerKey"
+                :class="
+                    player.is_ready == true
+                        ? 'bg-quizzlab-secondary'
+                        : 'bg-quizzlab-quaternary'
+                "
             >
                 <img
                     :src="
@@ -62,21 +67,12 @@
                     class="w-10 h-10 object-cover rounded-md"
                     alt=""
                 />
-                <span
-                    class="my-auto ml-2"
-                    :class="
-                        player.is_ready == true
-                            ? 'bg-quizzlab-secondary'
-                            : 'bg-quizzlab-quaternary'
-                    "
-                >
-                    {{ player.user.name }}</span
-                >
+                <span class="my-auto ml-2"> {{ player.user.name }}</span>
             </div>
         </div>
         <!-- Frame de discussion -->
         <div
-            class="overflow-y-auto h-80 bg-white w-full p-4 flex flex-wrap border-2"
+            class="overflow-y-auto h-80 bg-white w-full p-4 flex flex-wrap border-2" id="chat-frame"
         >
             <div
                 v-for="(chat, chatKey) in gameStore.game.chat"
@@ -115,8 +111,10 @@
                     rows="3"
                     id="messageInput"
                 ></textarea>
-                <button type="button" class="bg-quizzlab-secondary w-20 pl-6 border-2">
-                    
+                <button
+                    type="button"
+                    class="bg-quizzlab-secondary w-20 pl-6 border-2"
+                >
                     <svg-icon
                         :path="mdiSend"
                         class="text-white w-7 h-7"
@@ -154,6 +152,7 @@
 import { ref, reactive, computed, onBeforeMount, onMounted } from "vue";
 import router from "@/router";
 import { useRoute } from "vue-router";
+import Echo from "laravel-echo";
 // Icones
 import SvgIcon from "@jamescoyle/vue-icon";
 import {
@@ -192,6 +191,8 @@ const sendMessage = async () => {
     // Si le message n'est pas vide
     if (form.message !== null && form.message.trim().length > 0) {
         await sendGameChat({ ...form });
+        // On vide l'input après l'envoi
+        form.message = null;
     }
 };
 
@@ -208,5 +209,17 @@ onBeforeMount(() => {
 });
 
 // Lorsque le composant est monté, on va chercher via l'API les ressources
-onMounted(() => {});
+onMounted(() => {
+    // On écoute le channel chat + l'id de la partie, et dés qu'un évènement nommé message.sent (défini avec la fonction broadcastAs() dans l'event)
+    window.Echo.private("chats." + route.params.id).listen(
+        ".message.sent",
+        (e) => {
+            // On ajoute la discussion dans le chat le message
+            gameStore.addMessage(e);
+            // On défile en bas de la fenêtre
+            let objDiv = document.getElementById("chat-frame");
+            objDiv.scrollTop = objDiv.scrollHeight;
+        }
+    );
+});
 </script>

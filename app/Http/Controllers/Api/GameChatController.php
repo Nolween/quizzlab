@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\GameChat\MessageSentEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\GameChats\GameChatStoreRequest;
 use App\Http\Resources\GameChats\GameChatStoreResource;
@@ -34,6 +35,8 @@ class GameChatController extends Controller
      
         // Création du message pour la partie
         $newGameChat = GameChat::create(['user_id' => $userId, 'game_id' => $request->gameId, 'text' => $request ->message]);
+
+        event(new MessageSentEvent($newGameChat));
 
         return new GameChatStoreResource($newGameChat);
     }

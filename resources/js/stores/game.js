@@ -10,6 +10,12 @@ export const useGameStore = defineStore("game", {
         resetGame() {
             this.game = [];
         },
+        // Ajout d'un message dans le chat
+        addMessage(data) {
+            if(this.game.chat) {
+                this.game.chat.push(data)
+            }
+        },
         // Récupérer les parties dans le back
         async getGames(search = null) {
             try {

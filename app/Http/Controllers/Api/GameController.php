@@ -126,7 +126,29 @@ class GameController extends Controller
     public function join(GameJoinRequest $request, Game $game)
     {
         $user = Auth::user();
-        
+
+        $inGame = GamePlayer::where('game_id', $game->id)->where('user_id', $user->id)->first();
+        // Si le joueur n'est pas déjà dans la partie
+        if (empty($inGame)) {
+
+            // Récupération du nombre de joueurs actuellement dans la partie
+            $playersCount = GamePlayer::where('game_id', $game->id)->count();
+;
+            //? Ajout de l'utilisateur dans la partie
+            // Avant d'entrer, reste t-il encore de la place dans la partie?
+            if ($playersCount >= $game->max_players) {
+                return response()->json(['success' => false, 'message' => "La partie est déjà remplie"], 500);
+            }
+
+            // Si la partie n'est pas remplie, on ajoute le joueur dans la partie
+            GamePlayer::create([
+                'game_id' => $game->id,
+                'user_id' => $user->id,
+                'is_ready' => 0
+            ]);
+        }
+
+
         // Retour dans le front des informations
         return new GameJoinResource($game);
     }

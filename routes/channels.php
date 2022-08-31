@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\GamePlayer;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -15,4 +16,10 @@ use Illuminate\Support\Facades\Broadcast;
 
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
+});
+// Diffusion des messages dans le channel
+Broadcast::channel('chats.{gameId}', function ($user, $gameId) {
+    // Il faut que l'utilisateur soit dans la partie pour recevoir les infos
+    $gamePlayer = GamePlayer::where('game_id', $gameId)->where('user_id', $user->id)->first();
+    return !empty($gamePlayer) && $user->id === $gamePlayer->user_id;
 });
