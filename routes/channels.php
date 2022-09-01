@@ -29,3 +29,9 @@ Broadcast::channel('game-ready.{gameId}', function ($user, $gameId) {
     $gamePlayer = GamePlayer::where('game_id', $gameId)->where('user_id', $user->id)->first();
     return !empty($gamePlayer) && $user->id === $gamePlayer->user_id;
 });
+// Départ d'un joueur de la partie
+Broadcast::channel('game-leave.{gameId}', function ($user, $gameId) {
+    // Il faut que l'utilisateur soit dans la partie pour recevoir les infos
+    $gamePlayer = GamePlayer::where('game_id', $gameId)->where('user_id', $user->id)->first();
+    return !empty($gamePlayer) && $user->id === $gamePlayer->user_id;
+});

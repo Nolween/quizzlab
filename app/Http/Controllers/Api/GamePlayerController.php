@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\GamePlayer\LeavingPlayerEvent;
 use App\Events\GamePlayer\UpdatedStatusEvent;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\GamePlayers\GamePlayerDestroyRequest;
+use App\Models\Game;
 use App\Models\GamePlayer;
 use Illuminate\Http\Request;
 
@@ -60,7 +63,7 @@ class GamePlayerController extends Controller
      * @param  \App\Models\GamePlayer  $gamePlayer
      * @return \Illuminate\Http\Response
      */
-    public function ready(Request $request)
+    public function ready(GamePlayerReadyRequest $request)
     {
         // Récupération des infos du joueur dans la partie
         $gamePlayer = GamePlayer::where('game_id', $request->gameId)->where('user_id', $request->userId)->firstOrFail();
@@ -78,11 +81,23 @@ class GamePlayerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\GamePlayer  $gamePlayer
+     * @param  \App\Http\Requests\GamePlayers\GamePlayerDestroyRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy(GamePlayer $gamePlayer)
+    public function destroy(GamePlayerDestroyRequest $request)
     {
-        //
+        $gamePlayer = GamePlayer::findOrFail($request->gamePlayerId);
+        // dump($gamePlayer);
+        // Récupération des données de la partie
+        $game = Game::findOrFail($gamePlayer->game_id);
+        // Si la partie n'a pas encore commencé
+        if($game->has_begun == false) {
+            // Evénement websocket pour mettre à jour la liste des joueurs présents dans la partie
+            event(new LeavingPlayerEvent($gamePlayer));
+            // On vire le joueur de la partie
+            $gamePlayer->delete();
+            return response()->json(['success' => true], 200);
+        }
+
     }
 }

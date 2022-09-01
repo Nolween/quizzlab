@@ -49,6 +49,7 @@ Route::apiResource('comments', QuestionCommentController::class);
 Route::apiResource('tags', TagController::class);
 Route::apiResource('games', GameController::class);
 Route::apiResource('gamechats', GameChatController::class);
+Route::apiResource('gameplayers', GamePlayerController::class);
 
 Route::fallback(function(){
     return response()->json([

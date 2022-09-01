@@ -16,7 +16,7 @@ export const useUserStore = defineStore("user", {
         // L'utilisateur est-il connecté?
         checkError(error) {
             // Si l'utilisateur n'est pas autorisé
-            if (error.response.status === 401 || error.response.status === 403) {
+            if (error.response?.status === 401 || error.response?.status === 403) {
                 this.setIsConnected(false);
                 // On vire la variable locale
                 localStorage.removeItem('auth')

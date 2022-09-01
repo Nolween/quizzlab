@@ -152,7 +152,14 @@
     </div>
 </template>
 <script setup>
-import { ref, reactive, computed, onBeforeMount, onMounted } from "vue";
+import {
+    ref,
+    reactive,
+    computed,
+    onBeforeMount,
+    onMounted,
+    onUnmounted,
+} from "vue";
 import router from "@/router";
 import { useRoute } from "vue-router";
 import Echo from "laravel-echo";
@@ -190,7 +197,7 @@ const vFocus = {
     mounted: (el) => el.focus(),
 };
 
-// Fonction d'envoi de message
+// Envoi de message
 const sendMessage = async () => {
     // Si le message n'est pas vide
     if (form.message !== null && form.message.trim().length > 0) {
@@ -200,12 +207,18 @@ const sendMessage = async () => {
     }
 };
 
-// Fonction de mise à jour du statut pour la partie
+// Mise à jour du statut pour la partie
 const modifyStatus = async () => {
     // Désactivation du bouton le temps du process
     busyReady.value = true;
     await gameStore.updateStatus();
     busyReady.value = false;
+};
+
+// Mise à jour des joueurs de la partie si départ
+const removeGamePlayers = async () => {
+    debugger;
+    await gameStore.deleteGamePlayers();
 };
 
 onBeforeMount(() => {
@@ -241,5 +254,19 @@ onMounted(() => {
             gameStore.updatePlayerStatus(e);
         }
     );
+    //? Partie départ de partie
+    // On écoute le channel game-leave + l'id de la partie, et dés qu'un évènement nommé game-leave (défini avec la fonction broadcastAs() dans l'event)
+    window.Echo.private("game-leave." + route.params.id).listen(
+        ".game.leave",
+        (e) => {
+            // On modifie le statut du joueur concerné
+            gameStore.deleteGamePlayer(e);
+        }
+    );
+});
+
+// Lorsque l'utilisateur quitte la page
+onUnmounted(() => {
+    gameStore.deleteGamePlayers();
 });
 </script>
