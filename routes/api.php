@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\CommentApprovalController;
 use App\Http\Controllers\Api\GameChatController;
 use App\Http\Controllers\Api\GameController;
+use App\Http\Controllers\Api\GamePlayerController;
 use App\Http\Controllers\Api\QuestionCommentController;
 use App\Http\Controllers\Api\QuestionController;
 use App\Http\Controllers\Api\TagController;
@@ -35,6 +36,9 @@ Route::controller(TagController::class)->group(function() {
 });
 Route::controller(GameController::class)->group(function() {
     Route::get('/games/join/{game}','join')->name('game.join');
+});
+Route::controller(GamePlayerController::class)->group(function() {
+    Route::patch('/games/ready','ready')->name('game.ready');
 });
 
 Route::get('/questions/vote', [QuestionController::class, 'vote']);

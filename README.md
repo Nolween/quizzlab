@@ -26,7 +26,7 @@
 
 5. Une fois cela réglé et le serveur lancé via la commande `elasticsearch`, pour se connecter à la BDD >> username: elastic - password: le mot de passe donné au premier lancement
 
-## Back
+## Back PHP
 
 -   Installation des librairies PHP (Laravel,...)
 -   `composer install`
@@ -56,10 +56,14 @@
 -   Lancement du serveur php
     -   `php artisan serve`
 
+-   Lancement du serveur websocket
+    -   `php artisan websockets:serve`
+
 -   Lancement du compilateur JS Vite
     -   `npm run dev`
 
 -   Accès au projet: http://127.0.0.1:8000/
 -   Accès à Telescope pour le profiler du back: http://127.0.0.1:8000/telescope/requests
+-   Accès au serveur et voir les appels: http://127.0.0.1:8000/laravel-websockets
 
 # Environnement de production

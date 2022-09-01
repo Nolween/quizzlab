@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import axios from "axios";
 import router from "@/router";
 import { useUserStore } from "@/stores/user";
+import { useToast } from "vue-toastification";
 
 export const useGameStore = defineStore("game", {
     state: () => ({ games: [], game: [] }),
@@ -12,9 +13,20 @@ export const useGameStore = defineStore("game", {
         },
         // Ajout d'un message dans le chat
         addMessage(data) {
-            if(this.game.chat) {
-                this.game.chat.push(data)
+            if (this.game.chat) {
+                this.game.chat.push(data);
             }
+        },
+        // Modifier le statut d'un joueur via websocket
+        updatePlayerStatus(data) {
+            // Quel est l'index du joueur par rapport à son ID joueur/partie?
+            let playerIndex = this.game.players
+                .map(function (e) {
+                    return e.id;
+                })
+                .indexOf(data.id);
+            // On remplace le contenu actuel du joueur avec le statut modifié
+            this.game.players[playerIndex] = data;
         },
         // Récupérer les parties dans le back
         async getGames(search = null) {
@@ -42,6 +54,12 @@ export const useGameStore = defineStore("game", {
                     this.game = response.data.data;
                 }
             } catch (error) {
+                // Si on a la raison de l'erreur
+                if (error.response.data.success == false) {
+                    // Notification
+                    const toast = useToast();
+                    toast.error(error.response.data.message);
+                }
                 // Vérification de l'erreur
                 const userStore = useUserStore();
                 userStore.checkError(error);
@@ -65,11 +83,37 @@ export const useGameStore = defineStore("game", {
                     this.game = response.data.data;
                 }
             } catch (error) {
+                // Si on a la raison de l'erreur
+                if (error.response.data.success == false) {
+                    // Notification
+                    const toast = useToast();
+                    toast.error(error.response.data.message);
+                }
+                // Vérification de l'erreur
+                const userStore = useUserStore();
+                userStore.checkError(error);
+            }
+        },
+        // Modifier le statut PRET de la partie
+        async updateStatus() {
+            try {
+                let response = await axios.patch(`/api/games/ready`, {
+                    userId: this.game.userId,
+                    gameId: this.game.game.id,
+                });
+                if (response.data.data) {
+                }
+            } catch (error) {
+                // Si on a la raison de l'erreur
+                if (error.response.data.success == false) {
+                    // Notification
+                    const toast = useToast();
+                    toast.error(error.response.data.message);
+                }
                 // Vérification de l'erreur
                 const userStore = useUserStore();
                 userStore.checkError(error);
             }
         },
     },
-    
 });

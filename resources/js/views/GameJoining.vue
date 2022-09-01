@@ -72,7 +72,8 @@
         </div>
         <!-- Frame de discussion -->
         <div
-            class="overflow-y-auto h-80 bg-white w-full p-4 flex flex-wrap border-2" id="chat-frame"
+            class="overflow-y-auto h-80 bg-white w-full p-4 flex flex-wrap border-2"
+            id="chat-frame"
         >
             <div
                 v-for="(chat, chatKey) in gameStore.game.chat"
@@ -100,7 +101,7 @@
                 </div>
             </div>
         </div>
-        <form class="space-y-6 w-full" @submit.prevent="sendMessage">
+        <form class="space-y-6 w-full mb-6" @submit.prevent="sendMessage">
             <input type="hidden" v-model="form.gameId" />
             <div class="mb-4 w-full flex">
                 <!-- Rédaction commentaire -->
@@ -128,7 +129,7 @@
         <div class="text-4xl text-white font-bold text-center w-full mb-4">
             THEMES
         </div>
-        <div class="w-full flex flex-wrap space-x-4 justify-evenly">
+        <div class="w-full flex flex-wrap space-x-4 justify-evenly mb-6">
             <span
                 v-for="(tag, tagKey) in gameStore.game.tags"
                 :key="tagKey"
@@ -142,6 +143,8 @@
             <button
                 type="button"
                 class="bg-quizzlab-secondary text-white font-semibold text-4xl p-4"
+                :disabled="busyReady == true"
+                @click="modifyStatus()"
             >
                 PRET
             </button>
@@ -181,6 +184,7 @@ const form = reactive({
     message: null,
     gameId: null,
 });
+const busyReady = ref(false);
 // Focus du premier champ au chargement de la vue
 const vFocus = {
     mounted: (el) => el.focus(),
@@ -194,6 +198,14 @@ const sendMessage = async () => {
         // On vide l'input après l'envoi
         form.message = null;
     }
+};
+
+// Fonction de mise à jour du statut pour la partie
+const modifyStatus = async () => {
+    // Désactivation du bouton le temps du process
+    busyReady.value = true;
+    await gameStore.updateStatus();
+    busyReady.value = false;
 };
 
 onBeforeMount(() => {
@@ -210,15 +222,23 @@ onBeforeMount(() => {
 
 // Lorsque le composant est monté, on va chercher via l'API les ressources
 onMounted(() => {
+    //? Partie Discussion
     // On écoute le channel chat + l'id de la partie, et dés qu'un évènement nommé message.sent (défini avec la fonction broadcastAs() dans l'event)
     window.Echo.private("chats." + route.params.id).listen(
         ".message.sent",
         (e) => {
             // On ajoute la discussion dans le chat le message
             gameStore.addMessage(e);
-            // On défile en bas de la fenêtre
-            let objDiv = document.getElementById("chat-frame");
-            objDiv.scrollTop = objDiv.scrollHeight;
+        }
+    );
+
+    //? Partie Statut de partie
+    // On écoute le channel game-ready + l'id de la partie, et dés qu'un évènement nommé game-ready (défini avec la fonction broadcastAs() dans l'event)
+    window.Echo.private("game-ready." + route.params.id).listen(
+        ".game.ready",
+        (e) => {
+            // On modifie le statut du joueur concerné
+            gameStore.updatePlayerStatus(e);
         }
     );
 });
