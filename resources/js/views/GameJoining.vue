@@ -259,8 +259,17 @@ onMounted(() => {
     window.Echo.private("game-leave." + route.params.id).listen(
         ".game.leave",
         (e) => {
-            // On modifie le statut du joueur concerné
+            // On supprime le joueur concerné
             gameStore.deleteGamePlayer(e);
+        }
+    );
+    //? Partie arrivée dans la partie
+    // On écoute le channel game-join + l'id de la partie, et dés qu'un évènement nommé game-leave (défini avec la fonction broadcastAs() dans l'event)
+    window.Echo.private("game-join." + route.params.id).listen(
+        ".game.join",
+        (e) => {
+            // On ajoute le joueur concerné
+            gameStore.insertGamePlayer(e);
         }
     );
 });

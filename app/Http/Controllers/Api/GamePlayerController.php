@@ -6,6 +6,7 @@ use App\Events\GamePlayer\LeavingPlayerEvent;
 use App\Events\GamePlayer\UpdatedStatusEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\GamePlayers\GamePlayerDestroyRequest;
+use App\Http\Requests\GamePlayers\GamePlayerReadyRequest;
 use App\Models\Game;
 use App\Models\GamePlayer;
 use Illuminate\Http\Request;

@@ -39,6 +39,21 @@ export const useGameStore = defineStore("game", {
             // On vire le joueur du tableau de joueurs
             this.game.players.splice(playerIndex, 1);
         },
+        // Ajout d'un joueur dans la partie via websocket
+        insertGamePlayer(data) {
+            //? On regarde si le joueur n'est pas déjà présent
+            // Quel est l'index du joueur par rapport à son ID joueur/partie?
+            let playerIndex = this.game.players
+                .map(function (e) {
+                    return e.id;
+                })
+                .indexOf(data.id);
+                // debugger
+            if (playerIndex == -1) {
+                // On ajoute le joueur dans le tableau
+                this.game.players.push(data);
+            }
+        },
         // Récupérer les parties dans le back
         async getGames(search = null) {
             try {
@@ -80,20 +95,12 @@ export const useGameStore = defineStore("game", {
         async getJoiningGame(gameId) {
             try {
                 let response = await axios.get(`/api/games/join/${gameId}`);
-                // Si on a pas le droit d'aller sur la game car intégrée au quizz
-                if (response.data.data.forbidden) {
-                    this.game = [];
-                    // Notification
-                    const toast = useToast();
-                    toast.error(error.response.data.message);
-                    // Retour à la liste de jeux
-                    router.push({ name: "games.index" });
-                }
-                // Affichage des infos de la partie
-                else {
+                // Si on a des données
+                if (response.data.data) {
                     this.game = response.data.data;
                 }
             } catch (error) {
+                debugger;
                 // Si on a la raison de l'erreur
                 if (error.response.data.success == false) {
                     // Notification
