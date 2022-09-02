@@ -99,12 +99,13 @@ export const useGameStore = defineStore("game", {
                     this.game = response.data.data;
                 }
             } catch (error) {
-                debugger;
                 // Si on a la raison de l'erreur
                 if (error.response.data.success == false) {
                     // Notification
                     const toast = useToast();
                     toast.error(error.response.data.message);
+                    // Redirection vers la page des parties
+                    router.push({ name: "games.index" });
                 }
                 // Vérification de l'erreur
                 const userStore = useUserStore();

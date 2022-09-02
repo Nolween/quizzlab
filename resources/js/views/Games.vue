@@ -43,7 +43,10 @@
                 </div>
 
                 <!-- Suggestion de Thèmes / Questions -->
-                <div v-if="computedSuggestedTag.length > 0" class="w-full z-50 mb-4">
+                <div
+                    v-if="computedSuggestedTag.length > 0"
+                    class="w-full z-50 mb-4"
+                >
                     <!-- Composant de proposition de question -->
                     <SuggestedTags
                         @change-search="updateGameSearch($event)"
@@ -71,6 +74,20 @@
                 @change-search="updateGameSearch($event)"
             ></Game>
         </div>
+        <!-- Bouton de rafraichissement des partiies -->
+        <button
+            class="bg-quizzlab-ternary w-14 h-14"
+            id="refresh-button"
+            title="Rafraichir les parties"
+            @click="gameStore.getGames()"
+        >
+            <svg-icon
+                @click=""
+                class="text-white my-auto mx-auto"
+                :path="mdiRefresh"
+                type="mdi"
+            ></svg-icon>
+        </button>
     </div>
 </template>
 <script setup>
@@ -81,7 +98,7 @@ import SuggestedTags from "../components/SuggestedTags.vue";
 import Game from "../components/Game.vue";
 // Icones
 import SvgIcon from "@jamescoyle/vue-icon";
-import { mdiMagnify } from "@mdi/js";
+import { mdiMagnify, mdiRefresh } from "@mdi/js";
 
 // Imports de stores;
 import { useGameStore } from "@/stores/game";
@@ -148,3 +165,10 @@ onMounted(() => {
     gameStore.getGames();
 });
 </script>
+<style scoped>
+#refresh-button {
+    position: fixed;
+    right: 40px;
+    bottom: 40px;
+}
+</style>
