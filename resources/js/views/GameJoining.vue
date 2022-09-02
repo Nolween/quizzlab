@@ -237,41 +237,26 @@ onBeforeMount(() => {
 onMounted(() => {
     //? Partie Discussion
     // On écoute le channel chat + l'id de la partie, et dés qu'un évènement nommé message.sent (défini avec la fonction broadcastAs() dans l'event)
-    window.Echo.private("chats." + route.params.id).listen(
-        ".message.sent",
-        (e) => {
+    window.Echo.private("game." + route.params.id)
+        .listen(".message.sent", (e) => {
             // On ajoute la discussion dans le chat le message
             gameStore.addMessage(e);
-        }
-    );
-
-    //? Partie Statut de partie
-    // On écoute le channel game-ready + l'id de la partie, et dés qu'un évènement nommé game-ready (défini avec la fonction broadcastAs() dans l'event)
-    window.Echo.private("game-ready." + route.params.id).listen(
-        ".game.ready",
-        (e) => {
+        })
+        // Statut de partie
+        .listen(".game.ready", (e) => {
             // On modifie le statut du joueur concerné
             gameStore.updatePlayerStatus(e);
-        }
-    );
-    //? Partie départ de partie
-    // On écoute le channel game-leave + l'id de la partie, et dés qu'un évènement nommé game-leave (défini avec la fonction broadcastAs() dans l'event)
-    window.Echo.private("game-leave." + route.params.id).listen(
-        ".game.leave",
-        (e) => {
-            // On supprime le joueur concerné
-            gameStore.deleteGamePlayer(e);
-        }
-    );
-    //? Partie arrivée dans la partie
-    // On écoute le channel game-join + l'id de la partie, et dés qu'un évènement nommé game-leave (défini avec la fonction broadcastAs() dans l'event)
-    window.Echo.private("game-join." + route.params.id).listen(
-        ".game.join",
-        (e) => {
+        })
+        // Ajout de joueur
+        .listen(".game.join", (e) => {
             // On ajoute le joueur concerné
             gameStore.insertGamePlayer(e);
-        }
-    );
+        })
+        // Suppression de joueur
+        .listen(".game.leave", (e) => {
+            // On supprime le joueur concerné
+            gameStore.deleteGamePlayer(e);
+        });
 });
 
 // Lorsque l'utilisateur quitte la page

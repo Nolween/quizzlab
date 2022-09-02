@@ -71,10 +71,10 @@ class LeavingPlayerEvent implements ShouldBroadcast
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return \Illuminate\Broadcasting\Channel|array
+     * @return \Illuminate\Broadcasting\PrivateChannel|array
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('game-leave.' . $this->gamePlayer->game_id);
+        return new PrivateChannel('game.' . $this->gamePlayer->game_id);
     }
 }

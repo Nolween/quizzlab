@@ -48,7 +48,6 @@ export const useGameStore = defineStore("game", {
                     return e.id;
                 })
                 .indexOf(data.id);
-                // debugger
             if (playerIndex == -1) {
                 // On ajoute le joueur dans le tableau
                 this.game.players.push(data);
@@ -132,9 +131,6 @@ export const useGameStore = defineStore("game", {
                 const userStore = useUserStore();
                 userStore.checkError(error);
             }
-        },
-        test() {
-            console.log("AAAAAAAAAAAA");
         },
         // Suppression de joueur dans la partie si départ
         async deleteGamePlayers() {

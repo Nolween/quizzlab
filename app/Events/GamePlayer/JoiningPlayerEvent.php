@@ -72,6 +72,6 @@ class JoiningPlayerEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('game-join.' . $this->gamePlayer->game_id);
+        return new PrivateChannel('game.' . $this->gamePlayer->game_id);
     }
 }

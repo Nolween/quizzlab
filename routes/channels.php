@@ -17,28 +17,9 @@ use Illuminate\Support\Facades\Broadcast;
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
-// Diffusion des messages dans le channel
-Broadcast::channel('chats.{gameId}', function ($user, $gameId) {
-    // Il faut que l'utilisateur soit dans la partie pour recevoir les infos
-    $gamePlayer = GamePlayer::where('game_id', $gameId)->where('user_id', $user->id)->first();
-    return !empty($gamePlayer) && $user->id === $gamePlayer->user_id;
-});
 // Modification du statut d'un joueur sur une partie
-Broadcast::channel('game-ready.{gameId}', function ($user, $gameId) {
-    // Il faut que l'utilisateur soit dans la partie pour recevoir les infos
-    $gamePlayer = GamePlayer::where('game_id', $gameId)->where('user_id', $user->id)->first();
-    return !empty($gamePlayer) && $user->id === $gamePlayer->user_id;
-});
-// Départ d'un joueur de la partie
-Broadcast::channel('game-leave.{gameId}', function ($user, $gameId) {
-    // Il faut que l'utilisateur soit dans la partie pour recevoir les infos
-    $gamePlayer = GamePlayer::where('game_id', $gameId)->where('user_id', $user->id)->first();
-    return !empty($gamePlayer) && $user->id === $gamePlayer->user_id;
-});
-
-// Arrivée d'un joueur de la partie
-Broadcast::channel('game-join.{gameId}', function ($user, $gameId) {
-    // Il faut que l'utilisateur soit dans la partie pour recevoir les infos
+Broadcast::channel('game.{gameId}', function ($user, $gameId) {
+    // Il faut que l'utilisateur soit dans la partie pour accéder au channel
     $gamePlayer = GamePlayer::where('game_id', $gameId)->where('user_id', $user->id)->first();
     return !empty($gamePlayer) && $user->id === $gamePlayer->user_id;
 });

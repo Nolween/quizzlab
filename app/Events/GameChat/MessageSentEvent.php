@@ -75,6 +75,6 @@ class MessageSentEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('chats.' . $this->gameChat->game_id);
+        return new PrivateChannel('game.' . $this->gameChat->game_id);
     }
 }
