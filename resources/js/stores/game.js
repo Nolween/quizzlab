@@ -115,7 +115,7 @@ export const useGameStore = defineStore("game", {
         // Modifier le statut PRET de la partie
         async updateStatus() {
             try {
-                let response = await axios.patch(`/api/games/ready`, {
+                let response = await axios.patch(`/api/gameplayers/ready`, {
                     userId: this.game.userId,
                     gameId: this.game.game.id,
                 });
@@ -131,6 +131,29 @@ export const useGameStore = defineStore("game", {
                 // Vérification de l'erreur
                 const userStore = useUserStore();
                 userStore.checkError(error);
+            }
+        },
+        // Modifier le statut début de partie
+        async updateGameBgin() {
+            try {
+                let response = await axios.patch(`/api/games/begin`, {
+                    userId: this.game.userId,
+                    gameId: this.game.game.id,
+                });
+                // if (response.data?.data.success) {
+                //     return true;
+                // }
+            } catch (error) {
+                // Si on a la raison de l'erreur
+                if (error.response?.data.success == false) {
+                    // Notification
+                    const toast = useToast();
+                    toast.error(error.response.data.message);
+                }
+                // Vérification de l'erreur
+                const userStore = useUserStore();
+                userStore.checkError(error);
+                return false;
             }
         },
         // Suppression de joueur dans la partie si départ

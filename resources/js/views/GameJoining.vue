@@ -139,7 +139,9 @@
             >
         </div>
         <!-- BOUTON PRET -->
-        <div class="text-4xl text-white font-bold text-center w-full mb-4">
+        <div
+            class="text-4xl text-white font-bold text-center w-full mb-4 space-x-4"
+        >
             <button
                 type="button"
                 class="bg-quizzlab-secondary text-white font-semibold text-4xl p-4"
@@ -148,6 +150,42 @@
             >
                 PRET
             </button>
+            <!-- Si l'utilisateur est le créateur de la partie -->
+            <button
+                v-if="
+                    gameStore.game.game &&
+                    gameStore.game?.userId == gameStore.game?.game.user_id
+                "
+                type="button"
+                class="bg-quizzlab-ternary text-white font-semibold text-4xl p-4"
+                @click="beginGame()"
+            >
+                LANCER
+            </button>
+        </div>
+        <!-- OVERLAY DE COMPTE A REBOURS -->
+
+        <div
+            v-if="countdownOverlay"
+            class="h-screen bg-black bg-opacity-50 rounded-sm fixed inset-0 z-50 flex justify-center items-center"
+        >
+            <div class="w-4/5">
+                <div
+                    class="text-quizzlab-primary text-3xl lg:text-5xl bg-white text-center pt-3 px-2"
+                >
+                    Préparez-vous pour le quizz!
+                </div>
+                <div
+                    class="flex justify-center bg-white p-3 h-80 text-center space-x-3"
+                >
+                    <div class="shapes-4 my-auto"></div>
+                    <span
+                        class="text-7xl md:text-9xl font-semibold text-quizzlab-ternary my-auto"
+                        >{{ countdown }}</span
+                    >
+                    <div class="shapes-4 my-auto"></div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -156,6 +194,7 @@ import {
     ref,
     reactive,
     computed,
+    watch,
     onBeforeMount,
     onMounted,
     onUnmounted,
@@ -192,9 +231,56 @@ const form = reactive({
     gameId: null,
 });
 const busyReady = ref(false);
+// Overlay du compte à rebours
+const countdownOverlay = ref(false);
+const countdown = ref(10);
 // Focus du premier champ au chargement de la vue
 const vFocus = {
     mounted: (el) => el.focus(),
+};
+
+// On surveille le compteur
+watch(
+    () => countdown.value,
+    (count) => {
+        if (count <= 0) {
+            // On dirige vers la partie
+        }
+    }
+);
+
+// On surveille si la partie a commencé
+watch( gameStore,
+    (newVal, oldVal)  => {
+        if (newVal.game.game?.has_begun && newVal.game.game.has_begun == true) {
+            // On lance le compteur
+            launchCountdown();
+        }
+    }
+);
+
+// Activation dans le back du début de partie
+const beginGame = async () => {
+    await gameStore.updateGameBgin();
+};
+
+// Lancement du compte à rebours
+const launchCountdown = () => {
+    // Affichage de l'overlay
+    countdownOverlay.value = true;
+    // Création d'un timer qui change chaque seconde
+    let timer = setInterval(function () {
+        // Si on arrive à 0
+        if (countdown.value <= 0) {
+            // On arrête le timer
+            clearInterval(timer);
+            // On se dirige vers la partie
+            router.push({ name: "games.index" });
+        } else {
+            // Réduction du timer
+            countdown.value -= 1;
+        }
+    }, 1000);
 };
 
 // Envoi de message
@@ -213,12 +299,6 @@ const modifyStatus = async () => {
     busyReady.value = true;
     await gameStore.updateStatus();
     busyReady.value = false;
-};
-
-// Mise à jour des joueurs de la partie si départ
-const removeGamePlayers = async () => {
-    debugger;
-    await gameStore.deleteGamePlayers();
 };
 
 onBeforeMount(() => {
@@ -256,6 +336,11 @@ onMounted(() => {
         .listen(".game.leave", (e) => {
             // On supprime le joueur concerné
             gameStore.deleteGamePlayer(e);
+        })
+        // Lancement d'une partie
+        .listen(".game.begin", (e) => {
+            // On modifie le statut de commencement de la partie
+            gameStore.game.game.has_begun = e.has_begun;
         });
 });
 
@@ -264,3 +349,46 @@ onUnmounted(() => {
     gameStore.deleteGamePlayers();
 });
 </script>
+
+<style scoped>
+.shapes-4 {
+    width: 40px;
+    height: 40px;
+    color: #d92b2b;
+    background: conic-gradient(
+            from -45deg at top 20px left 50%,
+            #0000,
+            currentColor 1deg 90deg,
+            #0000 91deg
+        ),
+        conic-gradient(
+            from 45deg at right 20px top 50%,
+            #0000,
+            currentColor 1deg 90deg,
+            #0000 91deg
+        ),
+        conic-gradient(
+            from 135deg at bottom 20px left 50%,
+            #0000,
+            currentColor 1deg 90deg,
+            #0000 91deg
+        ),
+        conic-gradient(
+            from -135deg at left 20px top 50%,
+            #0000,
+            currentColor 1deg 90deg,
+            #0000 91deg
+        );
+    animation: sh4 1s infinite cubic-bezier(0.3, 1, 0, 1);
+}
+@keyframes sh4 {
+    50% {
+        width: 60px;
+        height: 60px;
+        transform: rotate(180deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+</style>

@@ -36,9 +36,10 @@ Route::controller(TagController::class)->group(function() {
 });
 Route::controller(GameController::class)->group(function() {
     Route::get('/games/join/{game}','join')->name('game.join');
+    Route::patch('/games/begin','begin')->name('game.begin');
 });
 Route::controller(GamePlayerController::class)->group(function() {
-    Route::patch('/games/ready','ready')->name('game.ready');
+    Route::patch('/gameplayers/ready','ready')->name('game.ready');
 });
 
 Route::get('/questions/vote', [QuestionController::class, 'vote']);

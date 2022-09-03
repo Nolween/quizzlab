@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\Game\BeginningGameEvent;
 use App\Events\GamePlayer\JoiningPlayerEvent;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Games\GameBeginRequest;
 use App\Http\Requests\Games\GameIndexRequest;
 use App\Http\Requests\Games\GameJoinRequest;
 use App\Http\Requests\Games\GameStoreRequest;
@@ -296,6 +298,28 @@ class GameController extends Controller
     public function update(Request $request, Game $game)
     {
         //
+    }
+
+    /**
+     * Mise à jour du statut de partie commencée
+     *
+     * @param  \App\Http\Requests\Games\GameBeginRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function begin(GameBeginRequest $request)
+    {
+        $userId = Auth::user()->id;
+
+        // Récupération des infos de la partie à modifier
+        $game = Game::where('id', $request->gameId)->where('user_id', $userId)->firstOrFail();
+        // Modification du statut
+        $game->has_begun = true;
+        $game->save();
+
+        // Déclenchement de l'évènement pour tout le monde
+        event(new BeginningGameEvent($game));
+
+        return response()->json(['success' => true], 200);
     }
 
     /**
