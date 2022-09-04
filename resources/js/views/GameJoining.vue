@@ -249,15 +249,35 @@ watch(
     }
 );
 
-// On surveille si la partie a commencé
-watch( gameStore,
-    (newVal, oldVal)  => {
-        if (newVal.game.game?.has_begun && newVal.game.game.has_begun == true) {
-            // On lance le compteur
-            launchCountdown();
+watch(gameStore, (newVal) => {
+    // On surveille si la partie a commencé
+    if (newVal.game.game?.has_begun && newVal.game.game.has_begun == true) {
+        // On lance le compteur
+        launchCountdown();
+    }
+
+    // On surveille si tous les joueurs sont prêts
+    if (newVal.game?.players) {
+        // Quel est le nombre de joueurs max de la partie
+        let maxReady = newVal.game.game.max_players;
+        let readyCount = 0;
+        // Parcours des joueurs de la partie
+        for (let playerIndex in newVal.game.players) {
+            // Si le joueur est prêt
+            if (newVal.game.players[playerIndex].is_ready == true) {
+                // Un joueur de plus dans le compte
+                readyCount = readyCount + 1;
+            }
+        }
+        // Si tous les joueurs sont prêts
+        if (readyCount >= maxReady) {
+            // On va demander au premier joueur de la liste de déclencher le lancement de la partie
+            if (newVal.game.userId == newVal.game.players[0].user_id) {
+                beginGame();
+            }
         }
     }
-);
+});
 
 // Activation dans le back du début de partie
 const beginGame = async () => {
