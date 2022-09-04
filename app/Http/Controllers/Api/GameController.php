@@ -52,7 +52,7 @@ class GameController extends Controller
         // Si pas de recherche
         if (empty($request->search)) {
             // Toutes les parties non commencées, non finies, avec le nombre de joueurs en attente, crées dans l'heure
-            // Soit des parties non commencées et non finies peu importe les joueurs dedans
+            // Soit des parties non commencées et non finies qui n'a pas atteint son nombre de joueurs max
             $allGames = Game::where(function ($q) {
                 $q->where('has_begun', false)
                     ->where('is_finished', false);
@@ -70,14 +70,14 @@ class GameController extends Controller
                 ->withCount('players')->where(
                     'created_at',
                     '>',
-                    Carbon::now()->subDays(20)->toDateTimeString()
+                    Carbon::now()->subDays(20)->toDateTimeString() //! Modifier le subdays en subHour pour la prod
                 )->get();
-            // On vire les parties remplies
+            // On ne retient que les parties non pleines ou qui sont pleines mais ouù le joueur est dedans
             $availableGames = $allGames->filter(function ($game) {
-                return $game->players_count < $game->max_players;
+                return $game->players_count < $game->max_players || $game->has_begun == true;
             });
 
-            return GameIndexResource::collection($allGames);
+            return GameIndexResource::collection($availableGames);
         }
         // Si on a une recherche selon un tag / thème
         else if (!empty($request->search)) {
