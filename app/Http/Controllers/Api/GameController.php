@@ -6,9 +6,11 @@ use App\Events\Game\BeginningGameEvent;
 use App\Events\GamePlayer\JoiningPlayerEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Games\GameBeginRequest;
+use App\Http\Requests\Games\GameCodeRequest;
 use App\Http\Requests\Games\GameIndexRequest;
 use App\Http\Requests\Games\GameJoinRequest;
 use App\Http\Requests\Games\GameStoreRequest;
+use App\Http\Resources\Games\GameCodeResource;
 use App\Http\Resources\Games\GameIndexResource;
 use App\Http\Resources\Games\GameJoinResource;
 use App\Http\Resources\Games\GameStoreResource;
@@ -135,8 +137,7 @@ class GameController extends Controller
         if (empty($inGame)) {
 
             // Récupération du nombre de joueurs actuellement dans la partie
-            $playersCount = GamePlayer::where('game_id', $game->id)->count();
-;
+            $playersCount = GamePlayer::where('game_id', $game->id)->count();;
             //? Ajout de l'utilisateur dans la partie
             // Avant d'entrer, reste t-il encore de la place dans la partie?
             if ($playersCount >= $game->max_players) {
@@ -151,7 +152,6 @@ class GameController extends Controller
             ]);
             // Evènement websocket d'ajout du joueur dans la partie
             event(new JoiningPlayerEvent($newGamePlayer));
-            
         }
 
 
@@ -181,9 +181,9 @@ class GameController extends Controller
             ->where('user_id', $userId)->get();
 
         // Si le joueur est encore dans des parties en cours, refus
-        if (count($userInGames) > 0) {
-            return response()->json(['success' => false, 'message' => "Veuillez attendre 10 minutes"], 500);
-        }
+        // if (count($userInGames) > 0) {
+        //     return response()->json(['success' => false, 'message' => "Veuillez attendre 10 minutes"], 500);
+        // }
 
         // Génération d'un code de partie si plus d'un joueur
         $gameCode = $request->maxPlayers > 1 ? fake()->regexify('[A-Z]{4}-[0-4]{4}') : null;
@@ -210,7 +210,7 @@ class GameController extends Controller
             if (!empty($request->selectedThemes)) {
                 foreach ($request->selectedThemes as $selectedTheme) {
                     // Le thème existe t-il?
-                    $tag = Tag::where('name', $selectedTheme)->get();
+                    $tag = Tag::where('name', $selectedTheme)->first();
                     GameTag::create([
                         'game_id' => $newGame->id,
                         'tag_id' => $tag->id
@@ -241,8 +241,8 @@ class GameController extends Controller
                 // Selon le nombre de question dans la partie
                 for ($i = 1; $i <= $request->question_count; $i++) {
                     // On cherche une Id de question pas encore dans la partie
-                    //? Si il faut seuelement que la question comporte un des thèmes associés
-                    if ($request->allTags == true) {
+                    //? Si il faut seulement que la question comporte un des thèmes associés
+                    if ($request->allTags == false) {
                         $questionToAddId = Question::whereHas('tags', function (Builder $query) use ($tagIds) {
                             $query->whereIn('tag_id', $tagIds);
                         })->where('is_integrated', true)->whereNotIn('id', $gameQuestionsIds)->inRandomOrder()->first()->id;
@@ -286,6 +286,34 @@ class GameController extends Controller
     public function show(Game $game)
     {
         //
+    }
+
+    /**
+     * Vérifier la disponibilité d'une partie à partir d'un code
+     *
+     * @param  \App\Http\Requests\Games\GameCodeRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function code(GameCodeRequest $request)
+    {
+
+        $userId = Auth::user()->id;
+
+        $game = Game::withCount('players')->where('game_code', $request->gameCode)->firstOrFail();
+        // Si la partie n'a pas encore commencé, reste t-il de la place?
+        if ($game->has_begun == false && $game->players_count >= $game->max_players) {
+            return response()->json(['success' => false, 'message' => "La partie est pleine"], 500);
+        }
+        // Si la partie a commencé
+        if ($game->has_begun == true) {
+            //  Le joueur figure t-il pas dans la partie?
+            $gamePlayer = GamePlayer::where('user_id', $userId)->where('game_id', $game->id)->first();
+            // Si le joueur n'est pas dans la partie
+            if (empty($gamePlayer)) {
+                return response()->json(['success' => false, 'message' => "Vous n'êtes pas autorisé à intégrer la partie"], 500);
+            }
+        }
+        return new GameCodeResource($game);
     }
 
     /**

@@ -1,8 +1,13 @@
 <template>
     <div class="pt-24 flex flex-wrap justify-center bg-quizzlab-primary px-5">
-        <div class="text-4xl text-white font-bold text-center w-full mb-4">
-            PARTIE DE
-            {{ gameStore.game.game ? gameStore.game.game.user.name : "" }}
+        <div class=" text-center w-full mb-4 flex flex-wrap justify-center md:justify-evenly ">
+            <span class=" p-3 text-4xl text-white font-bold">PARTIE DE
+            {{ gameStore.game.game ? gameStore.game.game.user.name : "" }}</span> 
+            <button type="button"
+                    class="p-3 bg-quizzlab-quinary text-white text-3xl font-bold cursor-pointer"
+                    @click="copyGameCode()"
+                    >Code partie</button
+                >
         </div>
         <!-- INFOS -->
         <div
@@ -201,6 +206,7 @@ import {
 } from "vue";
 import router from "@/router";
 import { useRoute } from "vue-router";
+import { useToast } from "vue-toastification";
 import Echo from "laravel-echo";
 // Icones
 import SvgIcon from "@jamescoyle/vue-icon";
@@ -278,6 +284,15 @@ watch(gameStore, (newVal) => {
         }
     }
 });
+
+// Copie dans le presse papier du code de la partie pour le partage
+const copyGameCode = () => {
+    // Copie du code dans le presse papier
+    navigator.clipboard.writeText(gameStore.game.game.game_code);
+    // Notification
+    const toast = useToast();
+    toast.success('Code partie copié!' );
+};
 
 // Activation dans le back du début de partie
 const beginGame = async () => {

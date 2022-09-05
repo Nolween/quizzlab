@@ -14,26 +14,20 @@ export function useGames() {
     // Proposition d'une nouvelle game
     const sendGameProposition = async (data) => {
         try {
-            // Création d'un formulaire
-            let formData = new FormData();
-            formData.append("maxPlayers", data.maxPlayers);
-            formData.append("questionCount", data.questionCount);
-            formData.append("responseTime", data.responseTime);
-            formData.append("allTags", data.allTags == true ? 1 : 0);
-            formData.append("selectedThemes", data.selectedThemes);
+            data.allTags = data.allTags == true ? 1 : 0;
             // Envoi dans le back
-            let response = await axios.post(`/api/games`, formData);
+            let response = await axios.post(`/api/games`, data);
 
             // Si retour ok
             if (response.data && response.data.data.id > 0) {
                 // Si le joueur est seul
                 if (data.maxPlayers === 1) {
                     // Redirection vers la partie
-                    router.push({ name: "games.index" });
+                    router.push({ name: "games.join", params: { id: response.data.data.id } });
                 }
                 // Si plusieurs joueurs, on passe par la file d'attente
                 else {
-                    router.push({ name: "games.index" });
+                    router.push({ name: "games.join", params: { id: response.data.data.id } });
                 }
             }
         } catch (error) {

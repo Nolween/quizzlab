@@ -13,6 +13,7 @@
                 <button
                     type="button"
                     class="bg-quizzlab-quinary text-white text-3xl font-semibold p-3 w-full md:w-1/2"
+                    @click="gameCodeOverlay = true"
                 >
                     Code de partie
                 </button>
@@ -88,6 +89,55 @@
                 type="mdi"
             ></svg-icon>
         </button>
+
+        <!-- OVERLAY DE CODE PARTIE -->
+
+        <div
+            v-if="gameCodeOverlay"
+            class="h-screen bg-black bg-opacity-50 rounded-sm fixed inset-0 z-50 flex justify-center items-center"
+        >
+            <div class="w-4/5">
+                <div
+                    class="text-quizzlab-primary bg-white py-3 px-2 font-bold flex justify-between"
+                >
+                    <span class="px-3 text-3xl lg:text-5xl"
+                        >Entrez votre code de partie</span
+                    >
+                    <svg-icon
+                        @click="gameCodeOverlay = false"
+                        class="text-quizzlab-ternary h-10 w-10 my-auto cursor-pointer"
+                        :path="mdiCloseBox"
+                        type="mdi"
+                    ></svg-icon>
+                </div>
+                <form @submit.prevent="joinByGameCode">
+                    <div
+                        class="w-full flex flex-wrap justify-center bg-white p-3 text-center space-x-3 space-y-4"
+                    >
+                        <div class="w-full">
+                            <input
+                                ref="gameCodeInput"
+                                name="gameCode"
+                                class="w-4/5 border-2 rounded-sm px-3 placeholder:text-3xl placeholder:text-quizzlab-primary pt-5"
+                                type="text"
+                                placeholder="Votre code"
+                                v-model="gameCode"
+                            />
+                        </div>
+
+                        <div class="w-full">
+                            <button
+                                type="button"
+                                class="bg-quizzlab-secondary text-white font-semibold text-2xl md:text-4xl p-4"
+                                @click="joinByGameCode"
+                            >
+                                REJOINDRE
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </template>
 <script setup>
@@ -98,7 +148,7 @@ import SuggestedTags from "../components/SuggestedTags.vue";
 import Game from "../components/Game.vue";
 // Icones
 import SvgIcon from "@jamescoyle/vue-icon";
-import { mdiMagnify, mdiRefresh } from "@mdi/js";
+import { mdiMagnify, mdiRefresh, mdiCloseBox } from "@mdi/js";
 
 // Imports de stores;
 import { useGameStore } from "@/stores/game";
@@ -115,6 +165,11 @@ const { getSuggestedTags, resetSuggestedTags, computedSuggestedTag } =
     useTags();
 // Variable de recherche de question
 const searchInput = ref(null);
+// Code de partie
+const gameCode = ref(null);
+const gameCodeInput = ref(null);
+// Overlay du code de partie
+const gameCodeOverlay = ref(false);
 
 // Focus du premier champ au chargement de la vue
 const vFocus = {
@@ -147,6 +202,11 @@ const refreshGames = async () => {
     resetSuggestedTags();
     // Soumission du formulaire dans le back pour récupérer les parties
     await gameStore.getGames(searchInput.value);
+};
+
+const joinByGameCode = async () => {
+    // Réinitialisation des suggestions
+    await gameStore.verifyGameCode(gameCode.value);
 };
 
 onBeforeMount(() => {

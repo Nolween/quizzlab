@@ -112,6 +112,32 @@ export const useGameStore = defineStore("game", {
                 userStore.checkError(error);
             }
         },
+
+        // Vérifier la disponibilité d'un code de partie pour la rejoindre
+        async verifyGameCode(gameCode) {
+            try {
+                let response = await axios.get(`/api/games/code`, { params: { gameCode } });
+                // Si on a des données
+                if (response.data.data) {
+                    router.push({
+                        name: response.data.data.has_begun == true ? 'games.join' : 'games.join',
+                        params: { id: response.data.data.id },
+                    })
+                }
+            } catch (error) {
+                // Si on a la raison de l'erreur
+                if (error.response.data.success == false) {
+                    // Notification
+                    const toast = useToast();
+                    toast.error(error.response.data.message);
+                    // Redirection vers la page des parties
+                    router.push({ name: "games.index" });
+                }
+                // Vérification de l'erreur
+                const userStore = useUserStore();
+                userStore.checkError(error);
+            }
+        },
         // Modifier le statut PRET de la partie
         async updateStatus() {
             try {
@@ -140,9 +166,6 @@ export const useGameStore = defineStore("game", {
                     userId: this.game.userId,
                     gameId: this.game.game.id,
                 });
-                // if (response.data?.data.success) {
-                //     return true;
-                // }
             } catch (error) {
                 // Si on a la raison de l'erreur
                 if (error.response?.data.success == false) {
