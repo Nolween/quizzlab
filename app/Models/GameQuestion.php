@@ -28,12 +28,21 @@ class GameQuestion extends Model
         return $this->belongsTo(Game::class);
     }
     
+
     /**
      * Quelle est la question?
      */
     public function question()
     {
         return $this->belongsTo(Question::class);
+    }
+    
+    /**
+     * Quels sont les tags de la question de la partie?
+     */
+    public function questionTags()
+    {
+        return $this->hasManyThrough(QuestionTag::class,Question::class, 'id', 'question_id', 'id', 'id');
     }
 
 }

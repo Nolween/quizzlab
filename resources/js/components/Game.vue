@@ -46,12 +46,7 @@
         <!-- Rejoindre -->
         <div
             class="bg-quizzlab-secondary font-semibold hover:bg-quizzlab-ternary text-white text-center p-2 text-3xl cursor-pointer"
-            @click="
-                $router.push({
-                    name: hasBegun == true ? 'games.join' : 'games.join',
-                    params: { id },
-                })
-            "
+            @click="joinGame(hasBegun, id)"
         >
             REJOINDRE
         </div>
@@ -157,6 +152,23 @@ const negativeClass = computed(() => ({
 function prepareVote(ispositive) {
     const data = { questionid: props.questionId, ispositive };
     questionStore.voteQuestion(data);
+}
+
+function joinGame(hasBegun, gameId) {
+    // Si la partie n'a pas encore commencée
+    if (hasBegun == false) {
+        router.push({
+            name: "games.join",
+            params: { id: gameId },
+        });
+    }
+    // Si la partie a déjà commencé, on le dirige dans la vue des questions
+    else {
+        router.push({
+            name: "games.question",
+            params: { id: gameId },
+        });
+    }
 }
 
 //? Fonctions du composant

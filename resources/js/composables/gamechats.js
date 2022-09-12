@@ -20,10 +20,6 @@ export function useGameChats() {
             formData.append("gameId", data.gameId);
             // Envoi dans le back
             let response = await axios.post(`/api/gamechats`, formData);
-
-            // Si retour ok
-            if (response.data) {
-            }
         } catch (error) {
             // Si on a un retour du back
             if (error.response.data.success == false) {

@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\CommentApprovalController;
 use App\Http\Controllers\Api\GameChatController;
 use App\Http\Controllers\Api\GameController;
 use App\Http\Controllers\Api\GamePlayerController;
+use App\Http\Controllers\Api\GameQuestionController;
 use App\Http\Controllers\Api\QuestionCommentController;
 use App\Http\Controllers\Api\QuestionController;
 use App\Http\Controllers\Api\TagController;
@@ -43,6 +44,11 @@ Route::controller(GamePlayerController::class)->group(function() {
     Route::patch('/gameplayers/ready','ready')->name('game.ready');
 });
 
+Route::controller(GameQuestionController::class)->group(function() {
+    Route::get('/gamequestions/question/{gameId}','question')->name('game.question');
+});
+
+
 Route::get('/questions/vote', [QuestionController::class, 'vote']);
 // API Resources (middleware définis au __construct du Controller)
 Route::apiResource('questions', QuestionController::class);
@@ -52,6 +58,7 @@ Route::apiResource('tags', TagController::class);
 Route::apiResource('games', GameController::class);
 Route::apiResource('gamechats', GameChatController::class);
 Route::apiResource('gameplayers', GamePlayerController::class);
+Route::apiResource('gamequestions', GamePlayerController::class);
 
 Route::fallback(function(){
     return response()->json([

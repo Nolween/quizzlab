@@ -173,5 +173,4 @@ onUnmounted(() => {
     commentStore.cancelReplyComment();
 });
 
-// const test = ref($route.params.id)
 </script>

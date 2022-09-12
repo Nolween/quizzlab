@@ -66,7 +66,7 @@ export function useQuestions() {
             };
             // Envoi dans le back
             let response = await axios.post(`/api/questions`, formData, config);
-            // Si on a bien un retour d'Elastic
+            // Si on a bien un retour
             if (response.data && response.data.success == true) {
                 // Notification
                 const toast = useToast();
