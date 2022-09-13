@@ -32,7 +32,7 @@ class UserSeeder extends Seeder
         }
 
         // Création de l'admin, fixe
-        $adminUser = User::factory()->create([
+        User::factory()->create([
             'name' => 'Cashandrick',
             'email' => 'nolween.lopez@gmail.com',
             'password' => bcrypt('123456'),

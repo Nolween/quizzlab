@@ -52,17 +52,26 @@ export function useQuestions() {
         try {
             // Création d'un formulaire
             let formData = new FormData();
-            formData.append('question', data.question)
-            formData.append('answer', data.answer)
-            formData.append('rules', data.rules == true ? 1 : 0)
-            formData.append('imageNeeded', data.imageNeeded == true ? 1 : 0)
-            formData.append('image', data.image)
-            formData.append('selectedThemes[]', data.selectedThemes)
-            // Ajout d'uns entête pour les fichiers
+            formData.append('_method', 'post');
+            formData.append('question', data.question);
+            formData.append('rules', data.rules == true ? 1 : 0);
+            formData.append('imageNeeded', data.imageNeeded == true ? 1 : 0);
+            if (data.image && data.imageNeeded == true) {
+                formData.append('image', data.image);
+            }
+            // Parcours des thèmes
+            data.selectedThemes.forEach((tag) => {
+                formData.append("selectedThemes[]", tag);
+            });
+            // Parcours des choix
+            data.choices.forEach((choice) => {
+                formData.append("choices[]", choice);
+            });
+            // Ajout d'une entête pour les fichiers
             let config = {
-              header : {
-               'Content-Type' : 'multipart/form-data'
-             }
+                header: {
+                    "Content-Type": "multipart/form-data",
+                },
             };
             // Envoi dans le back
             let response = await axios.post(`/api/questions`, formData, config);
@@ -70,9 +79,7 @@ export function useQuestions() {
             if (response.data && response.data.success == true) {
                 // Notification
                 const toast = useToast();
-                toast.success(
-                    response.data.message
-                );
+                toast.success(response.data.message);
                 // Redirection vers l'accueil
                 router.push({ name: "questions.index" });
             }

@@ -9,7 +9,6 @@ class Question extends Model
 {
     use HasFactory;
 
-
     protected $fillable = [
         'user_id',
         'question',
@@ -53,6 +52,7 @@ class Question extends Model
     {
         return $this->hasMany(QuestionComment::class);
     }
+    
 
     /**
      * Quels sont les commentaires de premier niveau de cette question?
@@ -60,6 +60,14 @@ class Question extends Model
     public function primary_comments()
     {
         return $this->hasMany(QuestionComment::class)->where('comment_id', null)->orderBy('created_at', 'ASC');
+    }
+
+    /**
+     * Quels sont les choix de cette question?
+     */
+    public function choices()
+    {
+        return $this->hasMany(QuestionChoice::class);
     }
 
 

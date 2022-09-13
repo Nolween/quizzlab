@@ -36,6 +36,7 @@ class DatabaseSeeder extends Seeder
         // Création des jeux de test
         $this->call(UserSeeder::class);
         $this->call(QuestionSeeder::class);
+        $this->call(QuestionChoiceSeeder::class);
         $this->call(QuestionTagSeeder::class);
         $this->call(GameSeeder::class);
         $this->call(GameTagSeeder::class);

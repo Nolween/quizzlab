@@ -45,7 +45,7 @@ class QuestionVoteSeeder extends Seeder
             $positiveVote = QuestionVote::where('question_id', $question->id)->where('has_approved', 1)->get()->count();
             $negativeVote = QuestionVote::where('question_id', $question->id)->where('has_approved', 0)->get()->count();
             $question->vote = ($votePower * $positiveVote) - ($votePower * $negativeVote);
-            $question->is_integrated = $question->vote >= 100 ? true : false;
+            $question->is_integrated = $question->vote >= 100 ? true : null;
             $question->save();
         }
     }

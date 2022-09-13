@@ -15,6 +15,7 @@ use App\Http\Resources\Questions\QuestionShowResource;
 use App\Http\Resources\Questions\QuestionStoreResource;
 use App\Http\Resources\Questions\QuestionVoteResource;
 use App\Models\Question;
+use App\Models\QuestionChoice;
 use App\Models\QuestionTag;
 use App\Models\QuestionVote;
 use App\Models\Tag;
@@ -49,7 +50,7 @@ class QuestionController extends Controller
 
         // Si pas de recherche
         if (empty($request->search)) {
-            return QuestionIndexResource::collection(Question::where('is_moderated', true)->orderBy('created_at', 'DESC')->paginate(20));
+            return QuestionIndexResource::collection(Question::where('is_moderated', true)->where('is_integrated', null)->orderBy('created_at', 'DESC')->paginate(20));
         }
         // Si on a une recherche selon un tag / thème
         else if ($request->searchMod == 0) {
@@ -105,9 +106,16 @@ class QuestionController extends Controller
             // Création de la question
             $question = Question::create([
                 'question' => $request->question,
-                'answer' => $request->answer,
                 'user_id' => $userId
             ]);
+            // Ajout des choix pour la question
+            foreach ($request->choices as $choiceK => $choiceV) {
+                QuestionChoice::create([
+                    'question_id' => $question->id,
+                    'is_correct' => $choiceK == 0 ? true : false,
+                    'title' => $choiceV,
+                ]);
+            }
             // Association des thèmes pour la question
             foreach ($request->selectedThemes as $theme) {
                 $tag = Tag::whereName($theme)->first();
@@ -127,41 +135,42 @@ class QuestionController extends Controller
                         $imgProperties = getimagesize($request->image->path());
                         $gdImage = imagecreatefromjpeg($request->image->path());
                         $resizeBigImg = ImageTransformation::image_resize_big($gdImage, $imgProperties[0], $imgProperties[1]);
-                        \imageavif($resizeBigImg, 'img/questions/big/' . $question->image);
-                        $resizeSmallImg = ImageTransformation::image_resize_small($gdImage, $imgProperties[0], $imgProperties[1]);
-                        \imageavif($resizeSmallImg, 'img/questions/small/' . $question->image);
+                        \imageavif($resizeBigImg, storage_path('app/public/img/questions/big/' . $question->image));
                         // Création d'une miniature
+                        $resizeSmallImg = ImageTransformation::image_resize_small($gdImage, $imgProperties[0], $imgProperties[1]);
+                        \imageavif($resizeSmallImg, storage_path('app/public/img/questions/small/' . $question->image));
                         break;
                     case 'jpeg':
                         $imgProperties = getimagesize($request->image->path());
                         $gdImage = imagecreatefromjpeg($request->image->path());
                         $resizeBigImg = ImageTransformation::image_resize_big($gdImage, $imgProperties[0], $imgProperties[1]);
-                        \imageavif($resizeBigImg, 'img/questions/big/' . $question->image);
+                        \imageavif($resizeBigImg, storage_path('app/public/img/questions/big/' . $question->image));
                         $resizeSmallImg = ImageTransformation::image_resize_small($gdImage, $imgProperties[0], $imgProperties[1]);
-                        \imageavif($resizeSmallImg, 'img/questions/small/' . $question->image);
+                        \imageavif($resizeSmallImg, storage_path('app/public/img/questions/small/' . $question->image));
                         break;
                     case 'png':
                         $imgProperties = getimagesize($request->image->path());
                         $gdImage = imagecreatefrompng($request->image->path());
                         $resizeBigImg = ImageTransformation::image_resize_big($gdImage, $imgProperties[0], $imgProperties[1]);
-                        \imageavif($resizeBigImg, 'img/questions/big/' . $question->image);
+                        \imageavif($resizeBigImg, storage_path('app/public/img/questions/big/' . $question->image));
                         $resizeSmallImg = ImageTransformation::image_resize_small($gdImage, $imgProperties[0], $imgProperties[1]);
-                        \imageavif($resizeSmallImg, 'img/questions/small/' . $question->image);
+                        \imageavif($resizeSmallImg, storage_path('app/public/img/questions/small/' . $question->image));
                         break;
                     case 'avif':
+                        $imgProperties = getimagesize($request->image->path());
                         $gdImage = imagecreatefromavif($request->image->path());
-                        $resizeBigImg = ImageTransformation::image_resize_big($gdImage, $imgProperties[0], $imgProperties[1]);
-                        \imageavif($resizeBigImg, 'img/questions/big/' . $question->image);
+                        $resizeBigImg = ImageTransformation::image_resize_big($gdImage, imagesx($gdImage), imagesy($gdImage));
+                        \imageavif($resizeBigImg, storage_path('app/public/img/questions/big/' . $question->image));
                         $resizeSmallImg = ImageTransformation::image_resize_small($gdImage, imagesx($gdImage), imagesy($gdImage));
-                        \imageavif($resizeSmallImg, 'img/questions/small/' . $question->image);
+                        \imageavif($resizeSmallImg, storage_path('app/public/img/questions/small/' . $question->image));
                         break;
                     default:
                         $imgProperties = getimagesize($request->image->path());
                         $gdImage = imagecreatefromjpeg($request->image->path());
                         $resizeBigImg = ImageTransformation::image_resize_big($gdImage, $imgProperties[0], $imgProperties[1]);
-                        \imageavif($resizeBigImg, 'img/questions/big/' . $question->image);
+                        \imageavif($resizeBigImg, storage_path('app/public/img/questions/big/' . $question->image));
                         $resizeSmallImg = ImageTransformation::image_resize_small($gdImage, $imgProperties[0], $imgProperties[1]);
-                        \imageavif($resizeSmallImg, 'img/questions/small/' . $question->image);
+                        \imageavif($resizeSmallImg, storage_path('app/public/img/questions/small/' . $question->image));
                         break;
                 }
                 imagedestroy($gdImage);
@@ -176,7 +185,7 @@ class QuestionController extends Controller
         // Si erreur dans la transaction
         catch (Exception $e) {
             DB::rollback();
-            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+            return response()->json(['success' => false, 'message' => $e->getMessage() . ' >>> Ligne ' . $e->getLine(),], 500);
         }
 
         return response()->json(['success' => true, 'message' => "Votre question a été proposée!"], 200);

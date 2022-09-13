@@ -44,24 +44,29 @@
                         >{{ tag.name }}</span
                     >
                 </div>
-                <!-- Question -->
-                <div
-                    class="text-quizzlab-primary font-medium text-3xl px-3 lg:px-8 py-2"
-                    :class="props.isIntegrated == false ? 'cursor-pointer' : ''"
-                    @click="
-                        props.isIntegrated == false
-                            ? $router.push({
-                                  name: 'question.show',
-                                  params: { id: props.questionId },
-                              })
-                            : ''
-                    "
-                >
-                    {{ question }}
-                </div>
             </div>
+        </div>
+
+        <!-- Question -->
+        <div class="flex justify-between px-3">
+            <div
+                title="Voir la fiche"
+                class="text-quizzlab-primary font-medium text-4xl px-3 lg:px-8 py-2 text-center my-auto mx-auto"
+                :class="props.isIntegrated == false ? 'cursor-pointer' : ''"
+                @click="
+                    props.isIntegrated == false
+                        ? $router.push({
+                              name: 'question.show',
+                              params: { id: props.questionId },
+                          })
+                        : ''
+                "
+            >
+                {{ question }}
+            </div>
+
             <!-- Image -->
-            <div class="w-28" v-if="props.imagePath">
+            <div class="min-w-max mb-1" v-if="props.imagePath">
                 <img
                     :src="
                         'http://127.0.0.1:5173/public/storage/img/questions/small/' +
@@ -75,15 +80,19 @@
             </div>
         </div>
         <!-- Réponse -->
-        <div
-            :class="
-                props.isIntegrated == true
-                    ? 'bg-slate-300'
-                    : 'bg-quizzlab-secondary'
-            "
-            class="text-white text-3xl font-semibold text-right px-3 lg:px-8 py-3"
-        >
-            {{ answer }}
+        <div class="flex flex-wrap justify-center space-x-2 px-3">
+            <div
+                v-for="(choice, choiceKey) in choices"
+                :key="choiceKey"
+                :class="
+                    choice.is_correct == true
+                        ? 'bg-quizzlab-secondary'
+                        : 'bg-quizzlab-ternary'
+                "
+                class="text-white text-xl font-semibold text-right px-3 lg:px-8 py-3 mb-2"
+            >
+                {{ choice.title }}
+            </div>
         </div>
         <!-- Infos -->
         <div class="flex flex-wrap justify-around py-2 px-3 lg:px-8">
@@ -139,7 +148,7 @@
         v-if="questionImageOverlay"
         class="h-screen bg-black bg-opacity-50 rounded-sm fixed inset-0 z-50 flex justify-center items-center"
     >
-        <div class="w-4/5">
+        <div class="md:w-4/5 w-full">
             <div class="flex justify-between bg-white p-3">
                 <img
                     :src="
@@ -176,7 +185,7 @@ const emit = defineEmits(["changeSearch"]);
 // Définition des props du composant
 const props = defineProps({
     questionId: Number,
-    answer: String,
+    choices: Array,
     question: String,
     avatar: String,
     vote: Number,

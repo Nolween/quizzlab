@@ -16,7 +16,7 @@
             </div>
             <Question
                 :questionId="questionStore.question.id"
-                :answer="questionStore.question.answer"
+                :choices="questionStore.question.choices"
                 :question="questionStore.question.question"
                 :avatar="questionStore.question.avatar"
                 :imagePath="questionStore.question.image"

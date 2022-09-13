@@ -9,7 +9,7 @@
             <!-- CHAMPS -->
             <input
                 name="question"
-                class="border-2 focus:border-quizzlab-ternary rounded-sm w-full px-3 placeholder:text-3xl placeholder:text-quizzlab-primary pt-4"
+                class="border-2  text-2xl focus:border-quizzlab-ternary rounded-sm w-full px-3 placeholder:text-3xl placeholder:text-quizzlab-primary pt-4"
                 type="text"
                 placeholder="Question"
                 @keyup="getSuggestions(1)"
@@ -62,13 +62,34 @@
                     ref="imageInput"
                 />
             </div>
-            <!-- Réponse -->
+            <!-- Réponses -->
             <input
-                name="answer"
-                class="border-2 focus:border-quizzlab-ternary rounded-sm w-full px-3 placeholder:text-3xl placeholder:text-quizzlab-primary pt-4"
+                name="choice1"
+                class="border-2 focus:border-quizzlab-ternary text-2xl text-quizzlab-secondary rounded-sm w-full px-3 placeholder:text-3xl placeholder:text-quizzlab-primary pt-4"
                 type="text"
-                placeholder="Réponse"
-                v-model="form.answer"
+                placeholder="Réponse 1 (Correcte)"
+                v-model="form.choices[0]"
+            />
+            <input
+                name="choice2"
+                class="border-2 focus:border-quizzlab-ternary text-2xl text-quizzlab-ternary rounded-sm w-full px-3 placeholder:text-3xl placeholder:text-quizzlab-primary pt-4"
+                type="text"
+                placeholder="Réponse 2 (Fausse)"
+                v-model="form.choices[1]"
+            />
+            <input
+                name="choice3"
+                class="border-2 focus:border-quizzlab-ternary text-2xl text-quizzlab-ternary rounded-sm w-full px-3 placeholder:text-3xl placeholder:text-quizzlab-primary pt-4"
+                type="text"
+                placeholder="Réponse 3 (Fausse)"
+                v-model="form.choices[2]"
+            />
+            <input
+                name="choice4"
+                class="border-2 focus:border-quizzlab-ternary text-2xl text-quizzlab-ternary rounded-sm w-full px-3 placeholder:text-3xl placeholder:text-quizzlab-primary pt-4"
+                type="text"
+                placeholder="Réponse 4 (Fausse)"
+                v-model="form.choices[3]"
             />
             <div class="flex justify-between">
                 <input
@@ -307,7 +328,7 @@ const handlingTags = ref([]);
 
 const form = reactive({
     question: null,
-    answer: null,
+    choices: [null, null, null, null],
     rules: false,
     imageNeeded: false,
     image: null,
@@ -319,8 +340,14 @@ const completedForm = computed(() => {
     return (
         form.question &&
         form.question.length > 0 &&
-        form.answer &&
-        form.answer.length > 0 &&
+        form.choices[0] &&
+        form.choices[0].length > 0 &&
+        form.choices[1] &&
+        form.choices[1].length > 0 &&
+        form.choices[2] &&
+        form.choices[2].length > 0 &&
+        form.choices[3] &&
+        form.choices[3].length > 0 &&
         form.selectedThemes.length > 0 &&
         form.rules == true &&
         (!form.imageNeeded || (form.imageNeeded && form.image))
@@ -333,8 +360,7 @@ const onFileChanged = (event) => {
         // Attribution de l'url à la source de l'image
         imgSrc.value = URL.createObjectURL(event.target.files[0]);
         form.image = event.target.files[0];
-    }
-    else {
+    } else {
         form.image = null;
     }
 };

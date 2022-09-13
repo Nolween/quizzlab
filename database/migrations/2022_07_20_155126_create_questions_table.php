@@ -20,7 +20,6 @@ return new class extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->text('question');
-            $table->text('answer');
             $table->string('image')->nullable();
             $table->boolean('is_moderated')->nullable();
             $table->boolean('is_integrated')->nullable();

@@ -6,6 +6,7 @@ use App\Models\Game;
 use App\Models\GameQuestion;
 use App\Models\GameTag;
 use App\Models\Question;
+use App\Models\QuestionChoice;
 use App\Models\QuestionTag;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Eloquent\Builder;
@@ -43,6 +44,16 @@ class GameQuestionSeeder extends Seeder
                         QuestionTag::create([
                             'question_id' => $newQuestion->id,
                             'tag_id' => $gameTag->tag_id
+                        ]);
+                    }
+                    // Création des choix pour la question
+                    // Quelle est la bonne réponse?
+                    $rightChoice = rand(1, 4);
+                    for ($j = 1; $j <= 4; $j++) {
+                        QuestionChoice::create([
+                            'question_id' => $newQuestion->id,
+                            'title' => fake()->sentence(3),
+                            'is_correct' => $rightChoice == $j ? true : false
                         ]);
                     }
                     // Attribution de la nouvelle question à la partie

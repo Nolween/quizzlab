@@ -12,7 +12,7 @@ class ImageTransformation
   static function image_resize_big($source, int $width, int $height)
   {
     $new_width = $width > $height ? 1080 : 1080 * ($width / $height);
-    $new_height = $height > $width ? 1080 : 1080 * ($height / $width)  ;
+    $new_height = $height > $width ? 1080 : 1080 * ($height / $width);
     $thumbImg = imagecreatetruecolor($new_width, $new_height);
     imagecopyresampled($thumbImg, $source, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
     return $thumbImg;

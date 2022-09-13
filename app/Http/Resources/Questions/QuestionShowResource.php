@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Questions;
 
+use App\Models\QuestionChoice;
 use App\Models\QuestionComment;
 use App\Models\QuestionVote;
 use Carbon\Carbon;
@@ -33,6 +34,10 @@ class QuestionShowResource extends JsonResource
             foreach ($tags as $tag) {
                 $tagArray[] = ['id' => $tag->tag->id, 'name' => $tag->tag->name];
             }
+            $choiceArray = [];
+            foreach ($this->choices as $choice) {
+                $choiceArray[] = ['title' => $choice->title, 'is_correct' => $choice->is_correct];
+            }
             // L'utilisateur est-il connecté?
             $user = Auth::user();
             if ($user) {
@@ -62,7 +67,7 @@ class QuestionShowResource extends JsonResource
             return [
                 'id' => $this->id,
                 'question' => $this->question,
-                'answer' => $this->is_integrated == true ? 'Intégrée au quizz!' : $this->answer,
+                'choices' => $choiceArray,
                 'vote' => $this->vote,
                 'image' => $this->image,
                 'avatar' => $this->user->avatar,

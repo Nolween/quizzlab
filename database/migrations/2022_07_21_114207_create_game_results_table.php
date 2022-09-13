@@ -23,7 +23,10 @@ return new class extends Migration
                 ->constrained('users')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->string('response');
+            $table->foreignId('choice_id')
+                ->constrained('question_choices')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->boolean('is_correct');
             $table->float('score');
         });

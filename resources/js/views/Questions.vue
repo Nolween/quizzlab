@@ -80,7 +80,7 @@
             <!-- Liste des question -->
             <Question
                 :questionId="question.id"
-                :answer="question.answer"
+                :choices="question.choices"
                 :question="question.question"
                 :avatar="question.avatar"
                 :vote="question.vote"

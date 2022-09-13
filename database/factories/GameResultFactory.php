@@ -21,12 +21,12 @@ class GameResultFactory extends Factory
     {
         $gameQuestion = GameQuestion::where('has_begun', true)->inRandomOrder()->first();
         $isCorrect = rand(0,1);
-        $response = $isCorrect == 1 ? $gameQuestion->question->answer : fake()->sentence(1);
+        $choiceId = $isCorrect == 1 ? QuestionChoice::where('question_id', $gameQuestion->question_id)->where('is_correct', true)->inRandomOrder()->first()->id : QuestionChoice::where('question_id', $gameQuestion->question_id)->where('is_correct', false)->inRandomOrder()->first()->id;
         $score = $gameQuestion->question->ratio_score;
         return [
             'game_question_id' => $gameQuestion->id,
             'user_id' => GamePlayer::where('game_id', $gameQuestion->id)->inRandomOrder()->first()->id,
-            'response' => $response,
+            'choice_id' => $choiceId,
             'is_correct' => $isCorrect,
             'score' => $score
         ];

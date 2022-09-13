@@ -5,37 +5,26 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class GameResult extends Model
+class QuestionChoice extends Model
 {
     use HasFactory;
-
+    
     // Pas besoin des created_at et updated_at
     public $timestamps = false;
 
-
     protected $fillable = [
-        'game_question_id',
-        'user_id',
-        'choice_id',
-        'is_correct',
-        'score'
+        'question_id',
+        'title',
+        'is_correct'
     ];
 
-
     /**
-     * Quelle est la question appartient le résultat?
+     * A quelle question appartient le choix
      */
     public function question()
     {
         return $this->belongsTo(Question::class);
     }
 
-    /**
-     * A quel joueur appartient le résultat de la question?
-     */
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
 
 }
