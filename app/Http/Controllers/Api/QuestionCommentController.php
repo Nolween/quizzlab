@@ -97,6 +97,7 @@ class QuestionCommentController extends Controller
         // Si erreur dans la transaction
         catch (Exception $e) {
             DB::rollback();
+            return response()->json(['message' => $e->getMessage() . " >>> " . $e->getLine()], 500);
         }
         // Retour dans le front des informations
         return new QuestionCommentStoreResource($comment);

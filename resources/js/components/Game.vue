@@ -52,7 +52,7 @@
         </div>
         <!-- Infos -->
         <div class="flex flex-wrap justify-around py-2 px-3 lg:px-8">
-            <div class="flex flex-wrap cursor-pointer">
+            <div class="flex flex-wrap">
                 <svg-icon
                     :path="mdiMessageQuestion"
                     class="text-quizzlab-primary w-7 h-7 mr-1 pt-1"

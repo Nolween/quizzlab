@@ -19,6 +19,7 @@ class Game extends Model
         'has_begun',
         'is_finished',
         'game_code',
+        'questions_have_all_tags',
         'question_step'
     ];
 

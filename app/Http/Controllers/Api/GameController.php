@@ -340,9 +340,58 @@ class GameController extends Controller
 
         // Récupération des infos de la partie à modifier
         $game = Game::where('id', $request->gameId)->where('user_id', $userId)->firstOrFail();
-        // Modification du statut
-        $game->has_begun = true;
-        $game->save();
+
+        DB::beginTransaction();
+        try {
+            // Modification du statut de la partie
+            $game->has_begun = true;
+            $game->save();
+
+            // La partie a t-elle des thèmes rattachés?
+            $gameTags = GameTag::where('game_id', $game->id)->get()->pluck('tag_id');
+            $questionsIds = [];
+            // Combien de question à attribuer pour la partie?
+            for ($i = 1; $i <= $game->question_count; $i++) {
+                // Si on peut prendre n'importe quel thème
+                if (empty($gameTags)) {
+                    $randomQuestionId = Question::where('is_moderated', true)
+                        ->where('is_integrated', true)->whereNotIn('id', $questionsIds)
+                        ->inRandomOrder()->first()->id;
+                }
+                // Si des thèmes sont défini et que tous les thèmes ne sont pas liés pour chaque question
+                else if (!empty($gameTags) && $game->questions_have_all_tags == false) {
+                    $randomQuestionId = Question::with(['tags' => function ($query) use ($gameTags) {
+                        $query->whereIn('tag_id', $gameTags);
+                    }])->where('is_moderated', true)
+                        ->where('is_integrated', true)
+                        ->whereNotIn('id', $questionsIds)
+                        ->inRandomOrder()->first()->id;
+                }
+                // Si on a des thèmes sélectionnés et que chaque question doit posséder tous les thèmes
+                else if (!empty($gameTags) && $game->questions_have_all_tags == true) {
+                    $randomQuestionId = Question::withCount(['tags' => function ($query) use ($gameTags) {
+                        $query->whereIn('tag_id', $gameTags);
+                    }, '>=', count($gameTags)])->where('is_moderated', true)
+                        ->where('is_integrated', true)
+                        ->whereNotIn('id', $questionsIds)
+                        ->inRandomOrder()->first()->id;
+                }
+                // Ajout de l'id de la question pour ne pas l'avoir en doublon
+                $questionsIds[] = $randomQuestionId;
+                // Association de la question
+                GameQuestion::create(
+                    [
+                        'question_id' => $randomQuestionId,
+                        'game_id' => $game->id,
+                        'order' => $i,
+                    ]
+                );
+            }
+            Db::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => $e->getMessage() . " >>> " . $e->getLine()], 500);
+        }
 
         // Déclenchement de l'évènement pour tout le monde
         event(new BeginningGameEvent($game));
