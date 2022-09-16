@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Tags\TagQuestionsCountRequest;
 use App\Http\Requests\Tags\TagSearchRequest;
 use App\Http\Resources\Tags\TagIndexResource;
 use App\Http\Resources\Tags\TagSearchResource;
+use App\Models\Question;
 use App\Models\Tag;
 use App\Services\ElasticService;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class TagController extends Controller
@@ -52,6 +55,40 @@ class TagController extends Controller
             // Si on obtient bien des résultats
             if ($response->ok()) {
                 return new TagSearchResource($response->json());
+            } else {
+                return response()->json(['message' => "Erreur dans l'accès aux thèmes'"], 404);
+            }
+        } catch (Exception $e) {
+            return response()->json(['message' => "Erreur dans la requete"], 500);
+        }
+    }
+
+    public function questionsCount(TagQuestionsCountRequest $request)
+    {
+        try {
+            // Si pas de thèmes sélectionné et pas de liaison de thèmes
+            if (empty($request->tags) && $request->allTags == 0) {
+                // Combien de questions intégrées au quizz
+                $totalQuestions = Question::where('is_moderated', true)->where('is_integrated', true)->get()->count();
+                return response()->json(['possibleQuestions' => $totalQuestions], 200);
+            }
+            // Si un/des thèmes sélectionnés
+            else if (!empty($request->tags)) {
+                // Récupération des ids de tags
+                $tagsIdsArray = Tag::whereIn('name', $request->tags)->get()->pluck('id');
+                // Si pas de liaison de thèmes
+                if ($request->allTags == 0) {
+                    $totalQuestions = Question::whereHas('tags', function (Builder $query) use ($tagsIdsArray) {
+                        $query->whereIn('tag_id', $tagsIdsArray);
+                    })->where('is_integrated', true)->get()->count();
+                }
+                // Si liaison de thèmes
+                else {
+                    $totalQuestions = Question::whereHas('tags', function (Builder $query) use ($tagsIdsArray) {
+                        $query->whereIn('tag_id', $tagsIdsArray);
+                    }, '>=', count($tagsIdsArray))->where('is_integrated', true)->get()->count();
+                }
+                return response()->json(['possibleQuestions' => $totalQuestions], 200);
             } else {
                 return response()->json(['message' => "Erreur dans l'accès aux thèmes'"], 404);
             }

@@ -9,6 +9,7 @@ export function useTags() {
     const tags = ref([]);
     const tagSearch = ref('');
     // const forbiddenTag = ref(false);
+    const possibleQuestions = ref(null);
 
     const errors = ref("");
     const router = useRouter();
@@ -79,6 +80,25 @@ export function useTags() {
             userStore.checkError(error);
         }
     };
+    // Récupérer le nombre de questions selon les tags sélectionnés
+    const getQuestionsTagsCount = async (allTags, selectedThemes ) => {
+        try {
+            let response = await axios.get(`/api/tags/questions/count`, {
+                params: { tags: selectedThemes, allTags },
+            });
+            // Si on a bien un retour
+            if (response.data) {
+                possibleQuestions.value = response.data.possibleQuestions;
+            } else {
+                possibleQuestions.value = 0;
+            }
+        } catch (error) {
+            // Vérification de l'erreur
+            const userStore = useUserStore();
+            userStore.checkError(error);
+            possibleQuestions.value = 0;
+        }
+    };
 
     // Réinitialisation des tags suggérées
     const resetSuggestedTags = () => {
@@ -96,5 +116,7 @@ export function useTags() {
         getSuggestedTags,
         getAllTags,
         resetSuggestedTags,
+        getQuestionsTagsCount,
+        possibleQuestions,
     };
 }

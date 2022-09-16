@@ -90,6 +90,13 @@
                     :suggestedTags="computedSuggestedTag"
                 />
             </div>
+            <!-- QUESTIONS POSSIBLE -->
+            <div v-if="possibleQuestions >= form.questionCount" class="text-white text-4xl text-center">
+                {{ possibleQuestions }} questions possible
+            </div>
+            <div v-else class="text-quizzlab-ternary text-4xl text-center font-bold">
+                Pas assez de questions disponibles
+            </div>
             <!-- THEMES ASSOCIES-->
             <div
                 v-if="form.selectedThemes.length > 0"
@@ -109,6 +116,7 @@
                     :key="selectedThemeKey"
                     class="bg-quizzlab-quaternary hover:bg-quizzlab-ternary text-white font-semibold m-2 p-2 text-2xl cursor-pointer"
                     @click="removeSelectedTheme(selectedThemeKey)"
+                    title="Supprimer le thème"
                     >{{ selectedTheme }}</span
                 >
             </div>
@@ -119,7 +127,7 @@
                     type="checkbox"
                     name="allTags"
                     v-model="form.allTags"
-                    value="true"
+                    value="1"
                     class="h-5 w-5 mb-3 rounded-full accent-quizzlab-primary checked:bg-gray-300 cursor-pointer"
                 />
                 <label for="allTags" id="allTags"
@@ -244,7 +252,7 @@
     </div>
 </template>
 <script setup>
-import { ref, toRef, reactive, computed, onBeforeMount } from "vue";
+import { ref, watch, reactive, computed, onBeforeMount } from "vue";
 import router from "@/router";
 // Import des composants
 import SuggestedTags from "../components/SuggestedTags.vue";
@@ -275,6 +283,8 @@ const {
     tagSearch,
     filteredTags,
     tags,
+    getQuestionsTagsCount,
+    possibleQuestions,
 } = useTags();
 const { sendGameProposition } = useGames();
 
@@ -291,7 +301,7 @@ const form = reactive({
     maxPlayers: 1,
     questionCount: 10,
     responseTime: 15,
-    allTags: false,
+    allTags: 0,
     selectedThemes: [],
 });
 
@@ -303,9 +313,36 @@ const completedForm = computed(() => {
         form.questionCount &&
         form.questionCount > 0 &&
         form.responseTime &&
-        form.responseTime > 0
+        form.responseTime > 0 &&
+        possibleQuestions >= form.questionCount
     );
 });
+
+// On surveille la checkbox de liaison des thèmes
+watch(
+    () => form.allTags,
+    (allTags) => {
+        let allTagsBool = allTags === true ? 1 : 0;
+        // Actualisation du nombre de questions possibles
+        getQuestionsTagsCount(allTagsBool, form.selectedThemes);
+    }
+);
+// On surveille le nombre de questions
+watch(
+    () => form.questionCount,
+    (questionCount) => {
+        form.questionCount = questionCount > 50 ? 50 : form.questionCount
+        form.questionCount = questionCount < 1 ? 1 : form.questionCount
+    }
+);
+// On surveille le nombre de joueurs
+watch(
+    () => form.maxPlayers,
+    (maxPlayers) => {
+        form.maxPlayers = maxPlayers > 50 ? 50 : form.maxPlayers
+        form.maxPlayers = maxPlayers < 1 ? 1 : form.maxPlayers
+    }
+);
 
 const sendGame = async () => {
     await sendGameProposition({ ...form });
@@ -314,6 +351,8 @@ const sendGame = async () => {
 // Retirer le thème sur lequel on clique
 const removeSelectedTheme = (selectedThemeKey) => {
     form.selectedThemes.splice(selectedThemeKey, 1);
+    // Actualisation du nombre de questions possibles
+    getQuestionsTagsCount(form.allTags, form.selectedThemes);
 };
 
 // Ajouter les thèmes de la liste sélectionnés
@@ -326,6 +365,8 @@ const addHandlingTags = () => {
             form.selectedThemes.push(handlingTag);
         }
     });
+    // Actualisation du nombre de questions possibles
+    getQuestionsTagsCount(form.allTags, form.selectedThemes);
     // Réinitialisation du tableau des thèmes en attente d'ajout
     handlingTags.value = [];
     // Fermeture de l'overlay
@@ -345,6 +386,8 @@ const addTag = async (newQuestion) => {
     // Réinitialisation des suggestions de thèmes
     resetSuggestedTags();
     theme.value = null;
+    // Actualisation du nombre de questions possibles
+    getQuestionsTagsCount(form.allTags, form.selectedThemes);
     // Re focus sur le champ de thème
     themeInput.value.focus();
 };
@@ -354,6 +397,8 @@ onBeforeMount(() => {
     resetSuggestedTags();
     // Récupération de tous les tags
     getAllTags();
+    // Récupération du nombre de questions possibles
+    getQuestionsTagsCount(0, null);
     userStore.checkAuth();
     // Si l'utilisateur n'est pas connecté
     if (!userStore.getIsConnected || userStore.getIsConnected == false) {

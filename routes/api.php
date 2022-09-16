@@ -34,6 +34,7 @@ Route::controller(QuestionController::class)->group(function() {
 });
 Route::controller(TagController::class)->group(function() {
     Route::get('/tags/search','search')->name('tags.search');
+    Route::get('/tags/questions/count','questionsCount')->name('tags.questionsCount');
 });
 Route::controller(GameController::class)->group(function() {
     Route::get('/games/join/{game}','join')->name('game.join');
