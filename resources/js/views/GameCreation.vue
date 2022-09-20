@@ -314,7 +314,7 @@ const completedForm = computed(() => {
         form.questionCount > 0 &&
         form.responseTime &&
         form.responseTime > 0 &&
-        possibleQuestions >= form.questionCount
+        possibleQuestions.value >= form.questionCount
     );
 });
 
@@ -345,7 +345,7 @@ watch(
 );
 
 const sendGame = async () => {
-    await sendGameProposition({ ...form });
+    await sendGameProposition({ ...form }, possibleQuestions.value);
 };
 
 // Retirer le thème sur lequel on clique

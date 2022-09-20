@@ -12,8 +12,9 @@ export function useGames() {
 
     //? Fonctions Asynchrones
     // Proposition d'une nouvelle game
-    const sendGameProposition = async (data) => {
+    const sendGameProposition = async (data, possibleQuestions) => {
         try {
+            data.possibleQuestions = possibleQuestions
             data.allTags = data.allTags == true ? 1 : 0;
             // Envoi dans le back
             let response = await axios.post(`/api/games`, data);
