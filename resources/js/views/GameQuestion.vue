@@ -35,27 +35,17 @@
             >
                 {{ gameQuestion.question }}
             </div>
-            <!-- REDACTION REPONSE -->
-            <div class="mb-4 w-full flex">
-                <!-- Rédaction commentaire -->
-                <textarea
-                    v-model="form.answer"
-                    name="message"
-                    class="w-full border-2 text-3xl"
-                    rows="2"
-                    id="messageInput"
-                ></textarea>
-                <button
-                    type="button"
-                    class="bg-quizzlab-secondary w-28 pl-8 border-2"
+            <!-- CHOIX -->
+            <div class="flex flex-wrap justify-around">
+                <div
+                    v-for="(choice, choiceKey) in gameQuestion.choices"
+                    :key="choiceKey"
+                    class="cursor-pointer hover:text-white hover:bg-quizzlab-quaternary text-xl font-semibold text-left px-3 lg:px-8 py-3 mb-2 w-1/2 border-x-2 border-quizzlab-primary"
+                    :class="form.choiceId == choice.id ? 'bg-quizzlab-quaternary text-white' : 'bg-white text-quizzlab-primary'"
+                    @click="form.choiceId = choice.id"
                 >
-                    <svg-icon
-                        :path="mdiSend"
-                        class="text-white w-10 h-10"
-                        type="mdi"
-                        @click="sendAnswer()"
-                    ></svg-icon>
-                </button>
+                    {{ choice.title }}
+                </div>
             </div>
             <!-- SI IMAGE -->
             <div class="flex justify-center" v-if="gameQuestion.image">
@@ -125,9 +115,7 @@ const vFocus = {
 
 // Formulaire de réponse
 const form = reactive({
-    answer: null,
-    gameId: null,
-    questionId: null,
+    choiceId: null
 });
 
 // Calcul du pourcentage de progression de la barre de temps restant
@@ -175,7 +163,7 @@ onBeforeMount(() => {
         router.push({ name: "connexion.create" });
     } else {
         // On va chercher la question dans le back en fonction de la partie
-        getGameQuestion(route.params.id);
+       getGameQuestion(route.params.id);
     }
 });
 // Une fois la page montée

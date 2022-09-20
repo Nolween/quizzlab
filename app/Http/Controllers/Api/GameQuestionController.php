@@ -50,7 +50,7 @@ class GameQuestionController extends Controller
             return response()->json(['success' => false, 'message' => "La partie n'a pas encore commencé"], 500);
         }
         // Le joueur est-il bien dans la partie?
-        $gamePlayer = GamePlayer::where('user_id', $userId)->where('game_id', $game->id)->firstOrFail();
+        GamePlayer::where('user_id', $userId)->where('game_id', $game->id)->firstOrFail();
         // Quelle est le numéro de la question active?
         $skip = $game->question_step > 1 ? $game->question_step - 1 : 0;
         $gameQuestion = GameQuestion::with(['question', 'game', 'questionTags'])->where('game_id', $game->id)->orderBy('order', 'ASC')->skip($skip)->first();

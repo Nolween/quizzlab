@@ -70,6 +70,14 @@ class Question extends Model
         return $this->hasMany(QuestionChoice::class);
     }
 
+    /**
+     * Quels sont les choix de cette question, sans retourner la valeur correcte?
+     */
+    public function choicesWithoutCorrect()
+    {
+        return $this->hasMany(QuestionChoice::class)->select('id', 'title');
+    }
+
 
 
 }

@@ -21,6 +21,7 @@ export function useGameQuestions() {
             if (response.data.data) {
                 gameQuestion.value = response.data.data;
                 timeLeft.value = response.data.data.responseTime;
+                return gameQuestion.value
             }
         } catch (error) {
             // Vérification de l'erreur
@@ -36,9 +37,11 @@ export function useGameQuestions() {
     // Récupération de la question d'une partie
     const sendAnswerProposition = async (data) => {
         try {
+            // Ajout des infos de la question
+            data.gameQuestionId = gameQuestion.gameQuestionId
+            data.questionId = gameQuestion.questionId
             // Envoi dans le back
             let response = await axios.post(`/api/gamequestions`, data);
-
             // Si retour ok
             if (response.data) {
             }
