@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\GameChatController;
 use App\Http\Controllers\Api\GameController;
 use App\Http\Controllers\Api\GamePlayerController;
 use App\Http\Controllers\Api\GameQuestionController;
+use App\Http\Controllers\Api\GameResultController;
 use App\Http\Controllers\Api\QuestionCommentController;
 use App\Http\Controllers\Api\QuestionController;
 use App\Http\Controllers\Api\TagController;
@@ -60,6 +61,7 @@ Route::apiResource('games', GameController::class);
 Route::apiResource('gamechats', GameChatController::class);
 Route::apiResource('gameplayers', GamePlayerController::class);
 Route::apiResource('gamequestions', GamePlayerController::class);
+Route::apiResource('gameresults', GameResultController::class);
 
 Route::fallback(function(){
     return response()->json([

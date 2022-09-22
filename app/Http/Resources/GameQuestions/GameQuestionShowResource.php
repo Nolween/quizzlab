@@ -27,6 +27,7 @@ class GameQuestionShowResource extends JsonResource
             'responseTime' => $this->game->response_time,
             'question' => $this->question->question,
             'questionId' => $this->question->id,
+            'gameId' => $this->game->id,
             'image' => $this->question->image,
             'tags' => $tags,
             'choices' => $choices,

@@ -29,6 +29,7 @@ return new class extends Migration
                 ->onDelete('cascade');
             $table->boolean('is_correct');
             $table->float('score');
+            $table->timestamps();
         });
     }
 

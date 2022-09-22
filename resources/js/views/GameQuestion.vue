@@ -41,8 +41,12 @@
                     v-for="(choice, choiceKey) in gameQuestion.choices"
                     :key="choiceKey"
                     class="cursor-pointer hover:text-white hover:bg-quizzlab-quaternary text-xl font-semibold text-left px-3 lg:px-8 py-3 mb-2 w-1/2 border-x-2 border-quizzlab-primary"
-                    :class="form.choiceId == choice.id ? 'bg-quizzlab-quaternary text-white' : 'bg-white text-quizzlab-primary'"
-                    @click="form.choiceId = choice.id"
+                    :class="
+                        choiceId == choice.id
+                            ? 'bg-quizzlab-quaternary text-white'
+                            : 'bg-white text-quizzlab-primary'
+                    "
+                    @click="chooseAnswer(choice.id)"
                 >
                     {{ choice.title }}
                 </div>
@@ -54,7 +58,7 @@
                         'http://127.0.0.1:5173/public/storage/img/questions/big/' +
                         gameQuestion.image
                     "
-                    class="mt-2 w-full lg:w-2/3 object-cover rounded-md mr-3 cursor-pointer"
+                    class="w-full 2xl:w-2/3 object-cover rounded-md cursor-pointer m-5"
                     :alt="gameQuestion.image"
                     title="Aggrandir l'image"
                     @click="displayBigImageQuestion(true)"
@@ -68,16 +72,16 @@
         v-if="questionImageOverlay"
         class="h-screen bg-black bg-opacity-50 rounded-sm fixed inset-0 z-50 flex justify-center items-center"
     >
-        <div class="w-4/5">
+        <div class="w-full">
             <div class="flex justify-between bg-white p-3">
                 <img
                     :src="
                         'http://127.0.0.1:5173/public/storage/img/questions/big/' +
                         gameQuestion.image
                     "
-                    class="mt-2 object-cover rounded-md mr-3 cursor-pointer"
+                    class="mt-2 w-full rounded-md mr-3 cursor-pointer"
                     :alt="gameQuestion.image"
-                    title="Ferme l'image"
+                    title="Fermer l'image"
                     @click="displayBigImageQuestion(false)"
                 />
             </div>
@@ -113,10 +117,7 @@ const vFocus = {
     mounted: (el) => el.focus(),
 };
 
-// Formulaire de réponse
-const form = reactive({
-    choiceId: null
-});
+const choiceId = ref(null);
 
 // Calcul du pourcentage de progression de la barre de temps restant
 const width = computed(() => {
@@ -129,8 +130,14 @@ const width = computed(() => {
     };
 });
 
+function chooseAnswer(choice) {
+    choiceId.value = choice;
+    //! Envoi temporaire de la réponse pour les test
+    sendAnswer();
+}
+
 const sendAnswer = async () => {
-    await sendAnswerProposition({ ...form });
+    await sendAnswerProposition(choiceId.value);
 };
 
 //? Fonctions du composant
@@ -163,7 +170,7 @@ onBeforeMount(() => {
         router.push({ name: "connexion.create" });
     } else {
         // On va chercher la question dans le back en fonction de la partie
-       getGameQuestion(route.params.id);
+        getGameQuestion(route.params.id);
     }
 });
 // Une fois la page montée

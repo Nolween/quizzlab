@@ -12,6 +12,9 @@ use Illuminate\Database\Seeder;
 
 class GameResultSeeder extends Seeder
 {
+    //! Utilisation du trait pour ne pas activer les observers pendant le seeding
+    use WithoutModelEvents;
+
     /**
      * Run the database seeds.
      *
@@ -28,7 +31,7 @@ class GameResultSeeder extends Seeder
                 foreach ($game->players as $player) {
                     $finalScore = 0;
                     // Pour chaque question de la partie déjà posée
-                    for ($i = 1; $i <= $game->question_step; $i++) {
+                    for ($i = 0; $i < $game->question_step; $i++) {
                         // Récupération de la question selon son ordre
                         $gameQuestion = GameQuestion::where('game_id', $game->id)->where('order', $i)->first();
                         // Une chance sur 2 de bien répondre

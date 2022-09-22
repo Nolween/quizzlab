@@ -9,10 +9,6 @@ class GameResult extends Model
 {
     use HasFactory;
 
-    // Pas besoin des created_at et updated_at
-    public $timestamps = false;
-
-
     protected $fillable = [
         'game_question_id',
         'user_id',

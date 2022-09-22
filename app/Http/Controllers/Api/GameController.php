@@ -223,7 +223,7 @@ class GameController extends Controller
             //? Si aucun thème n'a été sélectionné
             if (empty($request->selectedThemes)) {
                 // Selon le nombre de question dans la partie
-                for ($i = 1; $i <= $request->question_count; $i++) {
+                for ($i = 0; $i < $request->question_count; $i++) {
                     // On cherche une Id de question pas encore dans la partie
                     $questionToAddId = Question::where('is_integrated', true)->whereNotIn('id', $gameQuestionsIds)->inRandomOrder()->get()->id;
                     // Attribution de la question à la partie
@@ -239,7 +239,7 @@ class GameController extends Controller
             //? Si des thèmes sont associés
             else {
                 // Selon le nombre de question dans la partie
-                for ($i = 1; $i <= $request->question_count; $i++) {
+                for ($i = 0; $i < $request->question_count; $i++) {
                     // On cherche une Id de question pas encore dans la partie
                     //? Si il faut seulement que la question comporte un des thèmes associés
                     if ($request->allTags == false) {
@@ -351,7 +351,7 @@ class GameController extends Controller
             $gameTags = GameTag::where('game_id', $game->id)->get()->pluck('tag_id');
             $questionsIds = [];
             // Combien de question à attribuer pour la partie?
-            for ($i = 1; $i <= $game->question_count; $i++) {
+            for ($i = 0; $i < $game->question_count; $i++) {
                 // Si on peut prendre n'importe quel thème
                 if (empty($gameTags)) {
                     $randomQuestionId = Question::where('is_moderated', true)
