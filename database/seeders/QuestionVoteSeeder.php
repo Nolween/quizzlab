@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Question;
 use App\Models\QuestionVote;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class QuestionVoteSeeder extends Seeder
@@ -15,13 +14,13 @@ class QuestionVoteSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
-        $totalUsers = User::all()->count();
-        // Quelle est la valeur de vote pour une question? Pour arriver à 100 il faudrait qu'au moins un quart des utilisateurs mettent oui
-        $votePower = ceil(100 / ($totalUsers / 4));
+        $totalUsers = User::where('is_banned', false)->count();
+        // Quelle est la valeur de vote pour une question ? Pour arriver à 100 il faudrait qu'au moins un dixième des utilisateurs mettent oui
+        $voteRatio = ceil(100 / ($totalUsers / 10));
         // Si le pouvoir de vote selon le total d'utilisateur est inférieur à 1, on laisse 1
-        $votePower = $votePower < 1 ? 1 : $votePower;
+        $voteRatio = max($voteRatio, 1);
         // Parcours de toutes les questions existantes
         $questions = Question::all();
         foreach ($questions as $question) {
@@ -29,7 +28,7 @@ class QuestionVoteSeeder extends Seeder
             $voteCount = rand(0, $totalUsers);
             for ($i = 1; $i <= $voteCount; $i++) {
                 $randomUserId = User::inRandomOrder()->first()->id;
-                // L'utilisateur a t-il déjà voté pour la question?
+                // L'utilisateur a-t-il déjà voté pour la question ?
                 $voted = QuestionVote::where('user_id', $randomUserId)->where('question_id', $question->id)->first();
                 // Si la personne n'a pas encore voté pour la question
                 if (!$voted) {
@@ -42,9 +41,9 @@ class QuestionVoteSeeder extends Seeder
             }
 
             // Modification du score de vote selon le nombre de positifs / négatifs
-            $positiveVote = QuestionVote::where('question_id', $question->id)->where('has_approved', 1)->get()->count();
-            $negativeVote = QuestionVote::where('question_id', $question->id)->where('has_approved', 0)->get()->count();
-            $question->vote = ($votePower * $positiveVote) - ($votePower * $negativeVote);
+            $positiveVote = QuestionVote::where('question_id', $question->id)->where('has_approved', true)->count();
+            $negativeVote = QuestionVote::where('question_id', $question->id)->where('has_approved', false)->count();
+            $question->vote = ($voteRatio * $positiveVote) - ($voteRatio * $negativeVote);
             $question->is_integrated = $question->vote >= 100 ? true : null;
             $question->save();
         }

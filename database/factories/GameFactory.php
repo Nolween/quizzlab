@@ -2,12 +2,13 @@
 
 namespace Database\Factories;
 
+use App\Models\Game;
 use App\Models\GameRule;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Game>
+ * @extends Factory<Game>
  */
 class GameFactory extends Factory
 {
@@ -16,7 +17,7 @@ class GameFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         $questionCount = rand(5, 15);
         $hasBegun = fake()->boolean(90);
@@ -35,7 +36,7 @@ class GameFactory extends Factory
             'max_players' => rand(1, 20),
             'response_time' => rand(10, 20),
             'question_count' => $questionCount,
-            'questions_have_all_tags' => fake()->boolean(50),
+            'questions_have_all_tags' => fake()->boolean(),
             'has_begun' => $hasBegun,
             'is_finished' => $isFinished,
             'game_code' => fake()->unique()->isbn13(),

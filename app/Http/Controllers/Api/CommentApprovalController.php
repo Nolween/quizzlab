@@ -5,11 +5,12 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Approvals\CommentApprovalStoreRequest;
 use App\Http\Resources\Approvals\CommentApprovalsStoreResource;
-use App\Http\Resources\ErrorsResource;
 use App\Models\CommentApproval;
 use App\Models\QuestionComment;
+use Illuminate\Database\QueryException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 
 class CommentApprovalController extends Controller
@@ -29,29 +30,29 @@ class CommentApprovalController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function index()
+    public function index():Response
     {
         //
+        return response();
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Approvals\CommentApprovalStoreRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param CommentApprovalStoreRequest $request
+     * @return CommentApprovalsStoreResource|JsonResponse
      */
-    public function store(CommentApprovalStoreRequest $request)
+    public function store(CommentApprovalStoreRequest $request): CommentApprovalsStoreResource|JsonResponse
     {
-        $user = Auth::user();
 
         // Transaction pour rollback si erreur
         DB::beginTransaction();
         try {
-            // Mise en place du vote, si il existe déjà une ligne avec cet utilisateur et ce commentaire, update, sinon create
-            $commentApproval = CommentApproval::updateOrCreate(
-                ['user_id' => $user->id, 'comment_id' => $request->commentid],
+            // Mise en place du vote, s'il existe déjà une ligne avec cet utilisateur et ce commentaire, update, sinon create
+            CommentApproval::updateOrCreate(
+                ['user_id' => auth()->id(), 'comment_id' => $request->commentid],
                 ['has_approved' => $request->ispositive]
             );
 
@@ -62,7 +63,7 @@ class CommentApprovalController extends Controller
             $commentUpdate = QuestionComment::findOrFail($request->commentid);
             $commentUpdate->approvals_count = $positiveApprovals;
             $commentUpdate->disapprovals_count = $negativeApprovals;
-            // On sauvegarde sans toucher aux timestamps du commentaire, pour ne pas fausser le (modifié) 
+            // On sauvegarde sans toucher aux timestamps du commentaire, pour ne pas fausser le (modifié)
             $commentUpdate->timestamps = false;
             $commentUpdate->save();
             // Constitution du tableau de retour
@@ -74,46 +75,49 @@ class CommentApprovalController extends Controller
             ];
             // Validation de la transaction
             DB::commit();
-        }
-        // Si erreur dans la transaction
+            // Retour dans le front des informations
+            return new CommentApprovalsStoreResource($response);
+        } // Si erreur dans la transaction
         catch (QueryException $e) {
             DB::rollback();
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
-        // Retour dans le front des informations
-        return new CommentApprovalsStoreResource($response);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\CommentApproval  $commentApproval
-     * @return \Illuminate\Http\Response
+     * @param CommentApproval $commentApproval
+     * @return Response
      */
-    public function show(CommentApproval $commentApproval)
+    public function show(CommentApproval $commentApproval): Response
     {
         //
+        return response($commentApproval);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\CommentApproval  $commentApproval
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param CommentApproval $commentApproval
+     * @return Response
      */
-    public function update(Request $request, CommentApproval $commentApproval)
+    public function update(Request $request, CommentApproval $commentApproval): Response
     {
         //
+        return response($commentApproval);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\CommentApproval  $commentApproval
-     * @return \Illuminate\Http\Response
+     * @param CommentApproval $commentApproval
+     * @return Response
      */
-    public function destroy(CommentApproval $commentApproval)
+    public function destroy(CommentApproval $commentApproval): Response
     {
         //
+        return response($commentApproval);
     }
 }

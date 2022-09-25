@@ -2,14 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Helpers\ImageTransformation;
-use App\Models\Role;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class UserSeeder extends Seeder
 {
@@ -18,7 +13,7 @@ class UserSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         //? Partie images d'avatar
         $file = new Filesystem;

@@ -3,11 +3,12 @@
 namespace Database\Factories;
 
 use App\Models\Question;
+use App\Models\QuestionVote;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\QuestionVote>
+ * @extends Factory<QuestionVote>
  */
 class QuestionVoteFactory extends Factory
 {
@@ -16,7 +17,7 @@ class QuestionVoteFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         $userId = User::inRandomOrder()->first()->id;
         // On sélectionne une question dont la modération a été faite

@@ -3,11 +3,12 @@
 namespace Database\Factories;
 
 use App\Models\Game;
+use App\Models\GameChat;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\GameChat>
+ * @extends Factory<GameChat>
  */
 class GameChatFactory extends Factory
 {
@@ -16,7 +17,7 @@ class GameChatFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         $gameId = Game::where('has_begun', true)->inRandomOrder()->first()->id;
         // Si la partie a déjà commencé, le joueur peut avoir discuté

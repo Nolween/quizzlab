@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class GameResult extends Model
 {
@@ -19,17 +20,17 @@ class GameResult extends Model
 
 
     /**
-     * Quelle est la question appartient le résultat?
+     * Quelle est la question appartient le résultat ?
      */
-    public function question()
+    public function question(): BelongsTo
     {
         return $this->belongsTo(Question::class);
     }
 
     /**
-     * A quel joueur appartient le résultat de la question?
+     * À quel joueur appartient le résultat de la question ?
      */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

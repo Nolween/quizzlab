@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class GamePlayer extends Model
 {
     use HasFactory;
-    
+
     // Pas besoin des created_at et updated_at
     public $timestamps = false;
 
@@ -21,18 +22,18 @@ class GamePlayer extends Model
     ];
 
     /**
-     * Quel joueur est dans cette partie?
+     * Quel joueur est dans cette partie ?
      */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    
+
     /**
-     * Dans quelle partie le joueur est-il?
+     * Dans quelle partie le joueur est-il ?
      */
-    public function game()
+    public function game(): BelongsTo
     {
         return $this->belongsTo(Game::class);
     }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class GameTag extends Model
 {
@@ -20,17 +21,17 @@ class GameTag extends Model
 
 
     /**
-     * A quelle partie appartient l'association?
+     * À quelle partie appartient l'association ?
      */
-    public function game()
+    public function game(): BelongsTo
     {
         return $this->belongsTo(Game::class);
     }
 
     /**
-     * A quelle thème appartient l'association?
+     * À quel thème appartient l'association ?
      */
-    public function tag()
+    public function tag(): BelongsTo
     {
         return $this->belongsTo(Tag::class);
     }

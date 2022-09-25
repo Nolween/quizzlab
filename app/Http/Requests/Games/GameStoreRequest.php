@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Games;
 
-use App\Rules\EnoughGameQuestionsRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,7 +12,7 @@ class GameStoreRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return Auth::check();
     }
@@ -23,7 +22,7 @@ class GameStoreRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'maxPlayers' => ['integer', 'required', 'min:1', 'max:30'],
@@ -32,7 +31,7 @@ class GameStoreRequest extends FormRequest
             'allTags' => ['boolean'],
             'selectedThemes' => ['array', 'nullable'],
             'selectedThemes.*' => ['string'],
-            'possibleQuestions' => ['integer', 'required', 'min:1', 'gte:questionCount'] // On doit avoir plus de questions possible que de questions définies
+            'possibleQuestions' => ['integer', 'required', 'min:1', 'gte:questionCount'] // On doit avoir plus de questions possibles que de questions définies
         ];
     }
 }

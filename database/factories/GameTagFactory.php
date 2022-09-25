@@ -3,11 +3,12 @@
 namespace Database\Factories;
 
 use App\Models\Game;
+use App\Models\GameTag;
 use App\Models\Tag;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\GameTag>
+ * @extends Factory<GameTag>
  */
 class GameTagFactory extends Factory
 {
@@ -16,7 +17,7 @@ class GameTagFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'game_id' => Game::inRandomOrder()->first()->id,

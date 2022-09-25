@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Game;
 use App\Models\GameTag;
 use App\Models\Tag;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class GameTagSeeder extends Seeder
@@ -15,12 +14,12 @@ class GameTagSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
 
 
         $games = Game::all();
-        // Parcours de toutes les partie
+        // Parcours de toutes les parties
         foreach ($games as $game) {
             // Combien de tag pour la game?
             $tagCount = rand(2, 25);

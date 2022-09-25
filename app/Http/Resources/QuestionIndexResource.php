@@ -2,21 +2,22 @@
 
 namespace App\Http\Resources;
 
-use App\Models\QuestionChoice;
 use App\Models\QuestionVote;
 use Carbon\Carbon;
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Auth;
+use JsonSerializable;
 
 class QuestionIndexResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     * @param  Request  $request
+     * @return array|Arrayable|JsonSerializable
      */
-    public function toArray($request)
+    public function toArray($request): array|JsonSerializable|Arrayable
     {
         // Conversion de la date de création
         Carbon::setLocale('fr');
@@ -31,11 +32,11 @@ class QuestionIndexResource extends JsonResource
         foreach ($this->choices as $choice) {
             $choiceArray[] = ['title' => $choice->title, 'is_correct' => $choice->is_correct];
         }
-        // L'utilisateur est-il connecté?
-        $user = Auth::user();
-        if($user) {
-            // A t-il voté pour cette question?
-            $questionVote = QuestionVote::select('has_approved')->where('question_id', $this->id)->where('user_id', $user->id)->first();
+        // L'utilisateur est-il connecté ?
+        $userId = auth()->id();
+        if($userId) {
+            // A-t-il voté pour cette question ?
+            $questionVote = QuestionVote::select('has_approved')->where('question_id', $this->id)->where('user_id', $userId)->first();
         }
         return [
             'id' => $this->id,

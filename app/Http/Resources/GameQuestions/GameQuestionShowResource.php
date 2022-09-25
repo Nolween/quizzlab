@@ -2,19 +2,21 @@
 
 namespace App\Http\Resources\GameQuestions;
 
-use App\Models\QuestionTag;
+use App\Models\GameQuestion;
 use App\Models\Tag;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Resources\Json\JsonResource;
+use JsonSerializable;
 
 class GameQuestionShowResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
      *
-     * @param  \App\Models\GameQuestion  $gameQuestion
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     * @param  GameQuestion  $gameQuestion
+     * @return array|Arrayable|JsonSerializable
      */
-    public function toArray($gameQuestion)
+    public function toArray($gameQuestion): array|JsonSerializable|Arrayable
     {
         $uniqueTags = $this->questionTags->unique('tag_id')->pluck('tag_id');
         $tags = Tag::whereIn('id', $uniqueTags)->get()->pluck('name');

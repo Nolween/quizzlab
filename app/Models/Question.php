@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Question extends Model
 {
@@ -20,64 +22,62 @@ class Question extends Model
     ];
 
     /**
-     * A qui appartient la question
+     * À qui appartient la question
      */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
     /**
-     * Quelles sont les parties qui utilisent cette question?
+     * Quelles sont les parties qui utilisent cette question ?
      */
-    public function games()
+    public function games(): HasMany
     {
         return $this->hasMany(GameQuestion::class);
     }
 
 
     /**
-     * Quels sont les thèmes de cette question?
+     * Quels sont les thèmes de cette question ?
      */
-    public function tags()
+    public function tags(): HasMany
     {
         return $this->hasMany(QuestionTag::class);
     }
 
 
     /**
-     * Quels sont les commentaires de cette question?
+     * Quels sont les commentaires de cette question ?
      */
-    public function comments()
+    public function comments(): HasMany
     {
         return $this->hasMany(QuestionComment::class);
     }
-    
+
 
     /**
-     * Quels sont les commentaires de premier niveau de cette question?
+     * Quels sont les commentaires de premier niveau de cette question ?
      */
-    public function primary_comments()
+    public function primary_comments(): HasMany
     {
         return $this->hasMany(QuestionComment::class)->where('comment_id', null)->orderBy('created_at', 'ASC');
     }
 
     /**
-     * Quels sont les choix de cette question?
+     * Quels sont les choix de cette question ?
      */
-    public function choices()
+    public function choices(): HasMany
     {
         return $this->hasMany(QuestionChoice::class);
     }
 
     /**
-     * Quels sont les choix de cette question, sans retourner la valeur correcte?
+     * Quels sont les choix de cette question, sans retourner la valeur correcte ?
      */
-    public function choicesWithoutCorrect()
+    public function choicesWithoutCorrect(): HasMany
     {
         return $this->hasMany(QuestionChoice::class)->select('id', 'title');
     }
-
-
 
 }

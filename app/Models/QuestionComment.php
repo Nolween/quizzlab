@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Auth;
 
 class QuestionComment extends Model
@@ -21,43 +24,43 @@ class QuestionComment extends Model
 
 
     /**
-     * A quelle question appartient le commentaire?
+     * À quelle question appartient le commentaire ?
      */
-    public function question()
+    public function question(): BelongsTo
     {
         return $this->belongsTo(Question::class);
     }
 
     /**
-     * A quel utilisateur appartient le commentaire?
+     * À quel utilisateur appartient le commentaire ?
      */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
 
     /**
-     * Combien d'avis positifs sur ce commentaire?
+     * Combien d'avis positifs sur ce commentaire ?
      */
-    public function approvals()
+    public function approvals(): HasMany
     {
         return $this->hasMany(CommentApproval::class, 'comment_id');
     }
 
 
     /**
-     * Avis positifs sur ce commentaire?
+     * Avis positifs sur ce commentaire ?
      */
-    public function positiveApprovals()
+    public function positiveApprovals(): HasMany
     {
         return $this->hasMany(CommentApproval::class, 'comment_id')->where('has_approved', true);
     }
 
     /**
-     * Avis négatifs sur ce commentaire?
+     * Avis négatifs sur ce commentaire ?
      */
-    public function negativeApprovals()
+    public function negativeApprovals(): HasMany
     {
         return $this->hasMany(CommentApproval::class, 'comment_id')->where('has_approved', false);
     }
@@ -66,9 +69,8 @@ class QuestionComment extends Model
     /**
      * Indique l'avis de l'utilisateur sur le commentaire
      *
-     * @return void
      */
-    public function userOpinion()
+    public function userOpinion(): HasOne
     {
         return $this->hasOne(CommentApproval::class, 'comment_id')->ofMany([
             'updated_at' => 'max',

@@ -3,11 +3,12 @@
 namespace Database\Factories;
 
 use App\Models\Question;
+use App\Models\QuestionTag;
 use App\Models\Tag;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\QuestionTag>
+ * @extends Factory<QuestionTag>
  */
 class QuestionTagFactory extends Factory
 {
@@ -16,7 +17,7 @@ class QuestionTagFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'question_id' => Question::inRandomOrder()->first()->id,

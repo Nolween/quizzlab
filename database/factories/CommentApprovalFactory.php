@@ -2,12 +2,13 @@
 
 namespace Database\Factories;
 
+use App\Models\CommentApproval;
 use App\Models\QuestionComment;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\CommentApproval>
+ * @extends Factory<CommentApproval>
  */
 class CommentApprovalFactory extends Factory
 {
@@ -16,7 +17,7 @@ class CommentApprovalFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         $userId = User::inRandomOrder()->first()->id;
         return [

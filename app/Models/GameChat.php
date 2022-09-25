@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class GameChat extends Model
 {
@@ -17,17 +18,17 @@ class GameChat extends Model
 
 
     /**
-     * Qui a écrit le message?
+     * Qui a écrit le message ?
      */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
     /**
-     * Dans quelle partie a été écrit le message?
+     * Dans quelle partie a été écrite le message ?
      */
-    public function game()
+    public function game(): BelongsTo
     {
         return $this->belongsTo(Game::class);
     }

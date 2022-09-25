@@ -8,33 +8,33 @@ use App\Http\Resources\Comments\QuestionCommentStoreResource;
 use App\Models\QuestionComment;
 use Exception;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 
-use function PHPUnit\Framework\throwException;
 
 class QuestionCommentController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function index()
+    public function index(): Response
     {
         //
+        return response();
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Comments\QuestionCommentStoreRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param QuestionCommentStoreRequest $request
+     * @return QuestionCommentStoreResource|JsonResponse
      */
-    public function store(QuestionCommentStoreRequest $request)
+    public function store(QuestionCommentStoreRequest $request): JsonResponse|QuestionCommentStoreResource
     {
-        $user = Auth::user();
         // Transaction pour rollback si erreur
         DB::beginTransaction();
         try {
@@ -44,7 +44,7 @@ class QuestionCommentController extends Controller
             $commentId = !empty($isResponseComment) ? $isResponseComment : $request->commentreplyid;
             $newComment = new QuestionComment();
             $newComment->question_id = $request->questionid;
-            $newComment->user_id = $user->id;
+            $newComment->user_id = auth()->id();
             $newComment->comment = $request->comment;
             $newComment->comment_id = $commentId;
             $newComment->save();
@@ -54,6 +54,7 @@ class QuestionCommentController extends Controller
         // Si erreur dans la transaction
         catch (QueryException $e) {
             DB::rollback();
+            return response()->json(['success' => false, 'message'=> $e->getMessage()]);
         }
         // Retour dans le front des informations
         return new QuestionCommentStoreResource($newComment);
@@ -62,31 +63,30 @@ class QuestionCommentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\QuestionComment  $questionComment
-     * @return \Illuminate\Http\Response
+     * @param QuestionComment $questionComment
+     * @return Response
      */
-    public function show(QuestionComment $questionComment)
+    public function show(QuestionComment $questionComment): Response
     {
         //
+        return response($questionComment);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\QuestionComment  $questionComment
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return QuestionCommentStoreResource|JsonResponse
      */
-    public function update(Request $request, QuestionComment $questionComment)
+    public function update(Request $request): JsonResponse|QuestionCommentStoreResource
     {
-        $user = Auth::user();
         // Transaction pour rollback si erreur
         DB::beginTransaction();
         try {
             // On cherche le commentaire
             $comment = QuestionComment::where('id', $request->commentid)->firstOrFail();
             // On vérifie qu'il appartient à cet utilisateur
-            if($comment->user_id !== $user->id) {
+            if($comment->user_id !== auth()->id()) {
                 throw new Exception();
             }
             $comment->comment = $request->comment;
@@ -106,11 +106,12 @@ class QuestionCommentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\QuestionComment  $questionComment
-     * @return \Illuminate\Http\Response
+     * @param QuestionComment $questionComment
+     * @return Response
      */
-    public function destroy(QuestionComment $questionComment)
+    public function destroy(QuestionComment $questionComment): Response
     {
         //
+        return response($questionComment);
     }
 }

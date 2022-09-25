@@ -9,62 +9,68 @@ use App\Http\Requests\GamePlayers\GamePlayerDestroyRequest;
 use App\Http\Requests\GamePlayers\GamePlayerReadyRequest;
 use App\Models\Game;
 use App\Models\GamePlayer;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class GamePlayerController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function index()
+    public function index(): Response
     {
         //
+        return response();
+
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
-    public function store(Request $request)
+    public function store(Request $request): Response
     {
         //
+        return response($request);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\GamePlayer  $gamePlayer
-     * @return \Illuminate\Http\Response
+     * @param GamePlayer $gamePlayer
+     * @return Response
      */
-    public function show(GamePlayer $gamePlayer)
+    public function show(GamePlayer $gamePlayer): Response
     {
         //
+        return response($$gamePlayer);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\GamePlayer  $gamePlayer
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param GamePlayer $gamePlayer
+     * @return Response
      */
-    public function update(Request $request, GamePlayer $gamePlayer)
+    public function update(Request $request, GamePlayer $gamePlayer): Response
     {
         //
+        return response($$gamePlayer);
     }
 
     /**
      * Mise à jour du statut prêt pour le joueur dans la partie
      *
-     * @param  \App\Http\Requests\GamePlayers\GamePlayerReadyRequest  $request
-     * @param  \App\Models\GamePlayer  $gamePlayer
-     * @return \Illuminate\Http\Response
+     * @param GamePlayerReadyRequest $request
+     * @return JsonResponse
      */
-    public function ready(GamePlayerReadyRequest $request)
+    public function ready(GamePlayerReadyRequest $request): JsonResponse
     {
         // Récupération des infos du joueur dans la partie
         $gamePlayer = GamePlayer::where('game_id', $request->gameId)->where('user_id', $request->userId)->firstOrFail();
@@ -75,30 +81,31 @@ class GamePlayerController extends Controller
         // Déclenchement d'un évènement pour le serveur websocket
         event(new UpdatedStatusEvent($gamePlayer));
 
-        return response()->json(['success' => true], 200);
+        return response()->json(['success' => true]);
 
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Http\Requests\GamePlayers\GamePlayerDestroyRequest $request
-     * @return \Illuminate\Http\Response
+     * @param GamePlayerDestroyRequest $request
+     * @return JsonResponse
      */
-    public function destroy(GamePlayerDestroyRequest $request)
+    public function destroy(GamePlayerDestroyRequest $request): JsonResponse
     {
         $gamePlayer = GamePlayer::findOrFail($request->gamePlayerId);
         // dump($gamePlayer);
         // Récupération des données de la partie
         $game = Game::findOrFail($gamePlayer->game_id);
         // Si la partie n'a pas encore commencé
-        if($game->has_begun == false) {
-            // Evénement websocket pour mettre à jour la liste des joueurs présents dans la partie
+        if(!$game->has_begun) {
+            // Événement websocket pour mettre à jour la liste des joueurs présents dans la partie
             event(new LeavingPlayerEvent($gamePlayer));
             // On vire le joueur de la partie
             $gamePlayer->delete();
-            return response()->json(['success' => true], 200);
+            return response()->json(['success' => true]);
         }
+        return response()->json(['success' => false]);
 
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Comments;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class QuestionCommentUpdateRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class QuestionCommentUpdateRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return Auth::check();
     }
@@ -21,7 +22,7 @@ class QuestionCommentUpdateRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'comment' => ['required', 'string'  ],

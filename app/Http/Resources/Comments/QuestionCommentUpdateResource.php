@@ -2,17 +2,20 @@
 
 namespace App\Http\Resources\Comments;
 
+use App\Models\QuestionComment;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Resources\Json\JsonResource;
+use JsonSerializable;
 
 class QuestionCommentUpdateResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
      *
-     * @param  \App\Models\QuestionComment  $comment
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     * @param  QuestionComment  $comment
+     * @return array|Arrayable|JsonSerializable
      */
-    public function toArray($comment)
+    public function toArray($comment): array|JsonSerializable|Arrayable
     {
         return parent::toArray($comment);
     }

@@ -6,20 +6,21 @@ use App\Models\Game;
 use App\Models\GameChat;
 use App\Models\GamePlayer;
 use App\Models\GameTag;
-use App\Models\Tag;
-use App\Models\User;
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
+use JsonSerializable;
 
 class GameJoinResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     * @param  Request  $request
+     * @return array|Arrayable|JsonSerializable
      */
-    public function toArray($request)
+    public function toArray($request): array|JsonSerializable|Arrayable
     {
 
         // Partie

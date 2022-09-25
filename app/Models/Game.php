@@ -4,12 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Game extends Model
 {
     use HasFactory;
 
-    
+
     protected $fillable = [
         'user_id',
         'game_rule_id',
@@ -25,49 +27,49 @@ class Game extends Model
 
 
     /**
-     * Qui a créé cette partie?
+     * Qui a créé cette partie ?
      */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
     /**
-     * Quelle est la règle de cette partie?
+     * Quelle est la règle de cette partie ?
      */
-    public function rule()
+    public function rule(): BelongsTo
     {
         return $this->belongsTo(GameRule::class);
     }
 
     /**
-     * Quel sont les joueurs de cette partie?
+     * Quel sont les joueurs de cette partie ?
      */
-    public function players()
+    public function players(): HasMany
     {
         return $this->hasMany(GamePlayer::class);
     }
 
     /**
-     * Quel sont les discussions de cette partie?
+     * Quel sont les discussions de cette partie ?
      */
-    public function chats()
+    public function chats(): HasMany
     {
         return $this->hasMany(GameChat::class);
     }
 
     /**
-     * Quel sont les questions de cette partie?
+     * Quel sont les questions de cette partie ?
      */
-    public function questions()
+    public function questions(): HasMany
     {
         return $this->hasMany(GameQuestion::class);
     }
 
     /**
-     * Quel sont les thèmes de cette partie?
+     * Quel sont les thèmes de cette partie ?
      */
-    public function tags()
+    public function tags(): HasMany
     {
         return $this->hasMany(GameTag::class);
     }

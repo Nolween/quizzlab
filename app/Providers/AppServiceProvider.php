@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         // On active les hook concernant les modèles qui ont des relations avec Elasticsearch
         Question::observe(QuestionObserver::class);

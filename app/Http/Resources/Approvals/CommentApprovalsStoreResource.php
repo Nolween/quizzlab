@@ -3,7 +3,9 @@
 namespace App\Http\Resources\Approvals;
 
 use App\Models\QuestionComment;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Resources\Json\JsonResource;
+use JsonSerializable;
 
 class CommentApprovalsStoreResource extends JsonResource
 {
@@ -11,9 +13,9 @@ class CommentApprovalsStoreResource extends JsonResource
      * Transform the resource into an array.
      *
      * @param  object $response
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     * @return array|Arrayable|JsonSerializable
      */
-    public function toArray($response)
+    public function toArray($response): array|JsonSerializable|Arrayable
     {
         $comment = QuestionComment::findOrFail($response->commentid);
         return [

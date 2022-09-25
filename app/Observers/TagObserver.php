@@ -9,14 +9,14 @@ class TagObserver
 {
 
 
-    protected $elastic;
-    
+    protected ElasticService $elastic;
+
     /**
      * Handle events after all transactions are committed.
      *
      * @var bool
      */
-    public $afterCommit = true;
+    public bool $afterCommit = true;
 
     public function __construct(ElasticService $elasticService) {
         $this->elastic = $elasticService;
@@ -28,10 +28,10 @@ class TagObserver
      * Handle the Tag "created" event.
      * Ajout du tag dans Elasticsearch
      *
-     * @param  \App\Models\Tag  $tag
+     * @param Tag $tag
      * @return void
      */
-    public function created(Tag $tag)
+    public function created(Tag $tag): void
     {
         // Préparation des paramètres pour l'API
         $dataToSend = [
@@ -44,10 +44,10 @@ class TagObserver
     /**
      * Handle the Tag "updated" event.
      *
-     * @param  \App\Models\Tag  $tag
+     * @param Tag $tag
      * @return void
      */
-    public function updated(Tag $tag)
+    public function updated(Tag $tag): void
     {
         //
     }
@@ -55,10 +55,10 @@ class TagObserver
     /**
      * Handle the Tag "deleted" event.
      *
-     * @param  \App\Models\Tag  $tag
+     * @param Tag $tag
      * @return void
      */
-    public function deleted(Tag $tag)
+    public function deleted(Tag $tag): void
     {
         //
     }
@@ -66,10 +66,10 @@ class TagObserver
     /**
      * Handle the Tag "restored" event.
      *
-     * @param  \App\Models\Tag  $tag
+     * @param Tag $tag
      * @return void
      */
-    public function restored(Tag $tag)
+    public function restored(Tag $tag): void
     {
         //
     }
@@ -77,10 +77,10 @@ class TagObserver
     /**
      * Handle the Tag "force deleted" event.
      *
-     * @param  \App\Models\Tag  $tag
+     * @param Tag $tag
      * @return void
      */
-    public function forceDeleted(Tag $tag)
+    public function forceDeleted(Tag $tag): void
     {
         //
     }

@@ -17,7 +17,7 @@
 </template>
 <script setup>
 // Imports d'éléments de vue
-import { ref } from "vue";
+
 
 // Définition des props du composant
 const props = defineProps({
@@ -27,7 +27,7 @@ const props = defineProps({
 
 const emit = defineEmits(["changeSearch"]);
 
-// Lorque l'on clique sur une question suggérée
+// Lorsque l'on clique sur une question suggérée
 const selectSuggestedQuestion = (params) => {
     // On active l'évènement changeSearch (change-search) présent dans le composant parent
     emit("changeSearch", params);

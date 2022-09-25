@@ -10,17 +10,21 @@ use App\Http\Resources\Tags\TagSearchResource;
 use App\Models\Question;
 use App\Models\Tag;
 use App\Services\ElasticService;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 
 class TagController extends Controller
 {
     /**
      * Affiche la totalité des tags
      *
-     * @return \Illuminate\Http\Response
+     * @return AnonymousResourceCollection
      */
-    public function index()
+    public function index(): AnonymousResourceCollection
     {
         return TagIndexResource::collection(Tag::all());
     }
@@ -28,29 +32,31 @@ class TagController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
-    public function store(Request $request)
+    public function store(Request $request): Response
     {
         //
+        return response();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Tag  $tag
-     * @return \Illuminate\Http\Response
+     * @param Tag $tag
+     * @return Response
      */
-    public function show(Tag $tag)
+    public function show(Tag $tag): Response
     {
         //
+        return response($tag);
     }
 
-    public function search(TagSearchRequest $request, ElasticService $elasticService)
+    public function search(TagSearchRequest $request, ElasticService $elasticService): JsonResponse|TagSearchResource
     {
         try {
-            // Connexion au serveur Elastic pour récupérer les 5 résultats les plus probables 
+            // Connexion au serveur Elastic pour récupérer les 5 résultats les plus probables
             $response = $elasticService->getWildcardFromIndex('tags', 5, 'tag', $request->tag);
             // Si on obtient bien des résultats
             if ($response->ok()) {
@@ -58,19 +64,19 @@ class TagController extends Controller
             } else {
                 return response()->json(['message' => "Erreur dans l'accès aux thèmes'"], 404);
             }
-        } catch (Exception $e) {
-            return response()->json(['message' => "Erreur dans la requete"], 500);
+        } catch (Exception) {
+            return response()->json(['message' => "Erreur dans la requête"], 500);
         }
     }
 
-    public function questionsCount(TagQuestionsCountRequest $request)
+    public function questionsCount(TagQuestionsCountRequest $request): JsonResponse
     {
         try {
-            // Si pas de thèmes sélectionné et pas de liaison de thèmes
+            // Si pas de thèmes sélectionnés et pas de liaison de thèmes
             if (empty($request->tags) && $request->allTags == 0) {
                 // Combien de questions intégrées au quizz
                 $totalQuestions = Question::where('is_moderated', true)->where('is_integrated', true)->get()->count();
-                return response()->json(['possibleQuestions' => $totalQuestions], 200);
+                return response()->json(['possibleQuestions' => $totalQuestions]);
             }
             // Si un/des thèmes sélectionnés
             else if (!empty($request->tags)) {
@@ -88,12 +94,12 @@ class TagController extends Controller
                         $query->whereIn('tag_id', $tagsIdsArray);
                     }, '>=', count($tagsIdsArray))->where('is_integrated', true)->get()->count();
                 }
-                return response()->json(['possibleQuestions' => $totalQuestions], 200);
+                return response()->json(['possibleQuestions' => $totalQuestions]);
             } else {
                 return response()->json(['message' => "Erreur dans l'accès aux thèmes'"], 404);
             }
-        } catch (Exception $e) {
-            return response()->json(['message' => "Erreur dans la requete"], 500);
+        } catch (Exception) {
+            return response()->json(['message' => "Erreur dans la requête"], 500);
         }
     }
 
@@ -101,23 +107,25 @@ class TagController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Tag  $tag
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Tag $tag
+     * @return Response
      */
-    public function update(Request $request, Tag $tag)
+    public function update(Request $request, Tag $tag): Response
     {
         //
+        return response($tag);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Tag  $tag
-     * @return \Illuminate\Http\Response
+     * @param Tag $tag
+     * @return Response
      */
-    public function destroy(Tag $tag)
+    public function destroy(Tag $tag): Response
     {
         //
+        return response($tag);
     }
 }

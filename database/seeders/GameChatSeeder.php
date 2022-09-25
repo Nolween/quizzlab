@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\GameChat;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class GameChatSeeder extends Seeder
@@ -13,7 +12,7 @@ class GameChatSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         GameChat::factory(80)->create();
     }

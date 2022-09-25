@@ -4,12 +4,14 @@ namespace Database\Factories;
 
 use App\Helpers\ImageTransformation;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use function imageavif;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
+ * @extends Factory<User>
  */
 class UserFactory extends Factory
 {
@@ -18,7 +20,7 @@ class UserFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         $name = fake()->unique()->name();
         $filename = Str::slug($name);
@@ -32,7 +34,7 @@ class UserFactory extends Factory
             // Transformation en avif
             $gdImage = imagecreatefromjpeg(storage_path('app/public/img/profile/' . $filename . '.jpg'));
             $resizeBigImg = ImageTransformation::image_resize_small($gdImage, 300, 300);
-            \imageavif($resizeBigImg, storage_path('app/public/img/profile/' . $filename . '.avif'));
+            imageavif($resizeBigImg, storage_path('app/public/img/profile/' . $filename . '.avif'));
 
             imagedestroy($gdImage);
             imagedestroy($resizeBigImg);

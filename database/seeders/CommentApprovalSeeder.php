@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\CommentApproval;
 use App\Models\QuestionComment;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class CommentApprovalSeeder extends Seeder
@@ -14,7 +13,7 @@ class CommentApprovalSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         CommentApproval::factory(100)->create();
         // Maintenant qu'on a de vrais réactions générées

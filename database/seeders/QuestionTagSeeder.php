@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Question;
 use App\Models\QuestionTag;
 use App\Models\Tag;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class QuestionTagSeeder extends Seeder
@@ -15,12 +14,12 @@ class QuestionTagSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $questions = Question::all();
         // Parcours de toutes les questions
         foreach ($questions as $question) {
-            // Combien de tag pour la question?
+            // Combien de tag pour la question ?
             $tagCount = rand(2, 5);
             $notIn = [];
             for ($i = 1; $i <= $tagCount; $i++) {

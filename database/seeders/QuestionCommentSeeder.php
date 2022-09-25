@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\QuestionComment;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class QuestionCommentSeeder extends Seeder
@@ -13,7 +12,7 @@ class QuestionCommentSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         QuestionComment::factory(150)->create();
 

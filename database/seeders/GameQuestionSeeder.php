@@ -8,7 +8,6 @@ use App\Models\GameTag;
 use App\Models\Question;
 use App\Models\QuestionChoice;
 use App\Models\QuestionTag;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Seeder;
 
@@ -19,7 +18,7 @@ class GameQuestionSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
 
         // Parcours de toutes les parties
@@ -28,11 +27,11 @@ class GameQuestionSeeder extends Seeder
             $questionsIdsGame = [];
             // Attribution des questions selon le nombre de questions défini
             for ($i = 0; $i < $game->question_count; $i++) {
-                // Quels sont tous les thèmes associés de la partie?
+                // Quels sont tous les thèmes associés de la partie ?
                 $tagIds = GameTag::where('game_id', $game->id)->get()->pluck('tag_id');
                 // Si la partie demande des questions qui ont tous les thèmes associés
-                if ($game->questions_have_all_tags == true) {
-                    // Quels sont les thèmes de la partie?
+                if ($game->questions_have_all_tags) {
+                    // Quels sont les thèmes de la partie ?
                     $gameTags = GameTag::where('game_id', $game->id)->get();
                     // On va créer une nouvelle question automatiquement modérée et intégrée
                     $newQuestion = Question::factory()->create([
@@ -47,13 +46,13 @@ class GameQuestionSeeder extends Seeder
                         ]);
                     }
                     // Création des choix pour la question
-                    // Quelle est la bonne réponse?
+                    // Quelle est la bonne réponse ?
                     $rightChoice = rand(1, 4);
                     for ($j = 1; $j <= 4; $j++) {
                         QuestionChoice::create([
                             'question_id' => $newQuestion->id,
                             'title' => fake()->sentence(3),
-                            'is_correct' => $rightChoice == $j ? true : false
+                            'is_correct' => $rightChoice == $j
                         ]);
                     }
                     // Attribution de la nouvelle question à la partie
@@ -62,16 +61,16 @@ class GameQuestionSeeder extends Seeder
                         'question_id' => $newQuestion->id,
                         'order' => $i
                     ]);
-                    // On ajout l'id de la question au tableau pour ne pas la reprendre
+                    // On ajoute l'id de la question au tableau pour ne pas la reprendre
                     $questionsIdsGame[] = $newQuestion->id;
                 }
-                // Si il faut une question qui possède au moins un tag de la partie
+                // S'il faut une question qui possède au moins un tag de la partie
                 else {
                     $question = Question::where('is_integrated', true)->whereHas('tags', function (Builder $query) use ($tagIds) {
                         $query->whereIn('tag_id', $tagIds);
                     })->whereNotIn('id', $questionsIdsGame)->inRandomOrder()->firstOr(function () use ($tagIds, $game, $i) {
                         $newQuestion = Question::where('is_integrated', true)->inRandomOrder()->first();
-                        // Si on a pas de question avec au moins un thème approprié, on en créé un
+                        // Si on n'a pas de question avec au moins un thème approprié, on en crée un
                         QuestionTag::create([
                             'question_id' => $newQuestion->id,
                             'tag_id' => fake()->randomElement($tagIds)
@@ -81,7 +80,7 @@ class GameQuestionSeeder extends Seeder
                             'question_id' => $newQuestion->id,
                             'order' => $i
                         ]);
-                        // On ajout l'id de la question au tableau pour ne pas la reprendre
+                        // On ajoute l'id de la question au tableau pour ne pas la reprendre
                         $questionsIdsGame[] = $newQuestion->id;
                     });
 
@@ -92,7 +91,7 @@ class GameQuestionSeeder extends Seeder
                             'question_id' => $question->id,
                             'order' => $i
                         ]);
-                        // On ajout l'id de la question au tableau pour ne pas la reprendre
+                        // On ajoute l'id de la question au tableau pour ne pas la reprendre
                         $questionsIdsGame[] = $question->id;
                     }
                 }

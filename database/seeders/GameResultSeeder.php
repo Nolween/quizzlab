@@ -20,13 +20,13 @@ class GameResultSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         // Parcours de toutes les parties
         $games = Game::all();
         foreach ($games as $game) {
             // Si la partie a bien commencé
-            if ($game->has_begun == true) {
+            if ($game->has_begun) {
                 // Parcours de tous les joueurs de la partie
                 foreach ($game->players as $player) {
                     $finalScore = 0;
@@ -56,13 +56,13 @@ class GameResultSeeder extends Seeder
                     $gamePlayer->save();
                 }
                 // Définition des places après toutes les réponses des joueurs
-                $gameplayers = GamePlayer::where('game_id', $game->id)->orderBy('final_score', 'DESC')->get();
+                $gamePlayers = GamePlayer::where('game_id', $game->id)->orderBy('final_score', 'DESC')->get();
                 $finalPlace = 1;
                 // Parcours des joueurs classés par score
-                foreach ($gameplayers as $gameplayer) {
+                foreach ($gamePlayers as $gamePlayer) {
                     // Attribution de la place
-                    $gameplayer->final_place = $finalPlace;
-                    $gameplayer->save();
+                    $gamePlayer->final_place = $finalPlace;
+                    $gamePlayer->save();
                     $finalPlace++;
                 }
             }

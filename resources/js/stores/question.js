@@ -1,10 +1,9 @@
-import { defineStore } from "pinia";
+import {defineStore} from "pinia";
 import axios from "axios";
-import router from "@/router";
-import { useUserStore } from "@/stores/user";
+import {useUserStore} from "@/stores/user";
 
 export const useQuestionStore = defineStore("question", {
-    state: () => ({ questions: [], question: [] }),
+    state: () => ({questions: [], question: []}),
 
     actions: {
         resetQuestion() {
@@ -13,8 +12,8 @@ export const useQuestionStore = defineStore("question", {
         // Récupérer les questions dans le back
         async getQuestions(search = null, searchMod = 0) {
             try {
-                let response = await axios.get("/api/questions",{
-                    params: { search, searchMod},
+                let response = await axios.get("/api/questions", {
+                    params: {search, searchMod},
                 });
                 this.questions = response.data.data;
             } catch (error) {
@@ -46,18 +45,22 @@ export const useQuestionStore = defineStore("question", {
                     `/api/question/${data.questionid}/vote`,
                     data
                 );
+                if (response.data.data) {
+                    // Quelle est l'index de la question par rapport à son id?
+                    const questionIndex = this.questions
+                        .map(function (e) {
+                            return e.id;
+                        })
+                        .indexOf(data.questionid);
+                    this.questions[questionIndex].hasVoted = data.ispositive;
+                    // Modification du score de vote
+                    this.questions[questionIndex].vote = response.data.data.voteScore;
+                }
             } catch (error) {
                 // Vérification de l'erreur
                 const userStore = useUserStore();
                 userStore.checkError(error);
             }
-            // Quelle est l'index de la question par rapport à son id?
-            const questionIndex = this.questions
-                .map(function (e) {
-                    return e.id;
-                })
-                .indexOf(data.questionid);
-            this.questions[questionIndex].hasVoted = data.ispositive;
         },
     },
 });

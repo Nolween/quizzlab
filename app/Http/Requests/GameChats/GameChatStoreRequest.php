@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return Auth::check();
     }
@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Auth;
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'message' => ['required', 'string'],

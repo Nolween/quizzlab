@@ -3,12 +3,14 @@
 namespace App\Rules\GameQuestions;
 
 use App\Models\GameQuestion;
+use Closure;
 use Illuminate\Contracts\Validation\InvokableRule;
+use Illuminate\Translation\PotentiallyTranslatedString;
 
 class BelongsToGameRule implements InvokableRule
 {
 
-    public $gameQuestionId;
+    public int $gameQuestionId;
 
     /**
      * Construction de la règle
@@ -25,10 +27,10 @@ class BelongsToGameRule implements InvokableRule
      *
      * @param  string  $attribute
      * @param  mixed  $value
-     * @param  \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
+     * @param  Closure(string): PotentiallyTranslatedString  $fail
      * @return void
      */
-    public function __invoke($attribute, $value, $fail)
+    public function __invoke($attribute, $value, $fail): void
     {
         // Récupération de la question de partie
         $gameQuestion = GameQuestion::find($this->gameQuestionId);
@@ -38,7 +40,7 @@ class BelongsToGameRule implements InvokableRule
         }
         // Si la partie et la partie de la question ne correspondent pas
         if($gameQuestion->game_id != $value) {
-            $fail("Les valeurs {$gameQuestion->game_id} et $value de partie ne correspondent pas");
+            $fail("Les valeurs $gameQuestion->game_id et $value de partie ne correspondent pas");
         }
     }
 }

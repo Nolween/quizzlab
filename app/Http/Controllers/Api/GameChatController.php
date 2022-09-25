@@ -8,31 +8,32 @@ use App\Http\Requests\GameChats\GameChatStoreRequest;
 use App\Http\Resources\GameChats\GameChatStoreResource;
 use App\Models\GameChat;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Response;
 
 class GameChatController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function index()
+    public function index(): Response
     {
         //
+        return response();
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\GameChatStoreRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param  GameChatStoreRequest  $request
+     * @return GameChatStoreResource
      */
-    public function store(GameChatStoreRequest $request)
+    public function store(GameChatStoreRequest $request): GameChatStoreResource
     {
         // Récupération de l'id de l'utilisateur
-        $userId = Auth::user()->id;
-     
+        $userId = auth()->id();
+
         // Création du message pour la partie
         $newGameChat = GameChat::create(['user_id' => $userId, 'game_id' => $request->gameId, 'text' => $request ->message]);
 
@@ -44,34 +45,37 @@ class GameChatController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\GameChat  $gameChat
-     * @return \Illuminate\Http\Response
+     * @param  GameChat  $gameChat
+     * @return Response
      */
-    public function show(GameChat $gameChat)
+    public function show(GameChat $gameChat): Response
     {
         //
+        return response($gameChat);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\GameChat  $gameChat
-     * @return \Illuminate\Http\Response
+     * @param  Request  $request
+     * @param  GameChat  $gameChat
+     * @return Response
      */
-    public function update(Request $request, GameChat $gameChat)
+    public function update(Request $request, GameChat $gameChat): Response
     {
         //
+        return response($gameChat);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\GameChat  $gameChat
-     * @return \Illuminate\Http\Response
+     * @param  GameChat  $gameChat
+     * @return Response
      */
-    public function destroy(GameChat $gameChat)
+    public function destroy(GameChat $gameChat): Response
     {
         //
+        return response($gameChat);
     }
 }

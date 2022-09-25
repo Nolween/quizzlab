@@ -3,10 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Question;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Storage;
 
 class QuestionSeeder extends Seeder
 {
@@ -15,7 +13,7 @@ class QuestionSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         //? Partie images
         // On efface au préalable les anciennes images de questions

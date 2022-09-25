@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Tag extends Model
 {
@@ -19,17 +20,17 @@ class Tag extends Model
 
 
     /**
-     * Quelles parties utilisent ce thème?
+     * Quelles parties utilisent ce thème ?
      */
-    public function games()
+    public function games(): HasMany
     {
         return $this->hasMany(GameTag::class);
     }
 
     /**
-     * Quelles questions utilisent ce thème?
+     * Quelles questions utilisent ce thème ?
      */
-    public function questions()
+    public function questions(): HasMany
     {
         return $this->hasMany(QuestionTag::class);
     }

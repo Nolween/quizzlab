@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\GameRule;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class GameRuleSeeder extends Seeder
@@ -13,9 +12,9 @@ class GameRuleSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
-        
+
         $source = [['name' => 'Partie Classique'], ['name' => 'Survie']];
 
         foreach ($source as $item) {
