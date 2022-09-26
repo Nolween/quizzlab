@@ -60,7 +60,7 @@
                     "
                     class="w-full 2xl:w-2/3 object-cover rounded-md cursor-pointer m-5"
                     :alt="gameQuestion.image"
-                    title="Aggrandir l'image"
+                    title="Agrandir l'image"
                     @click="displayBigImageQuestion(true)"
                 />
             </div>
@@ -97,9 +97,9 @@ import { useRoute } from "vue-router";
 // Import des stores
 import { useUserStore } from "@/stores/user";
 // Imports de composables
-import { useGameQuestions } from "@/composables/gamequestions.js";
+import { useGameQuestions } from "@/composables/gamequestions";
 
-// Icones
+// Icônes
 import SvgIcon from "@jamescoyle/vue-icon";
 import { mdiSend } from "@mdi/js";
 // Déclaration des stores
@@ -132,12 +132,21 @@ const width = computed(() => {
 
 function chooseAnswer(choice) {
     choiceId.value = choice;
-    //! Envoi temporaire de la réponse pour les test
-    sendAnswer();
 }
 
 const sendAnswer = async () => {
-    await sendAnswerProposition(choiceId.value);
+    const sent = await sendAnswerProposition(choiceId.value);
+    if(sent && sent.endGame === false) {
+        // Récupération de la nouvelle question
+        getGameQuestion(route.params.id);
+        // Lancement du compte à rebours
+        launchCountdown();
+    }
+    // Si fin de partie
+    else if (sent && sent.endGame) {
+    // Redirection vers la page des résultats
+        router.push({ name: "games.results", params: { id: route.params.id } });
+    }
 };
 
 //? Fonctions du composant
@@ -149,12 +158,12 @@ function displayBigImageQuestion(value) {
 const launchCountdown = async () => {
     // Création d'un timer qui change chaque seconde
     let timer = setInterval(function () {
-        // Si on arrive à 0
+        // Si on arrive à zéro
         if (timeLeft.value <= 0) {
             // On arrête le timer
             clearInterval(timer);
             // On envoie la réponse
-            // sendAnswer();
+            sendAnswer();
         } else {
             // Réduction du timer
             timeLeft.value -= 1;

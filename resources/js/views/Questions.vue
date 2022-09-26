@@ -100,7 +100,7 @@
 </template>
 <script setup>
 // Imports de fonctionnalités essentielles de Vue (hook, ...)
-import { onMounted, onBeforeMount, onBeforeUpdate, ref, computed } from "vue";
+import { onMounted, onBeforeMount, ref, computed } from "vue";
 // Import des stores
 import { useQuestionStore } from "@/stores/question";
 import { useUserStore } from "@/stores/user";

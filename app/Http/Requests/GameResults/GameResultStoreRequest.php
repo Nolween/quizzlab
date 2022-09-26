@@ -25,7 +25,7 @@ class GameResultStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'choice_id' => ['integer', 'exists:question_choices,id', 'nullable'],
+            'choice_id' => ['nullable','integer', 'exists:question_choices,id'],
             'game_question_id' => ['integer', 'exists:game_questions,id', 'required'],
             'question_id' => ['integer', 'exists:questions,id', 'required'],
             'game_id' => ['integer', 'exists:games,id', 'required']

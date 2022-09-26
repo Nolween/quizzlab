@@ -74,7 +74,7 @@
                     "
                     class="mt-2 w-20 h-20 object-cover rounded-md mr-3 cursor-pointer"
                     :alt="props.imagePath"
-                    title="Aggrandir l'image"
+                    title="Agrandir l'image"
                     @click="displayBigImageQuestion(true)"
                 />
             </div>
@@ -165,12 +165,11 @@
     </div>
 </template>
 <script setup>
-import { ref, reactive, computed } from "vue";
+import { ref, computed } from "vue";
 import router from "@/router";
 // Icones
 import SvgIcon from "@jamescoyle/vue-icon";
 import {
-    mdiAccount,
     mdiMinusThick,
     mdiPlusThick,
     mdiTimerOutline,
@@ -238,7 +237,7 @@ function displayBigImageQuestion(value) {
 // Lorsque l'on clique sur un thème
 const goToTheme = (theme) => {
     // Si on est sur la page d'accueil, on active le rafraichissement des questions
-    if (router.currentRoute.value.name == "questions.index") {
+    if (router.currentRoute.value.name === "questions.index") {
         emit("changeSearch", theme);
     }
     // Si pas la page d'accueil, on redirige avec le paramètre des thèmes

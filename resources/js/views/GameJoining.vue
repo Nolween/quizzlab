@@ -2,7 +2,7 @@
     <div class="pt-24 flex flex-wrap justify-center bg-quizzlab-primary px-5">
         <div class=" text-center w-full mb-4 flex flex-wrap justify-center md:justify-evenly ">
             <span class=" p-3 text-4xl text-white font-bold">PARTIE DE
-            {{ gameStore.game.game ? gameStore.game.game.user.name : "" }}</span> 
+            {{ gameStore.game.game ? gameStore.game.game.user.name : "" }}</span>
             <button type="button"
                     class="p-3 bg-quizzlab-quinary text-white text-3xl font-bold cursor-pointer"
                     @click="copyGameCode()"
@@ -310,7 +310,7 @@ const launchCountdown = () => {
             // On arrête le timer
             clearInterval(timer);
             // On se dirige vers la partie
-            router.push({ name: "games.index" });
+            router.push({ name: "games.question", params: { id: route.params.id } });
         } else {
             // Réduction du timer
             countdown.value -= 1;

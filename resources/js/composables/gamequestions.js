@@ -47,13 +47,14 @@ export function useGameQuestions() {
                 game_id: gameQuestion.value.gameId,
             };
             // Envoi dans le back des résultats
-            let response = await axios.post(`/api/gameresults`, data);
+            const response = await axios.post(`/api/gameresults`, data);
             // Si retour ok
-            if (response.data) {
+            if (response.data.success) {
+                return response.data;
             }
         } catch (error) {
             // Si on a un retour du back
-            if (error.response.data.success == false) {
+            if (error.response.data.success === false) {
                 // Notification
                 const toast = useToast();
                 toast.error(error.response.data.message);
@@ -63,9 +64,9 @@ export function useGameQuestions() {
             userStore.checkError(error);
             // On réactualise la page
             router.push({
-                name: "games.question",
-                params: { id: data.gameId },
+                name: "games.index"
             });
+            return false;
         }
     };
 
