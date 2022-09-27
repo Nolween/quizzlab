@@ -9,7 +9,7 @@
                         class="border-2 rounded-sm w-4/5 lg:w-5/6 px-3 placeholder:text-3xl placeholder:text-quizzlab-primary placeholder:text-center pt-4"
                         type="text"
                         :placeholder="
-                            searchMod == 0
+                            searchMod === 0
                                 ? 'Chercher un thème'
                                 : 'Chercher une question'
                         "
@@ -37,7 +37,7 @@
                         type="button"
                         class="p-2 pb-10 h-12 text-2xl"
                         :class="
-                            searchMod == 0
+                            searchMod === 0
                                 ? 'bg-white text-quizzlab-quinary'
                                 : 'text-white bg-quizzlab-quinary'
                         "
@@ -49,7 +49,7 @@
                         type="button"
                         class="p-2 pb-10 h-12 text-2xl"
                         :class="
-                            searchMod == 1
+                            searchMod === 1
                                 ? 'bg-white text-quizzlab-quinary'
                                 : 'text-white bg-quizzlab-quinary'
                         "
@@ -104,9 +104,9 @@ import { onMounted, onBeforeMount, ref, computed } from "vue";
 // Import des stores
 import { useQuestionStore } from "@/stores/question";
 import { useUserStore } from "@/stores/user";
-import { useQuestions } from "@/composables/questions.js";
+import { useQuestions } from '@/composables/questions';
 import { useRoute } from "vue-router";
-import { useTags } from "@/composables/tags.js";
+import { useTags } from "@/composables/tags";
 // Import des composants
 import Question from "../components/Question.vue";
 import SuggestedQuestions from "../components/SuggestedQuestions.vue";
@@ -170,11 +170,11 @@ const refreshQuestions = async () => {
 
 const getSuggestions = async () => {
     // Si recherche de thème
-    if (searchMod.value == 0) {
+    if (searchMod.value === 0) {
         await getSuggestedTags(computedSearch);
     }
     // Si on recherche une question
-    else if (searchMod.value == 1) {
+    else if (searchMod.value === 1) {
         await getSuggestedQuestions(computedSearch);
     }
 };
@@ -188,6 +188,11 @@ const vFocus = {
 
 onBeforeMount(() => {
     userStore.checkAuth();
+    // Si l'utilisateur n'est pas connecté
+    if (!userStore.getIsConnected || userStore.getIsConnected === false) {
+        // Redirection vers l'écran de connexion
+        userStore.doLogout()
+    }
 });
 
 // Lorsque le composant est monté, on va chercher via l'API les ressources

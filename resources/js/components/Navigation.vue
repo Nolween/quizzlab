@@ -23,8 +23,11 @@
                 >Proposer</span
             >
         </div>
+        <div v-if="userStore.isConnected === true" class="text-quizzlab-quinary px-1">
+            <span class="cursor-pointer" onclick="">Compte</span>
+        </div>
         <div
-            v-if="userStore.isConnected == true"
+            v-if="userStore.isConnected === true"
             class="text-quizzlab-quinary px-1"
         >
             <span @click="userStore.doLogout()" class="cursor-pointer"
@@ -38,13 +41,9 @@
                 >Connexion</span
             >
         </div>
-        <div v-if="userStore.isConnected == true" class="text-quizzlab-quinary px-1">
-            <span class="cursor-pointer" onclick="">Compte</span>
-        </div>
     </div>
 </template>
 <script setup>
-import { onBeforeMount } from 'vue';
 import { useUserStore } from "@/stores/user";
 
 const userStore = useUserStore();

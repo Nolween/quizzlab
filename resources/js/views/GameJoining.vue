@@ -59,7 +59,7 @@
                 v-for="(player, playerKey) in gameStore.game.players"
                 :key="playerKey"
                 :class="
-                    player.is_ready == true
+                    player.is_ready === 1
                         ? 'bg-quizzlab-secondary'
                         : 'bg-quizzlab-quaternary'
                 "
@@ -87,13 +87,13 @@
             >
                 <div
                     class="w-1/3"
-                    v-if="chat.user.id == gameStore.game.userId"
+                    v-if="chat.user.id === gameStore.game.userId"
                 ></div>
                 <div class="mb-5 p-2 bg-slate-100 w-full md:w-2/3 rounded-lg">
                     <div
                         class="font-semibold pl-2"
                         :class="
-                            chat.user.id == gameStore.game.userId
+                            chat.user.id === gameStore.game.userId
                                 ? 'text-quizzlab-secondary'
                                 : 'text-quizzlab-primary'
                         "
@@ -150,7 +150,7 @@
             <button
                 type="button"
                 class="bg-quizzlab-secondary text-white font-semibold text-4xl p-4"
-                :disabled="busyReady == true"
+                :disabled="busyReady === true"
                 @click="modifyStatus()"
             >
                 PRET
@@ -159,7 +159,7 @@
             <button
                 v-if="
                     gameStore.game.game &&
-                    gameStore.game?.userId == gameStore.game?.game.user_id
+                    gameStore.game?.userId === gameStore.game?.game.user_id
                 "
                 type="button"
                 class="bg-quizzlab-ternary text-white font-semibold text-4xl p-4"
@@ -198,7 +198,6 @@
 import {
     ref,
     reactive,
-    computed,
     watch,
     onBeforeMount,
     onMounted,
@@ -207,7 +206,6 @@ import {
 import router from "@/router";
 import { useRoute } from "vue-router";
 import { useToast } from "vue-toastification";
-import Echo from "laravel-echo";
 // Icones
 import SvgIcon from "@jamescoyle/vue-icon";
 import {
@@ -222,7 +220,7 @@ import { useGameStore } from "@/stores/game";
 import { useUserStore } from "@/stores/user";
 
 // Imports de composables
-import { useGameChats } from "@/composables/gamechats.js";
+import { useGameChats } from "@/composables/gamechats";
 
 const route = useRoute();
 // Déclararation de stores
@@ -257,7 +255,7 @@ watch(
 
 watch(gameStore, (newVal) => {
     // On surveille si la partie a commencé
-    if (newVal.game.game?.has_begun && newVal.game.game.has_begun == true) {
+    if (newVal.game.game?.has_begun && newVal.game.game.has_begun === 1) {
         // On lance le compteur
         launchCountdown();
     }
@@ -270,7 +268,7 @@ watch(gameStore, (newVal) => {
         // Parcours des joueurs de la partie
         for (let playerIndex in newVal.game.players) {
             // Si le joueur est prêt
-            if (newVal.game.players[playerIndex].is_ready == true) {
+            if (newVal.game.players[playerIndex].is_ready === 1) {
                 // Un joueur de plus dans le compte
                 readyCount = readyCount + 1;
             }
@@ -278,7 +276,7 @@ watch(gameStore, (newVal) => {
         // Si tous les joueurs sont prêts
         if (readyCount >= maxReady) {
             // On va demander au premier joueur de la liste de déclencher le lancement de la partie
-            if (newVal.game.userId == newVal.game.players[0].user_id) {
+            if (newVal.game.userId === newVal.game.players[0].user_id) {
                 beginGame();
             }
         }
@@ -339,7 +337,7 @@ const modifyStatus = async () => {
 onBeforeMount(() => {
     userStore.checkAuth();
     // Si l'utilisateur n'est pas connecté
-    if (!userStore.getIsConnected || userStore.getIsConnected == false) {
+    if (!userStore.getIsConnected || userStore.getIsConnected === false) {
         // Redirection vers l'écran de connexion
         router.push({ name: "connexion.create" });
     } else {

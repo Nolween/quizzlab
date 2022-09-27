@@ -170,7 +170,7 @@
                     <span class="w-10 text-right">
                         <svg-icon
                             @click="
-                                (tagSearch = null), (themeListOverlay = false)
+                                [tagSearch = null, themeListOverlay = false]
                             "
                             class="text-quizzlab-ternary h-10 w-10 my-auto cursor-pointer"
                             :path="mdiCloseBox"
@@ -230,13 +230,13 @@
                             type="submit"
                             class="bg-white hover:bg-quizzlab-ternary text-quizzlab-ternary hover:text-white text-2xl py-2 px-3 rounded-sm"
                             @click="
-                                (themeListOverlay = false), (handlingTags = [])
+                                [themeListOverlay = false, handlingTags = []]
                             "
                         >
                             <span class="font-semibold"> Annuler</span>
                         </button>
                         <button
-                            :disabled="handlingTags.length == 0"
+                            :disabled="handlingTags.length === 0"
                             type="submit"
                             class="hover:bg-quizzlab-secondary hover:text-white bg-white text-quizzlab-secondary text-2xl py-2 px-3 rounded-sm"
                             @click="addHandlingTags()"
@@ -259,13 +259,13 @@ import SuggestedTags from "../components/SuggestedTags.vue";
 // Import des stores
 import { useUserStore } from "@/stores/user";
 // Imports de composables
-import { useGames } from "@/composables/games.js";
+import { useGames } from "@/composables/games";
 
-import { useTags } from "@/composables/tags.js";
+import { useTags } from "@/composables/tags";
 
 // Icones
 import SvgIcon from "@jamescoyle/vue-icon";
-import { mdiMagnify, mdiContentCopy, mdiCloseBox } from "@mdi/js";
+import { mdiMagnify, mdiCloseBox } from "@mdi/js";
 // Déclaration des stores
 const userStore = useUserStore();
 // Déclaration des ref pour le focus
@@ -401,7 +401,7 @@ onBeforeMount(() => {
     getQuestionsTagsCount(0, null);
     userStore.checkAuth();
     // Si l'utilisateur n'est pas connecté
-    if (!userStore.getIsConnected || userStore.getIsConnected == false) {
+    if (!userStore.getIsConnected || userStore.getIsConnected === false) {
         // Redirection vers l'écran de connexion
         router.push({ name: "connexion.create" });
     }

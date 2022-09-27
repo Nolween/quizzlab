@@ -42,7 +42,7 @@
                     :key="choiceKey"
                     class="cursor-pointer hover:text-white hover:bg-quizzlab-quaternary text-xl font-semibold text-left px-3 lg:px-8 py-3 mb-2 w-1/2 border-x-2 border-quizzlab-primary"
                     :class="
-                        choiceId == choice.id
+                        choiceId === choice.id
                             ? 'bg-quizzlab-quaternary text-white'
                             : 'bg-white text-quizzlab-primary'
                     "
@@ -89,7 +89,7 @@
     </div>
 </template>
 <script setup>
-import { ref, reactive, computed, onMounted, onBeforeMount } from "vue";
+import { ref, computed, onMounted, onBeforeMount } from "vue";
 import router from "@/router";
 import { useRoute } from "vue-router";
 // Import des composants
@@ -99,9 +99,6 @@ import { useUserStore } from "@/stores/user";
 // Imports de composables
 import { useGameQuestions } from "@/composables/gamequestions";
 
-// Icônes
-import SvgIcon from "@jamescoyle/vue-icon";
-import { mdiSend } from "@mdi/js";
 // Déclaration des stores
 const userStore = useUserStore();
 const route = useRoute();
@@ -174,7 +171,7 @@ const launchCountdown = async () => {
 onBeforeMount(() => {
     userStore.checkAuth();
     // Si l'utilisateur n'est pas connecté
-    if (!userStore.getIsConnected || userStore.getIsConnected == false) {
+    if (!userStore.getIsConnected || userStore.getIsConnected === false) {
         // Redirection vers l'écran de connexion
         router.push({ name: "connexion.create" });
     } else {

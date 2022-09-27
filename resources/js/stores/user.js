@@ -11,9 +11,9 @@ export const useUserStore = defineStore("user", {
         },
         // Modification du statut de connexion
         checkAuth() {
-            this.isConnected = new Boolean(localStorage.getItem('auth'));
+            this.isConnected = !!localStorage.getItem('auth');
         },
-        // L'utilisateur est-il connecté?
+        // L'utilisateur est-il connecté ?
         checkError(error) {
             // Si l'utilisateur n'est pas autorisé
             if (error.response?.status === 401 || error.response?.status === 403) {
@@ -53,16 +53,12 @@ export const useUserStore = defineStore("user", {
         },
         // Tentative de connexion au back
         async doLogout(data) {
-            try {
-                let response = await axios.post("/logout", data);
+                await axios.post("/logout", data);
                 this.setIsConnected(false);
                 localStorage.removeItem('auth')
                 await router.push({ name: "questions.index" });
                 // Reload de la page pour bien réinitialiser le composant
                 window.location.reload();
-            } catch (error) {
-                this.checkError(error);
-            }
         },
     },
     getters: {

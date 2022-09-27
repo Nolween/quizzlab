@@ -37,14 +37,14 @@
                     class="h-5 w-5 mb-3 rounded-full accent-quizzlab-primary checked:bg-gray-300 cursor-pointer"
                 />
                 <label for="imageNeeded" id="imageNeeded"
-                    ><span
-                        class="text-3xl text-white pl-2 cursor-pointer text-justify"
-                        >Cette question a besoin de s’appuyer d’une image</span
-                    ></label
+                ><span
+                    class="text-3xl text-white pl-2 cursor-pointer text-justify"
+                >Cette question a besoin de s’appuyer d’une image</span
+                ></label
                 >
             </div>
             <!-- Upload d'image -->
-            <div class="mx-auto lg:w-1/2" v-if="form.imageNeeded == true">
+            <div class="mx-auto lg:w-1/2" v-if="form.imageNeeded === true">
                 <label for="image-input">
                     <img
                         :src="imgSrc"
@@ -140,7 +140,7 @@
                     :key="selectedThemeKey"
                     class="bg-quizzlab-quaternary hover:bg-quizzlab-ternary text-white font-semibold m-2 p-2 text-2xl cursor-pointer"
                     @click="removeSelectedTheme(selectedThemeKey)"
-                    >{{ selectedTheme }}</span
+                >{{ selectedTheme }}</span
                 >
             </div>
 
@@ -154,11 +154,11 @@
                     class="h-5 w-5 mb-3 rounded-full accent-quizzlab-primary checked:bg-gray-300 cursor-pointer"
                 />
                 <label for="rules" id="rules"
-                    ><span
-                        class="text-3xl text-white pl-2 cursor-pointer text-justify"
-                        >Je confirme que ma question ne figure pas parmis les
+                ><span
+                    class="text-3xl text-white pl-2 cursor-pointer text-justify"
+                >Je confirme que ma question ne figure pas parmis les
                         questions relatives affichées</span
-                    ></label
+                ></label
                 >
             </div>
 
@@ -194,13 +194,13 @@
                     <span class="w-10 text-right">
                         <svg-icon
                             @click="
-                                (tagSearch = null), (themeListOverlay = false)
+                                [tagSearch = null, themeListOverlay = false]
                             "
                             class="text-quizzlab-ternary h-10 w-10 my-auto cursor-pointer"
                             :path="mdiCloseBox"
                             type="mdi"
                         ></svg-icon
-                    ></span>
+                        ></span>
                 </div>
                 <div class="bg-quizzlab-primary">
                     <div class="p-3 flex justify-center">
@@ -216,7 +216,7 @@
 
                     <div class="w-full text-center">
                         <span class="text-white text-3xl"
-                            >{{ handlingTags.length }} thème{{
+                        >{{ handlingTags.length }} thème{{
                                 handlingTags.length > 1 ? "s" : ""
                             }}
                             à ajouter</span
@@ -244,7 +244,7 @@
                                       )
                                     : handlingTags.push(filteredTag.name)
                             "
-                            >{{ filteredTag.name }}</span
+                        >{{ filteredTag.name }}</span
                         >
                     </div>
                     <div
@@ -254,19 +254,19 @@
                             type="submit"
                             class="bg-white hover:bg-quizzlab-ternary text-quizzlab-ternary hover:text-white text-2xl py-2 px-3 rounded-sm"
                             @click="
-                                (themeListOverlay = false), (handlingTags = [])
+                                [themeListOverlay = false, handlingTags = []]
                             "
                         >
                             <span class="font-semibold"> Annuler</span>
                         </button>
                         <button
-                            :disabled="handlingTags.length == 0"
+                            :disabled="handlingTags.length === 0"
                             type="submit"
                             class="hover:bg-quizzlab-secondary hover:text-white bg-white text-quizzlab-secondary text-2xl py-2 px-3 rounded-sm"
                             @click="addHandlingTags()"
                         >
                             <span class="font-semibold"
-                                >Ajouter aux thèmes</span
+                            >Ajouter aux thèmes</span
                             >
                         </button>
                     </div>
@@ -276,22 +276,22 @@
     </div>
 </template>
 <script setup>
-import { ref, toRef, reactive, computed, onBeforeMount } from "vue";
+import {ref, toRef, reactive, computed, onBeforeMount} from "vue";
 import router from "@/router";
 // Import des composants
 import SuggestedQuestions from "../components/SuggestedQuestions.vue";
 import SuggestedTags from "../components/SuggestedTags.vue";
 // Import des stores
-import { useUserStore } from "@/stores/user";
+import {useUserStore} from "@/stores/user";
 // Imports de composables
-import { useQuestions } from "@/composables/questions.js";
+import {useQuestions} from "@/composables/questions";
 
-import { useTags } from "@/composables/tags.js";
+import {useTags} from "@/composables/tags";
 
 // Icones
 import SvgIcon from "@jamescoyle/vue-icon";
-import { mdiMagnify } from "@mdi/js";
-import { mdiCloseBox } from "@mdi/js";
+import {mdiMagnify} from "@mdi/js";
+import {mdiCloseBox} from "@mdi/js";
 // Déclaration des stores
 const userStore = useUserStore();
 // Déclaration des ref pour le focus
@@ -349,7 +349,7 @@ const completedForm = computed(() => {
         form.choices[3] &&
         form.choices[3].length > 0 &&
         form.selectedThemes.length > 0 &&
-        form.rules == true &&
+        form.rules === true &&
         (!form.imageNeeded || (form.imageNeeded && form.image))
     );
 });
@@ -366,7 +366,7 @@ const onFileChanged = (event) => {
 };
 
 const sendQuestion = async () => {
-    await sendQuestionProposition({ ...form });
+    await sendQuestionProposition({...form});
 };
 
 // Retirer le thème sur lequel on clique
@@ -392,11 +392,11 @@ const addHandlingTags = () => {
 
 const getSuggestions = async (mod) => {
     // Si recherche de thème
-    if (theme && mod == 0) {
+    if (theme && mod === 0) {
         await getSuggestedTags(theme);
     }
     // Si on recherche une question
-    else if (form.question && mod == 1) {
+    else if (form.question && mod === 1) {
         await getSuggestedQuestions(toRef(form, "question"));
     }
 };
@@ -412,16 +412,17 @@ const addTag = async (newQuestion) => {
 };
 
 onBeforeMount(() => {
+    userStore.checkAuth();
+    // Si l'utilisateur n'est pas connecté
+    if (!userStore.getIsConnected || userStore.getIsConnected === false) {
+        // Redirection vers l'écran de connexion
+        router.push({name: "connexion.create"});
+    }
     // Reset des suggestion pour éviter la pollution d'anciennes pages
     resetSuggestedQuestions();
     resetSuggestedTags();
     // Récupération de tous les tags
     getAllTags();
     userStore.checkAuth();
-    // Si l'utilisateur n'est pas connecté
-    if (!userStore.getIsConnected || userStore.getIsConnected == false) {
-        // Redirection vers l'écran de connexion
-        router.push({ name: "connexion.create" });
-    }
 });
 </script>

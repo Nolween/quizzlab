@@ -154,7 +154,7 @@ import { mdiMagnify, mdiRefresh, mdiCloseBox } from "@mdi/js";
 import { useGameStore } from "@/stores/game";
 import { useUserStore } from "@/stores/user";
 // Import des composables
-import { useTags } from "@/composables/tags.js";
+import { useTags } from "@/composables/tags";
 // Déclaration des emits
 const emit = defineEmits(["changeSearch"]);
 // Déclararation de stores
@@ -214,7 +214,7 @@ onBeforeMount(() => {
     resetSuggestedTags();
     userStore.checkAuth();
     // Si l'utilisateur n'est pas connecté
-    if (!userStore.getIsConnected || userStore.getIsConnected == false) {
+    if (!userStore.getIsConnected || userStore.getIsConnected === false) {
         // Redirection vers l'écran de connexion
         router.push({ name: "connexion.create" });
     }
