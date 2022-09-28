@@ -9,10 +9,12 @@ use App\Http\Requests\Games\GameBeginRequest;
 use App\Http\Requests\Games\GameCodeRequest;
 use App\Http\Requests\Games\GameIndexRequest;
 use App\Http\Requests\Games\GameJoinRequest;
+use App\Http\Requests\Games\GameResultsRequest;
 use App\Http\Requests\Games\GameStoreRequest;
 use App\Http\Resources\Games\GameCodeResource;
 use App\Http\Resources\Games\GameIndexResource;
 use App\Http\Resources\Games\GameJoinResource;
+use App\Http\Resources\Games\GameResultsResource;
 use App\Http\Resources\Games\GameStoreResource;
 use App\Models\Game;
 use App\Models\GamePlayer;
@@ -318,6 +320,24 @@ class GameController extends Controller
         }
         return new GameCodeResource($game);
     }
+
+
+    /**
+     * Récupération des résultats de la partie
+     *
+     * @param GameResultsRequest $request
+     * @param Game $game
+     * @return GameResultsResource|JsonResponse
+     */
+    public function results(GameResultsRequest $request, Game $game): JsonResponse|GameResultsResource
+    {
+        // Retour dans le front des informations
+        return new GameResultsResource($game);
+    }
+
+
+
+
 
     /**
      * Update the specified resource in storage.

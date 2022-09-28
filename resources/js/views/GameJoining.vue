@@ -223,7 +223,7 @@ import { useUserStore } from "@/stores/user";
 import { useGameChats } from "@/composables/gamechats";
 
 const route = useRoute();
-// Déclararation de stores
+// Déclaration de stores
 const gameStore = useGameStore();
 const userStore = useUserStore();
 

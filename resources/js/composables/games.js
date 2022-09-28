@@ -6,6 +6,7 @@ import { useToast } from "vue-toastification";
 
 export function useGames() {
     const game = ref([]);
+    const gameResults = ref([]);
 
     const errors = ref("");
     const router = useRouter();
@@ -15,7 +16,7 @@ export function useGames() {
     const sendGameProposition = async (data, possibleQuestions) => {
         try {
             data.possibleQuestions = possibleQuestions
-            data.allTags = data.allTags == true ? 1 : 0;
+            data.allTags = data.allTags === true ? 1 : 0;
             // Envoi dans le back
             let response = await axios.post(`/api/games`, data);
 
@@ -33,7 +34,7 @@ export function useGames() {
             }
         } catch (error) {
             // Si on a un retour du back
-            if (error.response.data.success == false) {
+            if (error.response.data.success === false) {
                 // Notification
                 const toast = useToast();
                 toast.error(error.response.data.message);
@@ -44,9 +45,34 @@ export function useGames() {
         }
     };
 
+
+    // Récupération des résultats
+    const getGameResults = async (gameId) => {
+        try {
+            let response = await axios.get(
+                `/api/games/results/${gameId}`
+            );
+            // Si on a bien un retour
+            if (response.data.data) {
+                gameResults.value = response.data.data;
+                return gameResults.value;
+            }
+        } catch (error) {
+            // Vérification de l'erreur
+            const userStore = useUserStore();
+            userStore.checkError(error);
+            router.push({
+                name: "questions.index"
+            });
+        }
+    };
+
+
     return {
         errors,
         game,
+        gameResults,
         sendGameProposition,
+        getGameResults
     };
 }

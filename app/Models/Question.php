@@ -14,7 +14,6 @@ class Question extends Model
     protected $fillable = [
         'user_id',
         'question',
-        'answer',
         'image',
         'is_integrated',
         'vote',

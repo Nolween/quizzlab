@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Game extends Model
 {
@@ -72,6 +73,18 @@ class Game extends Model
     public function tags(): HasMany
     {
         return $this->hasMany(GameTag::class);
+    }
+
+    /**
+     * Quel sont les résultats de cette partie ?
+     */
+    public function results(): HasManyThrough
+    {
+        return $this->HasManyThrough(
+            GameResult::class,
+            GameQuestion::class,
+            'game_id',
+            'game_question_id')->orderBy('game_question_id');
     }
 
 

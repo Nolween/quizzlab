@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class GameResult extends Model
 {
@@ -33,6 +34,35 @@ class GameResult extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * À quelle question de partie appartient le résultat de la question ?
+     */
+    public function gameQuestion(): BelongsTo
+    {
+        return $this->belongsTo(GameQuestion::class, 'game_question_id', 'id');
+    }
+
+    /**
+     * Quel est le choix du résultat ?
+     */
+    public function choice(): BelongsTo
+    {
+        return $this->belongsTo(QuestionChoice::class);
+    }
+
+    /**
+     * À quelle partie appartient le résultat de la question ?
+     */
+    public function game(): HasOneThrough
+    {
+        return $this->hasOneThrough(Game::class,
+            GameQuestion::class,
+            'game_question_id',
+            'game_id',
+            'id',
+            'id');
     }
 
 }
