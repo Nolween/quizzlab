@@ -25,6 +25,7 @@ class GameQuestionShowResource extends JsonResource
         // $tags = QuestionTag::with('tag')->where('question_id', $this->question->id)->get()->pluck('');
         return [
             'gameQuestionId' => $this->id,
+            'isFinished' => $this->game->is_finished,
             'questionStep' => $this->game->question_step,
             'responseTime' => $this->game->response_time,
             'question' => $this->question->question,

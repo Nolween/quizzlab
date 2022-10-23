@@ -18,7 +18,7 @@
                 v-for="(choice, choiceKey) in choices"
                 :key="choiceKey"
                 :class="
-                            choice.is_correct === true
+                            choice.is_correct === 1
                                 ? 'text-quizzlab-secondary'
                                 : 'text-quizzlab-ternary'
                         "

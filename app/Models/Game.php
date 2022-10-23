@@ -64,7 +64,7 @@ class Game extends Model
      */
     public function questions(): HasMany
     {
-        return $this->hasMany(GameQuestion::class);
+        return $this->hasMany(GameQuestion::class)->orderBy('order', 'ASC');
     }
 
     /**

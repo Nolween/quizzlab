@@ -1,8 +1,8 @@
-import { ref } from "vue";
+import {ref} from "vue";
 import axios from "axios";
-import { useRouter } from "vue-router";
-import { useUserStore } from "@/stores/user";
-import { useToast } from "vue-toastification";
+import {useRouter} from "vue-router";
+import {useUserStore} from "@/stores/user";
+import {useToast} from "vue-toastification";
 
 export function useGameQuestions() {
     const gameQuestion = ref([]);
@@ -21,9 +21,18 @@ export function useGameQuestions() {
             );
             // Si on a bien un retour
             if (response.data.data) {
-                gameQuestion.value = response.data.data;
-                timeLeft.value = response.data.data.responseTime;
-                return gameQuestion.value;
+                // Si la partie est terminée
+                if (response.data.data.isFinished === 1) {
+                    router.push({
+                        name: "games.results",
+                        params: {gameId},
+                    });
+                } else {
+                    gameQuestion.value = response.data.data;
+                    timeLeft.value = response.data.data.responseTime;
+                    return gameQuestion.value;
+                }
+
             }
         } catch (error) {
             // Vérification de l'erreur
@@ -31,7 +40,7 @@ export function useGameQuestions() {
             userStore.checkError(error);
             router.push({
                 name: "games.question",
-                params: { gameId },
+                params: {gameId},
             });
         }
     };
