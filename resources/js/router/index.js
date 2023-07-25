@@ -10,6 +10,7 @@ import GameCreation from '../views/GameCreation.vue'
 import GameQuestion from '../views/GameQuestion.vue'
 import GameJoining from '../views/GameJoining.vue'
 import GameResults from '../views/GameResults.vue'
+import AccountInformations from "../views/AccountInformations.vue";
 
 const routes = [
     {
@@ -61,7 +62,12 @@ const routes = [
         path: '/inscription',
         name: 'inscription.create',
         component: Registration
-    }
+    },
+    {
+        path: '/account/informations',
+        name: 'account.informations',
+        component: AccountInformations
+    },
 ];
 
 export default createRouter({

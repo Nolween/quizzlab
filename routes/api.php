@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\GameResultController;
 use App\Http\Controllers\Api\QuestionCommentController;
 use App\Http\Controllers\Api\QuestionController;
 use App\Http\Controllers\Api\TagController;
+use App\Http\Controllers\Api\UserController;
 use App\Models\CommentApproval;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -49,6 +50,10 @@ Route::controller(GamePlayerController::class)->group(function() {
 
 Route::controller(GameQuestionController::class)->group(function() {
     Route::get('/gamequestions/question/{gameId}','question')->name('game.question');
+});
+
+Route::controller(UserController::class)->group(function() {
+    Route::patch('/profile/update','updateUserProfile')->name('user.profile.update');
 });
 
 

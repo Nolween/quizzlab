@@ -32,7 +32,7 @@
                         class="w-40 border-gray-300 border-2 px-3 m-2 pt-2 text-center"
                     >
                         <span class="font-bold text-quizzlab-secondary"
-                            >DANS LE QUIZZ</span
+                        >DANS LE QUIZZ</span
                         >
                     </div>
                     <!-- Thèmes -->
@@ -41,7 +41,7 @@
                         :key="tag.id"
                         class="bg-quizzlab-quaternary text-white font-semibold m-2 p-2 text-2xl cursor-pointer"
                         @click="goToTheme(tag.name)"
-                        >{{ tag.name }}</span
+                    >{{ tag.name }}</span
                     >
                 </div>
             </div>
@@ -106,8 +106,8 @@
                     alt=""
                 />
                 <span class="text-quizzlab-quinary text-xl font-medium pt-1">{{
-                    userName
-                }}</span>
+                        userName
+                    }}</span>
             </div>
             <div class="flex flex-wrap pt-1">
                 <svg-icon
@@ -116,8 +116,8 @@
                     type="mdi"
                 ></svg-icon>
                 <span class="text-quizzlab-ternary text-xl font-medium">{{
-                    ago
-                }}</span>
+                        ago
+                    }}</span>
             </div>
             <div
                 :class="props.isIntegrated == false ? 'cursor-pointer' : ''"
@@ -137,8 +137,8 @@
                     type="mdi"
                 ></svg-icon>
                 <span class="text-quizzlab-quaternary text-xl font-medium">{{
-                    commentsCount
-                }}</span>
+                        commentsCount
+                    }}</span>
             </div>
         </div>
     </div>
@@ -165,7 +165,7 @@
     </div>
 </template>
 <script setup>
-import { ref, computed } from "vue";
+import {ref, computed} from "vue";
 import router from "@/router";
 // Icones
 import SvgIcon from "@jamescoyle/vue-icon";
@@ -176,7 +176,7 @@ import {
     mdiCommentText,
 } from "@mdi/js";
 // Import du store des questions
-import { useQuestionStore } from "@/stores/question";
+import {useQuestionStore} from "@/stores/question";
 // Déclaration du store des questions
 const questionStore = useQuestionStore();
 
@@ -225,7 +225,7 @@ const negativeClass = computed(() => ({
 
 //? Fonctions du composant
 function prepareVote(ispositive) {
-    const data = { questionid: props.questionId, ispositive };
+    const data = {questionid: props.questionId, ispositive};
     questionStore.voteQuestion(data);
 }
 
@@ -245,7 +245,7 @@ const goToTheme = (theme) => {
         // On active l'évènement changeSearch (change-search) présent dans le composant parent
         router.push({
             name: "questions.index",
-            params: { theme },
+            params: {theme},
         });
     }
 };

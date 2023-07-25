@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 import router from "@/router";
+import {useToast} from "vue-toastification";
 
 export const useUserStore = defineStore("user", {
     state: () => ({ isConnected: false, errors: [] }),
@@ -51,14 +52,46 @@ export const useUserStore = defineStore("user", {
                 this.checkError(error);
             }
         },
+        // Tentative d'inscription'
+        async doUpdateInformations(data) {
+            this.errors = "";
+            try {
+                let response = await axios.patch("/api/profile/update", data);
+                if(response.data.success){
+                    // Toastr de réussite
+                    const toast = useToast();
+                    toast.info('Informations mises à jour !');
+                    // Redirection
+                    router.push({ name: "questions.index" });
+                }
+                else {
+                    // Toastr de réussite
+                    const toast = useToast();
+                    toast.error(data.message);
+                }
+            } catch (error) {
+                // Toastr de réussite
+                const toast = useToast();
+                toast.error(error.response.data.message );
+                this.checkError(error);
+            }
+        },
+
+
+
         // Tentative de connexion au back
         async doLogout(data) {
-                await axios.post("/logout", data);
+            try {
+                await axios.get("/sanctum/csrf-cookie");
+                await axios.post("/logout");
                 this.setIsConnected(false);
                 localStorage.removeItem('auth')
                 await router.push({ name: "questions.index" });
                 // Reload de la page pour bien réinitialiser le composant
                 window.location.reload();
+            } catch (error) {
+                this.checkError(error);
+            }
         },
     },
     getters: {

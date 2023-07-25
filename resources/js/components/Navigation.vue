@@ -6,45 +6,48 @@
             <span
                 @click="$router.push({ name: 'questions.index' })"
                 class="cursor-pointer"
-                >Quizzlab</span
+            >Quizzlab</span
             >
         </div>
         <div class="text-quizzlab-secondary px-1">
             <span
                 @click="$router.push({ name: 'games.index' })"
                 class="cursor-pointer"
-                >Jouer</span
+            >Jouer</span
             >
         </div>
         <div class="text-quizzlab-primary px-1">
             <span
                 @click="$router.push({ name: 'proposition.create' })"
                 class="cursor-pointer"
-                >Proposer</span
+            >Proposer</span
             >
         </div>
         <div v-if="userStore.isConnected === true" class="text-quizzlab-quinary px-1">
-            <span class="cursor-pointer" onclick="">Compte</span>
+            <span class="cursor-pointer"
+                  @click="$router.push({ name: 'account.informations' })">
+                Compte
+            </span>
         </div>
         <div
             v-if="userStore.isConnected === true"
             class="text-quizzlab-quinary px-1"
         >
             <span @click="userStore.doLogout()" class="cursor-pointer"
-                >Déconnexion</span
+            >Déconnexion</span
             >
         </div>
         <div v-else class="text-quizzlab-quinary px-1">
             <span
                 @click="$router.push({ name: 'connexion.create' })"
                 class="cursor-pointer"
-                >Connexion</span
+            >Connexion</span
             >
         </div>
     </div>
 </template>
 <script setup>
-import { useUserStore } from "@/stores/user";
+import {useUserStore} from "@/stores/user";
 
 const userStore = useUserStore();
 
