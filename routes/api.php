@@ -53,7 +53,8 @@ Route::controller(GameQuestionController::class)->group(function() {
 });
 
 Route::controller(UserController::class)->group(function() {
-    Route::patch('/profile/update','updateUserProfile')->name('user.profile.update');
+    Route::get('/profile/get','getProfile')->name('user.profile.get');
+    Route::post('/profile/update','updateUserProfile')->name('user.profile.update');
 });
 
 

@@ -114,21 +114,7 @@ const tagListRef = ref(null);
 const imgSrc = ref("http://127.0.0.1:5173/public/storage/img/questions/0.avif");
 
 // Déclaration des composables
-const {
-    getSuggestedQuestions,
-    resetSuggestedQuestions,
-    computedSuggestedQuestion,
-    sendQuestionProposition,
-} = useQuestions();
-const {
-    getSuggestedTags,
-    resetSuggestedTags,
-    computedSuggestedTag,
-    getAllTags,
-    tagSearch,
-    filteredTags,
-    tags,
-} = useTags();
+
 
 // Focus du premier champ au chargement de la vue
 const vFocus = {
@@ -185,6 +171,13 @@ onBeforeMount(() => {
         // Redirection vers l'écran de connexion
         router.push({name: "connexion.create"});
     }
-    userStore.checkAuth();
+    // Appel dans l'API pour obtenir l'image de profile
+    userStore.getInformations().then((response) => {
+        // Attribution de l'url à la source de l'image
+        imgSrc.value = "http://127.0.0.1:5173/public/storage/img/profile/" + userStore.computedInformations.avatar;
+        // Attribution de l'email à la variable
+        form.email = userStore.computedInformations.email;
+    });
+
 });
 </script>

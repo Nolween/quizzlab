@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Users;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UserUpdateRequest extends FormRequest
 {
@@ -11,9 +12,9 @@ class UserUpdateRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        return true;
+        return Auth::check();
     }
 
     /**
@@ -21,14 +22,14 @@ class UserUpdateRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'email' => ['nullable', 'email'],
-            'old_password' => ['required', 'current_password'],
-            'password' => ['nullable', 'string', 'min:6', 'same:password_confirmation'],
+            'email'                 => ['nullable', 'email'],
+            'old_password'          => ['required', 'current_password'],
+            'password'              => ['nullable', 'string', 'min:6', 'same:password_confirmation'],
             'password_confirmation' => ['nullable', 'string', 'min:6', 'same:password'],
-            'image' => ['nullable', 'string'],
+            'image'                 => ['nullable', 'mimes:jpg,png,jpeg,avif,webp'],
         ];
     }
 }
