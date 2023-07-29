@@ -6,10 +6,13 @@ use App\Helpers\ImageTransformation;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\QuestionRequest;
 use App\Http\Requests\Questions\QuestionIndexRequest;
+use App\Http\Requests\Questions\QuestionModerateRequest;
+use App\Http\Requests\Questions\QuestionModerationIndexRequest;
 use App\Http\Requests\Questions\QuestionSearchRequest;
 use App\Http\Requests\Questions\QuestionStoreRequest;
 use App\Http\Requests\Questions\QuestionVoteRequest;
 use App\Http\Resources\QuestionIndexResource;
+use App\Http\Resources\Questions\QuestionModerateResource;
 use App\Http\Resources\Questions\QuestionSearchResource;
 use App\Http\Resources\Questions\QuestionShowResource;
 use App\Http\Resources\Questions\QuestionVoteResource;
@@ -20,6 +23,7 @@ use App\Models\QuestionVote;
 use App\Models\Tag;
 use App\Models\User;
 use App\Services\ElasticService;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -55,6 +59,42 @@ class QuestionController extends Controller
         // Si pas de recherche
         if (empty($request->search)) {
             return QuestionIndexResource::collection(Question::where('is_moderated', true)->where('is_integrated', null)->orderBy('created_at', 'DESC')->paginate(20));
+        } // Si on a une recherche selon un tag / thème
+        else if ($request->searchMod == 0) {
+            // ID du tag correspondant à la recherche
+            $tag = Tag::where('name', $request->search)->first();
+            if (!empty($tag->id)) {
+                // Récupération de toutes les questions ayant un rapport avec le thème recherché
+                $questionTags = QuestionTag::where('tag_id', $tag->id)->orderBy('question_id', 'ASC')->paginate(20);
+                $questions = [];
+                // Construction du tableau de réponses
+                foreach ($questionTags as $questionTag) {
+                    $questions[] = $questionTag->question;
+                }
+                return QuestionIndexResource::collection($questions);
+            } else {
+                return QuestionIndexResource::collection([]);
+            }
+        } // Si on a une recherche selon une question
+        else {
+            return QuestionIndexResource::collection(Question::where('question', 'like', "%$request->search%")->paginate(20));
+        }
+    }
+
+
+    /**
+     * Affiche la liste des questions
+     * /api/questions
+     *
+     * @param QuestionModerationIndexRequest $request
+     * @return AnonymousResourceCollection
+     */
+    public function moderationIndex(QuestionModerationIndexRequest $request): AnonymousResourceCollection
+    {
+
+        // Si pas de recherche
+        if (empty($request->search)) {
+            return QuestionIndexResource::collection(Question::where('is_moderated', null)->where('is_integrated', null)->orderBy('moderated_at', 'ASC')->paginate(20));
         } // Si on a une recherche selon un tag / thème
         else if ($request->searchMod == 0) {
             // ID du tag correspondant à la recherche
@@ -261,6 +301,37 @@ class QuestionController extends Controller
         }
         // Retour dans le front des informations
         return new QuestionVoteResource($data);
+    }
+
+
+    /**
+     * Modérer une question
+     *
+     * @param QuestionModerateRequest $request
+     * @param Question $question
+     * @return QuestionModerateResource|JsonResponse
+     */
+    public function moderate(QuestionModerateRequest $request, Question $question): QuestionModerateResource|JsonResponse
+    {
+        DB::beginTransaction();
+        try {
+
+            $question->is_moderated = $request->isModerated;
+            // Mise à jour du score de la question
+            $question->moderated_at = Carbon::now();
+            $question->save();
+            $data = [
+                'isModerated' => $request->isModerated,
+                'questionid' => $request->questionid
+            ];
+            DB::commit();
+
+        } catch (Throwable $th) {
+            DB::rollBack();
+            return response()->json(['success' => false, 'message' => $th->getMessage()]) ;
+        }
+        // Retour dans le front des informations
+        return new QuestionModerateResource($data);
     }
 
     /**

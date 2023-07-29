@@ -91,6 +91,7 @@
                 :commentsCount="question.commentsCount"
                 :hasVoted="question.hasVoted"
                 :imagePath="question.image"
+                :has-to-be-moderated="true"
                 v-for="question in questionStore.questions"
                 :key="question.id"
                 @change-search="updateQuestionSearch($event)"
@@ -100,13 +101,13 @@
 </template>
 <script setup>
 // Imports de fonctionnalités essentielles de Vue (hook, ...)
-import { onMounted, onBeforeMount, ref, computed } from "vue";
+import {onMounted, onBeforeMount, ref, computed} from "vue";
 // Import des stores
-import { useQuestionStore } from "@/stores/question";
-import { useUserStore } from "@/stores/user";
-import { useQuestions } from '@/composables/questions';
-import { useRoute } from "vue-router";
-import { useTags } from "@/composables/tags";
+import {useQuestionStore} from "@/stores/question";
+import {useUserStore} from "@/stores/user";
+import {useQuestions} from '@/composables/questions';
+import {useRoute} from "vue-router";
+import {useTags} from "@/composables/tags";
 // Import des composants
 import Question from "../components/Question.vue";
 import SuggestedQuestions from "../components/SuggestedQuestions.vue";
@@ -114,7 +115,7 @@ import SuggestedTags from "../components/SuggestedTags.vue";
 
 // Icones
 import SvgIcon from "@jamescoyle/vue-icon";
-import { mdiMagnify } from "@mdi/js";
+import {mdiMagnify} from "@mdi/js";
 
 const emit = defineEmits(["changeSearch"]);
 // Import des composables
@@ -123,7 +124,7 @@ const {
     resetSuggestedQuestions,
     computedSuggestedQuestion,
 } = useQuestions();
-const { getSuggestedTags, resetSuggestedTags, computedSuggestedTag } =
+const {getSuggestedTags, resetSuggestedTags, computedSuggestedTag} =
     useTags();
 // Déclaration du store des questions
 const questionStore = useQuestionStore();
@@ -157,7 +158,7 @@ const updateQuestionSearch = async (newQuestion) => {
     // On revient en haut de la page
     window.scrollTo(0, 0);
     // Soumission du formulaire dans le back pour récupérer les questions
-    await questionStore.getQuestions(newQuestion, searchMod.value);
+    await questionStore.getQuestions(newQuestion, searchMod.value, true);
 };
 
 const refreshQuestions = async () => {
@@ -165,7 +166,7 @@ const refreshQuestions = async () => {
     resetSuggestedQuestions();
     resetSuggestedTags();
     // Soumission du formulaire dans le back pour récupérer les questions
-    await questionStore.getQuestions(searchInput.value, searchMod.value);
+    await questionStore.getQuestions(searchInput.value, searchMod.value, true);
 };
 
 const getSuggestions = async () => {
@@ -214,7 +215,7 @@ onMounted(() => {
     }
     // Si pas de paramètre de thème, on charge tout
     else {
-        questionStore.getQuestions();
+        questionStore.getQuestions(null, 0, true);
     }
 });
 </script>

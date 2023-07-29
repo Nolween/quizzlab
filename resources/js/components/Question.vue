@@ -4,28 +4,44 @@
             <div class="w-full">
                 <div class="flex flex-wrap px-3 lg:px-8 justify-start">
                     <div
-                        v-if="props.isIntegrated == false"
+                        v-if="props.isIntegrated === false"
                         class="w-40 border-gray-300 border-2 px-3 m-2 pt-2 flex flex-wrap justify-between"
                     >
-                        <svg-icon
-                            @click="
+                        <template v-if="!props.hasToBeModerated">
+                            <svg-icon
+                                @click="
                                 props.hasVoted == null ? prepareVote(false) : ''
                             "
-                            :path="mdiMinusThick"
-                            :class="negativeClass"
-                            type="mdi"
-                        ></svg-icon>
-                        <div class="text-quizzlab-primary font-bold text-xl">
-                            {{ vote }}°
-                        </div>
-                        <svg-icon
-                            @click="
+                                :path="mdiMinusThick"
+                                :class="negativeClass"
+                                type="mdi"
+                            ></svg-icon>
+                            <div class="text-quizzlab-primary font-bold text-xl">
+                                {{ vote }}°
+                            </div>
+                            <svg-icon
+                                @click="
                                 props.hasVoted == null ? prepareVote(true) : ''
                             "
-                            :path="mdiPlusThick"
-                            :class="positiveClass"
-                            type="mdi"
-                        ></svg-icon>
+                                :path="mdiPlusThick"
+                                :class="positiveClass"
+                                type="mdi"
+                            ></svg-icon>
+                        </template>
+                        <template v-else>
+                            <svg-icon
+                                @click="prepareModerate(true)"
+                                :path="mdiCheckBold"
+                                class="bg-quizzlab-white hover:bg-quizzlab-secondary text-quizzlab-secondary hover:text-white p-1 h-8 w-8 cursor-pointer"
+                                type="mdi"
+                            ></svg-icon>
+                            <svg-icon
+                                @click="prepareModerate(false)"
+                                :path="mdiCancel"
+                                class="bg-quizzlab-white hover:bg-quizzlab-ternary text-quizzlab-ternary hover:text-white p-1 h-8 w-8 cursor-pointer"
+                                type="mdi"
+                            ></svg-icon>
+                        </template>
                     </div>
                     <div
                         v-else
@@ -52,9 +68,9 @@
             <div
                 title="Voir la fiche"
                 class="text-quizzlab-primary font-medium text-4xl px-3 lg:px-8 py-2 text-center my-auto mx-auto"
-                :class="props.isIntegrated == false ? 'cursor-pointer' : ''"
+                :class="props.isIntegrated === false ? 'cursor-pointer' : ''"
                 @click="
-                    props.isIntegrated == false
+                    props.isIntegrated === false
                         ? $router.push({
                               name: 'question.show',
                               params: { id: props.questionId },
@@ -85,7 +101,7 @@
                 v-for="(choice, choiceKey) in choices"
                 :key="choiceKey"
                 :class="
-                    choice.is_correct == true
+                    choice.is_correct === true
                         ? 'bg-quizzlab-secondary'
                         : 'bg-quizzlab-ternary'
                 "
@@ -120,10 +136,10 @@
                     }}</span>
             </div>
             <div
-                :class="props.isIntegrated == false ? 'cursor-pointer' : ''"
+                :class="props.isIntegrated === false ? 'cursor-pointer' : ''"
                 class="flex flex-wrap pt-1"
                 @click="
-                    props.isIntegrated == false
+                    props.isIntegrated === false
                         ? $router.push({
                               name: 'question.show',
                               params: { id: props.questionId },
@@ -173,6 +189,8 @@ import {
     mdiMinusThick,
     mdiPlusThick,
     mdiTimerOutline,
+    mdiCheckBold,
+    mdiCancel,
     mdiCommentText,
 } from "@mdi/js";
 // Import du store des questions
@@ -194,6 +212,7 @@ const props = defineProps({
     imagePath: String,
     tags: Array,
     isIntegrated: Boolean,
+    hasToBeModerated: {type: Boolean, default: false},
     hasVoted: {
         type: Number,
         required: false,
@@ -223,10 +242,16 @@ const negativeClass = computed(() => ({
     "bg-quizzlab-ternary text-white": props.hasVoted == 0,
 }));
 
-//? Fonctions du composant
+//? Vote de la question
 function prepareVote(ispositive) {
     const data = {questionid: props.questionId, ispositive};
     questionStore.voteQuestion(data);
+}
+
+//? Modération de la question
+function prepareModerate(isModerated) {
+    const data = {questionid: props.questionId, isModerated};
+    questionStore.moderateQuestion(data);
 }
 
 //? Fonctions du composant
@@ -237,14 +262,14 @@ function displayBigImageQuestion(value) {
 // Lorsque l'on clique sur un thème
 const goToTheme = (theme) => {
     // Si on est sur la page d'accueil, on active le rafraichissement des questions
-    if (router.currentRoute.value.name === "questions.index") {
+    if (router.currentRoute.value.name === "questions.index" || router.currentRoute.value.name === "admin.questions") {
         emit("changeSearch", theme);
     }
     // Si pas la page d'accueil, on redirige avec le paramètre des thèmes
     else {
         // On active l'évènement changeSearch (change-search) présent dans le composant parent
         router.push({
-            name: "questions.index",
+            name: props.hasToBeModerated ? "admin.questions" : "questions.index",
             params: {theme},
         });
     }

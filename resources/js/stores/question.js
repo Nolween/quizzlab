@@ -10,9 +10,9 @@ export const useQuestionStore = defineStore("question", {
             this.question = [];
         },
         // Récupérer les questions dans le back
-        async getQuestions(search = null, searchMod = 0) {
+        async getQuestions(search = null, searchMod = 0, isForModeration = false) {
             try {
-                let response = await axios.get("/api/questions", {
+                let response = await axios.get(isForModeration ? "/api/admin/questions" : "/api/questions", {
                     params: {search, searchMod},
                 });
                 this.questions = response.data.data;
@@ -62,5 +62,28 @@ export const useQuestionStore = defineStore("question", {
                 userStore.checkError(error);
             }
         },
+        // Modérer la question
+        async moderateQuestion(data) {
+            try {
+                let response = await axios.patch(
+                    `/api/admin/question/${data.questionid}/moderate`,
+                    data
+                );
+                if (response.data.data) {
+                    // Quelle est l'index de la question par rapport à son id?
+                    const questionIndex = this.questions
+                        .map(function (e) {
+                            return e.id;
+                        })
+                        .indexOf(data.questionid);
+                    // Remove question
+                    this.questions.splice(questionIndex, 1);
+                }
+            } catch (error) {
+                // Vérification de l'erreur
+                const userStore = useUserStore();
+                userStore.checkError(error);
+            }
+        }
     },
 });

@@ -43,7 +43,6 @@ export const useUserStore = defineStore("user", {
                     this.setIsConnected(true);
                     this.setIsAdmin(response.data.isAdmin);
                     localStorage.setItem('auth', true)
-                    debugger
                     if(response.data.isAdmin) {
                         localStorage.setItem('isAdmin', response.data.isAdmin)
                     }

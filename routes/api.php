@@ -33,6 +33,8 @@ use Illuminate\Support\Facades\Route;
 Route::controller(QuestionController::class)->group(function() {
     Route::patch('/question/{question}/vote','vote')->name('question.vote');
     Route::get('/questions/search','search')->name('questions.search');
+    Route::get('/admin/questions/','moderationIndex')->name('questions.moderationIndex');
+    Route::patch('/admin/question/{question}/moderate','moderate')->name('question.moderate');
 });
 Route::controller(TagController::class)->group(function() {
     Route::get('/tags/search','search')->name('tags.search');

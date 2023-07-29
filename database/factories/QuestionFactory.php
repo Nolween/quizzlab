@@ -43,6 +43,7 @@ class QuestionFactory extends Factory
                 // On efface le png original
                 unlink(storage_path('app/public/img/questions/big/' . $filename . '.png'));
         }
+        $created_at = fake()->dateTimeBetween('-1 year', 'now');
         $image = $hasImage ? $filename . '.avif' : null;
         // La question a-t-elle déjà été modérée ? Si oui on définit si l'admin a validé
         $isModerated = fake()->boolean(80) ? fake()->boolean(80) : null;
@@ -51,10 +52,12 @@ class QuestionFactory extends Factory
         $integratedChance = fake()->boolean(80) ? true : null;
         $isIntegrated = $isModerated && $vote > 100 ?  $integratedChance : null;
         return [
+            'created_at' => $created_at,
             'user_id' => User::inRandomOrder()->first()->id,
             'question' => $question,
             'image' => $image,
             'is_moderated' => $isModerated,
+            'moderated_at' => fake()->dateTimeBetween($created_at, 'now'),
             'is_integrated' => $isIntegrated,
             'vote' => $vote,
             'ratio_score' => $isModerated ? fake()->randomFloat(2, 0, 1) : 0,
