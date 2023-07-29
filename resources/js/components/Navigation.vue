@@ -23,14 +23,22 @@
             >Proposer</span
             >
         </div>
-        <div v-if="userStore.isConnected === true" class="text-quizzlab-quinary px-1">
+        <div v-if="userStore.isConnected" class="text-quizzlab-quinary px-1">
             <span class="cursor-pointer"
                   @click="$router.push({ name: 'account.informations' })">
                 Compte
             </span>
         </div>
         <div
-            v-if="userStore.isConnected === true"
+            v-if="userStore.getIsAdmin"
+            class="text-quizzlab-ternary px-1"
+        >
+            <span @click="$router.push({ name: 'admin.questions' })" class="cursor-pointer"
+            >Admin</span
+            >
+        </div>
+        <div
+            v-if="userStore.isConnected"
             class="text-quizzlab-quinary px-1"
         >
             <span @click="userStore.doLogout()" class="cursor-pointer"

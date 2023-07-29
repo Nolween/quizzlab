@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\UserRoleEnum;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Filesystem\Filesystem;
@@ -31,7 +32,7 @@ class UserSeeder extends Seeder
             'name' => 'Cashandrick',
             'email' => 'nolween.lopez@gmail.com',
             'password' => bcrypt('123456'),
-            'role_id' => 1,
+            'role' => UserRoleEnum::Admin,
             'is_banned' => false
         ]);
         // Utilisateurs random

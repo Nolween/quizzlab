@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Enums\UserRoleEnum;
 use App\Helpers\ImageTransformation;
-use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Storage;
@@ -50,7 +50,7 @@ class UserFactory extends Factory
             'password' => bcrypt(123456), // password
             'remember_token' => Str::random(10),
             'is_banned' => false,
-            'role_id' => Role::inRandomOrder()->first()->id
+            'role' => fake()->randomElement([UserRoleEnum::Admin, UserRoleEnum::User])
         ];
     }
 

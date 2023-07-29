@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\UserRoleEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
@@ -31,8 +32,9 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
-
-        return redirect()->intended(RouteServiceProvider::HOME);
+        // Redirect where we want to go after login with data isAdmin true.
+        return response()->json(['isAdmin' => $request->user()->role === UserRoleEnum::Admin]);
+        // return redirect()->route(RouteServiceProvider::HOME, ['isAdmin', $request->user()->role === UserRoleEnum::Admin]);
     }
 
     /**

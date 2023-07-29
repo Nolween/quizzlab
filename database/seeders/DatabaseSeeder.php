@@ -24,7 +24,6 @@ class DatabaseSeeder extends Seeder
 
         //? PARTIE SQL
         // Création des paramètres
-        $this->call(RoleSeeder::class);
         $this->call(TagSeeder::class);
         $this->call(GameRuleSeeder::class);
 

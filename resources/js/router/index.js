@@ -11,6 +11,7 @@ import GameQuestion from '../views/GameQuestion.vue'
 import GameJoining from '../views/GameJoining.vue'
 import GameResults from '../views/GameResults.vue'
 import AccountInformations from "../views/AccountInformations.vue";
+import AdminQuestions from "../views/AdminQuestions.vue";
 
 const routes = [
     {
@@ -67,6 +68,11 @@ const routes = [
         path: '/account/informations',
         name: 'account.informations',
         component: AccountInformations
+    },
+    {
+        path: '/admin/questions',
+        name: 'admin.questions',
+        component: AdminQuestions
     },
 ];
 

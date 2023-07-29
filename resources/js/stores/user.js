@@ -4,15 +4,23 @@ import router from "@/router";
 import {useToast} from "vue-toastification";
 
 export const useUserStore = defineStore("user", {
-    state: () => ({isConnected: false, errors: [], informations: {avatar: null, email: null}}),
+    state: () => ({isConnected: false, isAdmin: false, errors: [], informations: {avatar: null, email: null}}),
     actions: {
         // Modification du statut de connexion
         setIsConnected(value) {
             this.isConnected = value;
         },
-        // Modification du statut de connexion
+        // Modification de la valeur d'admin
+        setIsAdmin(value) {
+            this.isAdmin = value;
+        },
+        // Vérification du statut de connexion
         checkAuth() {
             this.isConnected = !!localStorage.getItem('auth');
+        },
+        // Modification du statut d'admin de l'utilisateur
+        checkAdminStatus() {
+            this.isAdmin = !!localStorage.getItem('isAdmin');
         },
         // L'utilisateur est-il connecté ?
         checkError(error) {
@@ -30,11 +38,18 @@ export const useUserStore = defineStore("user", {
             this.errors = "";
             try {
                 await axios.get("/sanctum/csrf-cookie");
-                await axios.post("/login", data);
-                // Stockage de l'ID de l'utilisateur
-                this.setIsConnected(true);
-                localStorage.setItem('auth', true)
-                router.push({name: "questions.index"});
+                await axios.post("/login", data).then((response) => {
+                    // Stockage de l'ID de l'utilisateur
+                    this.setIsConnected(true);
+                    this.setIsAdmin(response.data.isAdmin);
+                    localStorage.setItem('auth', true)
+                    debugger
+                    if(response.data.isAdmin) {
+                        localStorage.setItem('isAdmin', response.data.isAdmin)
+                    }
+                    router.push({name: "questions.index"});
+                });
+
             } catch (error) {
                 this.checkError(error);
             }
@@ -115,7 +130,9 @@ export const useUserStore = defineStore("user", {
                 await axios.get("/sanctum/csrf-cookie");
                 await axios.post("/logout");
                 this.setIsConnected(false);
-                localStorage.removeItem('auth')
+                this.setIsAdmin(false);
+                localStorage.removeItem('auth');
+                localStorage.removeItem('isAdmin');
                 await router.push({name: "questions.index"});
                 // Reload de la page pour bien réinitialiser le composant
                 window.location.reload();
@@ -126,6 +143,7 @@ export const useUserStore = defineStore("user", {
     },
     getters: {
         getIsConnected: (state) => state.isConnected,
+        getIsAdmin: (state) => state.isAdmin,
         computedInformations: (state) => state.informations,
     },
 });

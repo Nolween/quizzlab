@@ -1,5 +1,5 @@
 <template>
-    <div class="pt-24 flex flex-wrap justify-center bg-quizzlab-primary">
+    <div class="pt-24 flex flex-wrap justify-center bg-quizzlab-ternary">
         <div class="w-5/6 lg:w-4/5">
             <!-- Formulaire de recherche de question-->
             <form @submit.prevent="[refreshQuestions]">
@@ -188,6 +188,18 @@ const vFocus = {
 
 onBeforeMount(() => {
     userStore.checkAuth();
+    userStore.checkAdminStatus();
+    // Si l'utilisateur n'est pas connecté
+    if (!userStore.getIsConnected || userStore.getIsConnected === false) {
+        // Redirection vers l'écran de connexion
+        userStore.doLogout()
+    }
+    // Si l'utilisateur n'est pas admin
+    if (!userStore.getIsAdmin || userStore.getIsAdmin === false) {
+        // Redirection vers l'écran de connexion
+        router.push({name: "questions.index"});
+        window.location.reload();
+    }
 });
 
 // Lorsque le composant est monté, on va chercher via l'API les ressources

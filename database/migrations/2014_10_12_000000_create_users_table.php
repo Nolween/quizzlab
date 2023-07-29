@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\UserRoleEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,15 +18,11 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('avatar')->nullable();
+            $table->string('role')->default('user');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->boolean('is_banned')->default('0');
-            $table->foreignId('role_id')->default('2')
-            ->constrained('roles')
-            ->default('2')
-            ->onUpdate('cascade')
-            ->onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
         });
