@@ -94,6 +94,7 @@
                 v-for="question in questionStore.questions"
                 :key="question.id"
                 @change-search="updateQuestionSearch($event)"
+                @go-to-question="goToQuestion"
             />
         </div>
     </div>
@@ -101,6 +102,7 @@
 <script setup>
 // Imports de fonctionnalités essentielles de Vue (hook, ...)
 import { onMounted, onBeforeMount, ref, computed } from "vue";
+import router from "@/router";
 // Import des stores
 import { useQuestionStore } from "@/stores/question";
 import { useUserStore } from "@/stores/user";
@@ -148,6 +150,15 @@ const updateSearchMod = (value) => {
     searchMod.value = value;
 };
 
+// Aller sur la page de la question
+const goToQuestion = (questionId) => {
+    debugger
+    router.push({
+        name: 'question.show',
+        params: {id: questionId},
+    })
+};
+
 const updateQuestionSearch = async (newQuestion) => {
     // On met à jour la question dans le champ
     searchInput.value = newQuestion;
@@ -188,6 +199,7 @@ const vFocus = {
 
 onBeforeMount(() => {
     userStore.checkAuth();
+    userStore.checkAdminStatus();
 });
 
 // Lorsque le composant est monté, on va chercher via l'API les ressources

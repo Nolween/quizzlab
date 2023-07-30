@@ -69,14 +69,7 @@
                 title="Voir la fiche"
                 class="text-quizzlab-primary font-medium text-4xl px-3 lg:px-8 py-2 text-center my-auto mx-auto"
                 :class="props.isIntegrated === false ? 'cursor-pointer' : ''"
-                @click="
-                    props.isIntegrated === false
-                        ? $router.push({
-                              name: 'question.show',
-                              params: { id: props.questionId },
-                          })
-                        : ''
-                "
+                @click="goToQuestion(props.questionId)"
             >
                 {{ question }}
             </div>
@@ -101,7 +94,7 @@
                 v-for="(choice, choiceKey) in choices"
                 :key="choiceKey"
                 :class="
-                    choice.is_correct === true
+                    choice.is_correct === 1
                         ? 'bg-quizzlab-secondary'
                         : 'bg-quizzlab-ternary'
                 "
@@ -138,14 +131,7 @@
             <div
                 :class="props.isIntegrated === false ? 'cursor-pointer' : ''"
                 class="flex flex-wrap pt-1"
-                @click="
-                    props.isIntegrated === false
-                        ? $router.push({
-                              name: 'question.show',
-                              params: { id: props.questionId },
-                          })
-                        : ''
-                "
+                @click="goToQuestion(props.questionId)"
             >
                 <svg-icon
                     :path="mdiCommentText"
@@ -198,7 +184,7 @@ import {useQuestionStore} from "@/stores/question";
 // Déclaration du store des questions
 const questionStore = useQuestionStore();
 
-const emit = defineEmits(["changeSearch"]);
+const emit = defineEmits(['changeSearch', 'goToQuestion']);
 // Définition des props du composant
 const props = defineProps({
     questionId: Number,
@@ -229,17 +215,17 @@ const statusVote = computed(() => {
 // Couleur des pastilles positives
 const positiveClass = computed(() => ({
     "cursor-pointer": props.hasVoted == null,
-    "text-quizzlab-secondary ": props.hasVoted == null || props.hasVoted == 0,
+    "text-quizzlab-secondary ": props.hasVoted == null || props.hasVoted === 0,
     "hover:bg-quizzlab-secondary hover:text-white": props.hasVoted == null,
-    "bg-quizzlab-secondary text-white": props.hasVoted == 1,
+    "bg-quizzlab-secondary text-white": props.hasVoted === 1,
 }));
 
 // Couleur des pastilles négatives
 const negativeClass = computed(() => ({
     "cursor-pointer": props.hasVoted == null,
-    "text-quizzlab-ternary": props.hasVoted == null || props.hasVoted == 1,
+    "text-quizzlab-ternary": props.hasVoted == null || props.hasVoted === 1,
     "hover:bg-quizzlab-ternary hover:text-white": props.hasVoted == null,
-    "bg-quizzlab-ternary text-white": props.hasVoted == 0,
+    "bg-quizzlab-ternary text-white": props.hasVoted === 0,
 }));
 
 //? Vote de la question
@@ -273,5 +259,10 @@ const goToTheme = (theme) => {
             params: {theme},
         });
     }
+};
+
+// Lorsque l'on clique sur la question
+const goToQuestion = (questionId) => {
+    emit('goToQuestion', questionId)
 };
 </script>

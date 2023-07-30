@@ -22,7 +22,7 @@ export function useGameChats() {
             let response = await axios.post(`/api/gamechats`, formData);
         } catch (error) {
             // Si on a un retour du back
-            if (error.response.data.success == false) {
+            if (error.response.data.success === false) {
                 // Notification
                 const toast = useToast();
                 toast.error(error.response.data.message);

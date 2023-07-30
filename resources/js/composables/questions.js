@@ -25,7 +25,7 @@ export function useQuestions() {
     // Récupérer les questions suggérées selon la recherche dans le back
     const getSuggestedQuestions = async (questionSearch) => {
         if (
-            questionSearch.value.trim() !== "" &&
+            questionSearch && questionSearch.value.trim() !== "" &&
             questionSearch.value !== null
         ) {
             try {
@@ -47,6 +47,7 @@ export function useQuestions() {
             suggestedQuestions.value = [];
         }
     };
+
     // Proposition d'une nouvelle question
     const sendQuestionProposition = async (data) => {
         try {
@@ -54,9 +55,9 @@ export function useQuestions() {
             let formData = new FormData();
             formData.append('_method', 'post');
             formData.append('question', data.question);
-            formData.append('rules', data.rules == true ? 1 : 0);
-            formData.append('imageNeeded', data.imageNeeded == true ? 1 : 0);
-            if (data.image && data.imageNeeded == true) {
+            formData.append('rules', data.rules === true ? 1 : 0);
+            formData.append('imageNeeded', data.imageNeeded === true ? 1 : 0);
+            if (data.image && data.imageNeeded === true) {
                 formData.append('image', data.image);
             }
             // Parcours des thèmes
@@ -76,12 +77,58 @@ export function useQuestions() {
             // Envoi dans le back
             let response = await axios.post(`/api/questions`, formData, config);
             // Si on a bien un retour
-            if (response.data && response.data.success == true) {
+            if (response.data && response.data.success === true) {
                 // Notification
                 const toast = useToast();
                 toast.success(response.data.message);
                 // Redirection vers l'accueil
                 router.push({ name: "questions.index" });
+            }
+        } catch (error) {
+            // Vérification de l'erreur
+            const userStore = useUserStore();
+            userStore.checkError(error);
+        }
+    };
+
+
+    // Modération d'une question avec modération
+    const sendModerationQuestionWithEdition = async (data) => {
+        try {
+            // Création d'un formulaire
+            let formData = new FormData();
+            formData.append('_method', 'post');
+            formData.append('question', data.question);
+            formData.append('id', data.id);
+            formData.append('imageNeeded', data.imageNeeded === true ? 1 : 0);
+            if (data.image && data.imageNeeded === true) {
+                formData.append('image', data.image);
+            }
+            // Parcours des choix
+            let choices = Array.from(data.choices);
+            choices.forEach((choice) => {
+                formData.append("choices[]", choice);
+            });
+            // Parcours des Thèmes
+            let selectedThemes = Array.from(data.selectedThemes);
+            selectedThemes.forEach((tag) => {
+                formData.append("selectedThemes[]", tag);
+            });
+            // Ajout d'une entête pour les fichiers
+            let config = {
+                header: {
+                    "Content-Type": "multipart/form-data",
+                },
+            };
+            // Envoi dans le back
+            let response = await axios.post(`/api/admin/questions/${data.id}/moderateandedit`, formData, config);
+            // Si on a bien un retour
+            if (response.data && response.data.success === true) {
+                // Notification
+                const toast = useToast();
+                toast.success(response.data.message);
+                // Redirection vers l'accueil
+                router.push({ name: "admin.questions" });
             }
         } catch (error) {
             // Vérification de l'erreur
@@ -101,6 +148,7 @@ export function useQuestions() {
         suggestedQuestions,
         computedSuggestedQuestion,
         getSuggestedQuestions,
+        sendModerationQuestionWithEdition,
         resetSuggestedQuestions,
         sendQuestionProposition,
         // forbiddenQuestion,

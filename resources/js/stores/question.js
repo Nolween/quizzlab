@@ -66,7 +66,7 @@ export const useQuestionStore = defineStore("question", {
         async moderateQuestion(data) {
             try {
                 let response = await axios.patch(
-                    `/api/admin/question/${data.questionid}/moderate`,
+                    `/api/admin/questions/${data.questionid}/moderate`,
                     data
                 );
                 if (response.data.data) {

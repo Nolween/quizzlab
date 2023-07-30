@@ -34,8 +34,12 @@ Route::controller(QuestionController::class)->group(function() {
     Route::patch('/question/{question}/vote','vote')->name('question.vote');
     Route::get('/questions/search','search')->name('questions.search');
     Route::get('/admin/questions/','moderationIndex')->name('questions.moderationIndex');
-    Route::patch('/admin/question/{question}/moderate','moderate')->name('question.moderate');
+    Route::patch('/admin/questions/{question}/moderate','moderate')->name('questions.moderate');
+    Route::post('/admin/questions/{question}/moderateandedit','moderateAndEdit')->name('questions.moderateAndEdit');
 });
+
+
+
 Route::controller(TagController::class)->group(function() {
     Route::get('/tags/search','search')->name('tags.search');
     Route::get('/tags/questions/count','questionsCount')->name('tags.questionsCount');

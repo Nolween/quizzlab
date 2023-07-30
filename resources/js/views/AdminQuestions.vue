@@ -94,6 +94,7 @@
                 :has-to-be-moderated="true"
                 v-for="question in questionStore.questions"
                 :key="question.id"
+                @go-to-question="goToQuestion"
                 @change-search="updateQuestionSearch($event)"
             />
         </div>
@@ -102,6 +103,7 @@
 <script setup>
 // Imports de fonctionnalités essentielles de Vue (hook, ...)
 import {onMounted, onBeforeMount, ref, computed} from "vue";
+import router from "@/router";
 // Import des stores
 import {useQuestionStore} from "@/stores/question";
 import {useUserStore} from "@/stores/user";
@@ -117,7 +119,7 @@ import SuggestedTags from "../components/SuggestedTags.vue";
 import SvgIcon from "@jamescoyle/vue-icon";
 import {mdiMagnify} from "@mdi/js";
 
-const emit = defineEmits(["changeSearch"]);
+const emit = defineEmits(['changeSearch', 'goToQuestion']);
 // Import des composables
 const {
     getSuggestedQuestions,
@@ -147,6 +149,14 @@ const updateSearchMod = (value) => {
     resetSuggestedQuestions();
     resetSuggestedTags();
     searchMod.value = value;
+};
+
+// Aller sur la page d'édition / modération de la question
+const goToQuestion = (questionId) => {
+    router.push({
+        name: 'admin.question.show',
+        params: {id: questionId},
+    });
 };
 
 const updateQuestionSearch = async (newQuestion) => {
