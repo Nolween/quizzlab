@@ -216,7 +216,7 @@ class GameController extends Controller
                 // Selon le nombre de questions dans la partie
                 for ($i = 0; $i < $request->question_count; $i++) {
                     // On cherche une Id de question pas encore dans la partie
-                    $questionToAddId = Question::where('is_integrated', true)->whereNotIn('id', $gameQuestionsIds)->inRandomOrder()->get()->id;
+                    $questionToAddId = Question::where('is_integrated', true)->whereNotIn('id', $gameQuestionsIds)->inRandomOrder()->first()->id;
                     // Attribution de la question à la partie
                     GameQuestion::create([
                         'game_id' => $newGame->id,

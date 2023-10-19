@@ -27,7 +27,6 @@ class UserController extends Controller
     }
 
     /**
-     * @param  Request  $request
      * @return JsonResponse
      */
     public function getProfile()
