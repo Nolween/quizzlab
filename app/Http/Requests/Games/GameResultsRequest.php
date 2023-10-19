@@ -17,6 +17,7 @@ class GameResultsRequest extends FormRequest
     {
         $gameId = $this->route('game')->id;
         $gamePlayerExists = GamePlayer::where('user_id', Auth::user()->id)->where('game_id', $gameId)->exists();
+
         return Auth::check() && $gamePlayerExists;
     }
 

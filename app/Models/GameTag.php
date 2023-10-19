@@ -10,7 +10,6 @@ class GameTag extends Model
 {
     use HasFactory;
 
-
     // Pas besoin des created_at et updated_at
     public $timestamps = false;
 
@@ -18,7 +17,6 @@ class GameTag extends Model
         'tag_id',
         'game_id',
     ];
-
 
     /**
      * À quelle partie appartient l'association ?

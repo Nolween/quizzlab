@@ -10,8 +10,6 @@ class QuestionChoiceSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run(): void
     {
@@ -24,7 +22,7 @@ class QuestionChoiceSeeder extends Seeder
                 QuestionChoice::create([
                     'question_id' => $question->id,
                     'title' => fake()->sentence(3),
-                    'is_correct' => $rightChoice == $i
+                    'is_correct' => $rightChoice == $i,
                 ]);
             }
         }

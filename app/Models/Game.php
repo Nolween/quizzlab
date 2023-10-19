@@ -12,7 +12,6 @@ class Game extends Model
 {
     use HasFactory;
 
-
     protected $fillable = [
         'user_id',
         'game_rule_id',
@@ -23,9 +22,8 @@ class Game extends Model
         'is_finished',
         'game_code',
         'questions_have_all_tags',
-        'question_step'
+        'question_step',
     ];
-
 
     /**
      * Qui a créé cette partie ?
@@ -86,6 +84,4 @@ class Game extends Model
             'game_id',
             'game_question_id')->orderBy('game_question_id');
     }
-
-
 }

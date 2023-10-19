@@ -13,7 +13,6 @@ class GameStoreResource extends JsonResource
      * Transform the resource into an array.
      *
      * @param  Game  $request
-     * @return array|Arrayable|JsonSerializable
      */
     public function toArray($request): array|JsonSerializable|Arrayable
     {

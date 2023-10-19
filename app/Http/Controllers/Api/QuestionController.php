@@ -31,11 +31,11 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Throwable;
+
 use function imageavif;
 
 class QuestionController extends Controller
 {
-
     /**
      * Instantiate a new controller instance.
      *
@@ -50,9 +50,6 @@ class QuestionController extends Controller
     /**
      * Affiche la liste des questions
      * /api/questions
-     *
-     * @param QuestionIndexRequest $request
-     * @return AnonymousResourceCollection
      */
     public function index(QuestionIndexRequest $request): AnonymousResourceCollection
     {
@@ -61,10 +58,10 @@ class QuestionController extends Controller
         if (empty($request->search)) {
             return QuestionIndexResource::collection(Question::where('is_moderated', true)->where('is_integrated', null)->orderBy('created_at', 'DESC')->paginate(20));
         } // Si on a une recherche selon un tag / thème
-        else if ($request->searchMod == 0) {
+        elseif ($request->searchMod == 0) {
             // ID du tag correspondant à la recherche
             $tag = Tag::where('name', $request->search)->first();
-            if (!empty($tag->id)) {
+            if (! empty($tag->id)) {
                 // Récupération de toutes les questions ayant un rapport avec le thème recherché
                 $questionTags = QuestionTag::where('tag_id', $tag->id)->orderBy('question_id', 'ASC')->paginate(20);
                 $questions = [];
@@ -72,6 +69,7 @@ class QuestionController extends Controller
                 foreach ($questionTags as $questionTag) {
                     $questions[] = $questionTag->question;
                 }
+
                 return QuestionIndexResource::collection($questions);
             } else {
                 return QuestionIndexResource::collection([]);
@@ -82,13 +80,9 @@ class QuestionController extends Controller
         }
     }
 
-
     /**
      * Affiche la liste des questions
      * /api/questions
-     *
-     * @param QuestionModerationIndexRequest $request
-     * @return AnonymousResourceCollection
      */
     public function moderationIndex(QuestionModerationIndexRequest $request): AnonymousResourceCollection
     {
@@ -97,10 +91,10 @@ class QuestionController extends Controller
         if (empty($request->search)) {
             return QuestionIndexResource::collection(Question::where('is_moderated', null)->where('is_integrated', null)->orderBy('moderated_at', 'ASC')->paginate(20));
         } // Si on a une recherche selon un tag / thème
-        else if ($request->searchMod == 0) {
+        elseif ($request->searchMod == 0) {
             // ID du tag correspondant à la recherche
             $tag = Tag::where('name', $request->search)->first();
-            if (!empty($tag->id)) {
+            if (! empty($tag->id)) {
                 // Récupération de toutes les questions ayant un rapport avec le thème recherché
                 $questionTags = QuestionTag::where('tag_id', $tag->id)->orderBy('question_id', 'ASC')->paginate(20);
                 $questions = [];
@@ -108,6 +102,7 @@ class QuestionController extends Controller
                 foreach ($questionTags as $questionTag) {
                     $questions[] = $questionTag->question;
                 }
+
                 return QuestionIndexResource::collection($questions);
             } else {
                 return QuestionIndexResource::collection([]);
@@ -118,12 +113,6 @@ class QuestionController extends Controller
         }
     }
 
-
-    /**
-     * @param QuestionSearchRequest $request
-     * @param ElasticService $elasticService
-     * @return JsonResponse|QuestionSearchResource
-     */
     public function search(QuestionSearchRequest $request, ElasticService $elasticService): JsonResponse|QuestionSearchResource
     {
         try {
@@ -136,15 +125,12 @@ class QuestionController extends Controller
                 return response()->json(['message' => "Erreur dans l'accès aux questions'"], 404);
             }
         } catch (Exception) {
-            return response()->json(['message' => "Erreur dans la requête"], 500);
+            return response()->json(['message' => 'Erreur dans la requête'], 500);
         }
     }
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param QuestionStoreRequest $request
-     * @return JsonResponse
      */
     public function store(QuestionStoreRequest $request): JsonResponse
     {
@@ -153,7 +139,7 @@ class QuestionController extends Controller
             // Création de la question
             $question = Question::create([
                 'question' => $request->question,
-                'user_id' => auth()->id()
+                'user_id' => auth()->id(),
             ]);
             // Ajout des choix pour la question
             foreach ($request->choices as $choiceK => $choiceV) {
@@ -175,7 +161,7 @@ class QuestionController extends Controller
             //? Si on a une image valide
             if ($request->imageNeeded && $request->image && function_exists('imageavif')) {
                 // Définition du nom de l'image
-                $question->image = $question->id . '.avif';
+                $question->image = $question->id.'.avif';
                 // Propriétés de l'image
                 $imgProperties = getimagesize($request->image->path());
                 // Selon le type de l'image
@@ -183,36 +169,36 @@ class QuestionController extends Controller
                     case 'jpg':
                         $gdImage = imagecreatefromjpeg($request->image->path());
                         $resizeBigImg = ImageTransformation::image_resize_big($gdImage, $imgProperties[0], $imgProperties[1]);
-                        imageavif($resizeBigImg, storage_path('app/public/img/questions/big/' . $question->image));
+                        imageavif($resizeBigImg, storage_path('app/public/img/questions/big/'.$question->image));
                         // Création d'une miniature
                         $resizeSmallImg = ImageTransformation::image_resize_small($gdImage, $imgProperties[0], $imgProperties[1]);
                         break;
                     case 'jpeg':
                         $gdImage = imagecreatefromjpeg($request->image->path());
                         $resizeBigImg = ImageTransformation::image_resize_big($gdImage, $imgProperties[0], $imgProperties[1]);
-                        imageavif($resizeBigImg, storage_path('app/public/img/questions/big/' . $question->image));
+                        imageavif($resizeBigImg, storage_path('app/public/img/questions/big/'.$question->image));
                         $resizeSmallImg = ImageTransformation::image_resize_small($gdImage, $imgProperties[0], $imgProperties[1]);
                         break;
                     case 'png':
                         $gdImage = imagecreatefrompng($request->image->path());
                         $resizeBigImg = ImageTransformation::image_resize_big($gdImage, $imgProperties[0], $imgProperties[1]);
-                        imageavif($resizeBigImg, storage_path('app/public/img/questions/big/' . $question->image));
+                        imageavif($resizeBigImg, storage_path('app/public/img/questions/big/'.$question->image));
                         $resizeSmallImg = ImageTransformation::image_resize_small($gdImage, $imgProperties[0], $imgProperties[1]);
                         break;
                     case 'avif':
                         $gdImage = imagecreatefromavif($request->image->path());
                         $resizeBigImg = ImageTransformation::image_resize_big($gdImage, imagesx($gdImage), imagesy($gdImage));
-                        imageavif($resizeBigImg, storage_path('app/public/img/questions/big/' . $question->image));
+                        imageavif($resizeBigImg, storage_path('app/public/img/questions/big/'.$question->image));
                         $resizeSmallImg = ImageTransformation::image_resize_small($gdImage, imagesx($gdImage), imagesy($gdImage));
                         break;
                     default:
                         $gdImage = imagecreatefromjpeg($request->image->path());
                         $resizeBigImg = ImageTransformation::image_resize_big($gdImage, $imgProperties[0], $imgProperties[1]);
-                        imageavif($resizeBigImg, storage_path('app/public/img/questions/big/' . $question->image));
+                        imageavif($resizeBigImg, storage_path('app/public/img/questions/big/'.$question->image));
                         $resizeSmallImg = ImageTransformation::image_resize_small($gdImage, $imgProperties[0], $imgProperties[1]);
                         break;
                 }
-                imageavif($resizeSmallImg, storage_path('app/public/img/questions/small/' . $question->image));
+                imageavif($resizeSmallImg, storage_path('app/public/img/questions/small/'.$question->image));
                 imagedestroy($gdImage);
                 imagedestroy($resizeBigImg);
                 imagedestroy($resizeSmallImg);
@@ -224,18 +210,15 @@ class QuestionController extends Controller
         } // Si erreur dans la transaction
         catch (Exception $e) {
             DB::rollback();
-            return response()->json(['success' => false, 'message' => $e->getMessage() . ' >>> Ligne ' . $e->getLine(),], 500);
+
+            return response()->json(['success' => false, 'message' => $e->getMessage().' >>> Ligne '.$e->getLine()], 500);
         }
 
-        return response()->json(['success' => true, 'message' => "Votre question a été proposée!"]);
+        return response()->json(['success' => true, 'message' => 'Votre question a été proposée!']);
     }
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param QuestionModerateEditRequest $request
-     * @param Question $question
-     * @return JsonResponse
      */
     public function moderateAndEdit(QuestionModerateEditRequest $request, Question $question): JsonResponse
     {
@@ -268,7 +251,7 @@ class QuestionController extends Controller
             //? Si on a une image valide
             if ($request->imageNeeded && $request->image && function_exists('imageavif')) {
                 // Définition du nom de l'image
-                $question->image = $question->id . '.avif';
+                $question->image = $question->id.'.avif';
                 // Propriétés de l'image
                 $imgProperties = getimagesize($request->image->path());
                 // Selon le type de l'image
@@ -276,36 +259,36 @@ class QuestionController extends Controller
                     case 'jpg':
                         $gdImage = imagecreatefromjpeg($request->image->path());
                         $resizeBigImg = ImageTransformation::image_resize_big($gdImage, $imgProperties[0], $imgProperties[1]);
-                        imageavif($resizeBigImg, storage_path('app/public/img/questions/big/' . $question->image));
+                        imageavif($resizeBigImg, storage_path('app/public/img/questions/big/'.$question->image));
                         // Création d'une miniature
                         $resizeSmallImg = ImageTransformation::image_resize_small($gdImage, $imgProperties[0], $imgProperties[1]);
                         break;
                     case 'jpeg':
                         $gdImage = imagecreatefromjpeg($request->image->path());
                         $resizeBigImg = ImageTransformation::image_resize_big($gdImage, $imgProperties[0], $imgProperties[1]);
-                        imageavif($resizeBigImg, storage_path('app/public/img/questions/big/' . $question->image));
+                        imageavif($resizeBigImg, storage_path('app/public/img/questions/big/'.$question->image));
                         $resizeSmallImg = ImageTransformation::image_resize_small($gdImage, $imgProperties[0], $imgProperties[1]);
                         break;
                     case 'png':
                         $gdImage = imagecreatefrompng($request->image->path());
                         $resizeBigImg = ImageTransformation::image_resize_big($gdImage, $imgProperties[0], $imgProperties[1]);
-                        imageavif($resizeBigImg, storage_path('app/public/img/questions/big/' . $question->image));
+                        imageavif($resizeBigImg, storage_path('app/public/img/questions/big/'.$question->image));
                         $resizeSmallImg = ImageTransformation::image_resize_small($gdImage, $imgProperties[0], $imgProperties[1]);
                         break;
                     case 'avif':
                         $gdImage = imagecreatefromavif($request->image->path());
                         $resizeBigImg = ImageTransformation::image_resize_big($gdImage, imagesx($gdImage), imagesy($gdImage));
-                        imageavif($resizeBigImg, storage_path('app/public/img/questions/big/' . $question->image));
+                        imageavif($resizeBigImg, storage_path('app/public/img/questions/big/'.$question->image));
                         $resizeSmallImg = ImageTransformation::image_resize_small($gdImage, imagesx($gdImage), imagesy($gdImage));
                         break;
                     default:
                         $gdImage = imagecreatefromjpeg($request->image->path());
                         $resizeBigImg = ImageTransformation::image_resize_big($gdImage, $imgProperties[0], $imgProperties[1]);
-                        imageavif($resizeBigImg, storage_path('app/public/img/questions/big/' . $question->image));
+                        imageavif($resizeBigImg, storage_path('app/public/img/questions/big/'.$question->image));
                         $resizeSmallImg = ImageTransformation::image_resize_small($gdImage, $imgProperties[0], $imgProperties[1]);
                         break;
                 }
-                imageavif($resizeSmallImg, storage_path('app/public/img/questions/small/' . $question->image));
+                imageavif($resizeSmallImg, storage_path('app/public/img/questions/small/'.$question->image));
                 imagedestroy($gdImage);
                 imagedestroy($resizeBigImg);
                 imagedestroy($resizeSmallImg);
@@ -317,17 +300,15 @@ class QuestionController extends Controller
         } // Si erreur dans la transaction
         catch (Exception $e) {
             DB::rollback();
-            return response()->json(['success' => false, 'message' => $e->getMessage() . ' >>> Ligne ' . $e->getLine(),], 500);
+
+            return response()->json(['success' => false, 'message' => $e->getMessage().' >>> Ligne '.$e->getLine()], 500);
         }
 
-        return response()->json(['success' => true, 'message' => "Votre question a été modérée!"]);
+        return response()->json(['success' => true, 'message' => 'Votre question a été modérée!']);
     }
 
     /**
      * Display the specified resource.
-     *
-     * @param Question $question
-     * @return QuestionShowResource
      */
     public function show(Question $question): QuestionShowResource
     {
@@ -336,10 +317,6 @@ class QuestionController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param QuestionRequest $request
-     * @param Question $question
-     * @return QuestionIndexResource
      */
     public function update(QuestionRequest $request, Question $question): QuestionIndexResource
     {
@@ -350,10 +327,6 @@ class QuestionController extends Controller
 
     /**
      * Voter pour ou contre une question
-     *
-     * @param QuestionVoteRequest $request
-     * @param Question $question
-     * @return QuestionVoteResource|JsonResponse
      */
     public function vote(QuestionVoteRequest $request, Question $question): QuestionVoteResource|JsonResponse
     {
@@ -385,25 +358,22 @@ class QuestionController extends Controller
             $data = [
                 'ispositive' => $request->ispositive,
                 'questionid' => $request->questionid,
-                'voteScore' => $voteScore
+                'voteScore' => $voteScore,
             ];
             DB::commit();
 
         } catch (Throwable $th) {
             DB::rollBack();
-            return response()->json(['success' => false, 'message' => $th->getMessage()]) ;
+
+            return response()->json(['success' => false, 'message' => $th->getMessage()]);
         }
+
         // Retour dans le front des informations
         return new QuestionVoteResource($data);
     }
 
-
     /**
      * Modérer une question
-     *
-     * @param QuestionModerateRequest $request
-     * @param Question $question
-     * @return QuestionModerateResource|JsonResponse
      */
     public function moderate(QuestionModerateRequest $request, Question $question): QuestionModerateResource|JsonResponse
     {
@@ -416,23 +386,22 @@ class QuestionController extends Controller
             $question->save();
             $data = [
                 'isModerated' => $request->isModerated,
-                'questionid' => $request->questionid
+                'questionid' => $request->questionid,
             ];
             DB::commit();
 
         } catch (Throwable $th) {
             DB::rollBack();
-            return response()->json(['success' => false, 'message' => $th->getMessage()]) ;
+
+            return response()->json(['success' => false, 'message' => $th->getMessage()]);
         }
+
         // Retour dans le front des informations
         return new QuestionModerateResource($data);
     }
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param Question $question
-     * @return Response
      */
     public function destroy(Question $question): Response
     {

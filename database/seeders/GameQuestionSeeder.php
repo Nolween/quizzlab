@@ -15,8 +15,6 @@ class GameQuestionSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run(): void
     {
@@ -36,13 +34,13 @@ class GameQuestionSeeder extends Seeder
                     // On va créer une nouvelle question automatiquement modérée et intégrée
                     $newQuestion = Question::factory()->create([
                         'is_moderated' => true,
-                        'is_integrated' => true
+                        'is_integrated' => true,
                     ]);
                     // On va attribuer à cette nouvelle question tous les tags de la partie
                     foreach ($gameTags as $gameTag) {
                         QuestionTag::create([
                             'question_id' => $newQuestion->id,
-                            'tag_id' => $gameTag->tag_id
+                            'tag_id' => $gameTag->tag_id,
                         ]);
                     }
                     // Création des choix pour la question
@@ -52,14 +50,14 @@ class GameQuestionSeeder extends Seeder
                         QuestionChoice::create([
                             'question_id' => $newQuestion->id,
                             'title' => fake()->sentence(3),
-                            'is_correct' => $rightChoice == $j
+                            'is_correct' => $rightChoice == $j,
                         ]);
                     }
                     // Attribution de la nouvelle question à la partie
                     GameQuestion::create([
                         'game_id' => $game->id,
                         'question_id' => $newQuestion->id,
-                        'order' => $i
+                        'order' => $i,
                     ]);
                     // On ajoute l'id de la question au tableau pour ne pas la reprendre
                     $questionsIdsGame[] = $newQuestion->id;
@@ -73,23 +71,23 @@ class GameQuestionSeeder extends Seeder
                         // Si on n'a pas de question avec au moins un thème approprié, on en crée un
                         QuestionTag::create([
                             'question_id' => $newQuestion->id,
-                            'tag_id' => fake()->randomElement($tagIds)
+                            'tag_id' => fake()->randomElement($tagIds),
                         ]);
                         GameQuestion::create([
                             'game_id' => $game->id,
                             'question_id' => $newQuestion->id,
-                            'order' => $i
+                            'order' => $i,
                         ]);
                         // On ajoute l'id de la question au tableau pour ne pas la reprendre
                         $questionsIdsGame[] = $newQuestion->id;
                     });
 
                     // Si on a bien une question trouvée
-                    if (!empty($question)) {
+                    if (! empty($question)) {
                         GameQuestion::create([
                             'game_id' => $game->id,
                             'question_id' => $question->id,
-                            'order' => $i
+                            'order' => $i,
                         ]);
                         // On ajoute l'id de la question au tableau pour ne pas la reprendre
                         $questionsIdsGame[] = $question->id;

@@ -16,9 +16,8 @@ class GameResult extends Model
         'user_id',
         'choice_id',
         'is_correct',
-        'score'
+        'score',
     ];
-
 
     /**
      * Quelle est la question appartient le résultat ?
@@ -64,5 +63,4 @@ class GameResult extends Model
             'id',
             'id');
     }
-
 }

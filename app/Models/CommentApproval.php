@@ -14,9 +14,8 @@ class CommentApproval extends Model
     [
         'comment_id',
         'user_id',
-        'has_approved'
+        'has_approved',
     ];
-
 
     /**
      * À quel utilisateur appartient l'avis ?
@@ -26,7 +25,6 @@ class CommentApproval extends Model
         return $this->belongsTo(User::class);
     }
 
-
     /**
      * À quel commentaire appartient l'avis ?
      */
@@ -34,7 +32,4 @@ class CommentApproval extends Model
     {
         return $this->belongsTo(QuestionComment::class);
     }
-
-
-
 }

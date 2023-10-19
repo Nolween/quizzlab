@@ -20,6 +20,7 @@ class GamePlayerFactory extends Factory
     public function definition(): array
     {
         $gameId = Game::inRandomOrder()->first()->id;
+
         // Si la partie a déjà commencé, le joueur a été prêt
         return [
             'game_id' => $gameId,

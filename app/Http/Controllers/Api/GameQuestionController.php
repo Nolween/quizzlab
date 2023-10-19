@@ -15,8 +15,6 @@ class GameQuestionController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return Response
      */
     public function index(): Response
     {
@@ -26,9 +24,6 @@ class GameQuestionController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return Response
      */
     public function store(Request $request): Response
     {
@@ -38,9 +33,6 @@ class GameQuestionController extends Controller
 
     /**
      * Affichage de la question active de la partie en cours
-     *
-     * @param  int $gameId
-     * @return GameQuestionShowResource|JsonResponse
      */
     public function question(int $gameId): JsonResponse|GameQuestionShowResource
     {
@@ -49,7 +41,7 @@ class GameQuestionController extends Controller
         // Récupération de la partie
         $game = Game::findOrFail($gameId);
         // La partie a-t-elle bien commencé ?
-        if(!$game->has_begun) {
+        if (! $game->has_begun) {
             return response()->json(['success' => false, 'message' => "La partie n'a pas encore commencé"], 500);
         }
         // Le joueur est-il bien dans la partie ?
@@ -63,10 +55,6 @@ class GameQuestionController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param GameQuestion $gameQuestion
-     * @return Response
      */
     public function update(Request $request, GameQuestion $gameQuestion): Response
     {
@@ -76,9 +64,6 @@ class GameQuestionController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param GameQuestion $gameQuestion
-     * @return Response
      */
     public function destroy(GameQuestion $gameQuestion): Response
     {

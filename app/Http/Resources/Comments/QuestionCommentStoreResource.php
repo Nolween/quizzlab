@@ -13,7 +13,6 @@ class QuestionCommentStoreResource extends JsonResource
      * Transform the resource into an array.
      *
      * @param  QuestionComment  $newComment
-     * @return array|Arrayable|JsonSerializable
      */
     public function toArray($newComment): array|JsonSerializable|Arrayable
     {

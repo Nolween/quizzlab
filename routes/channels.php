@@ -21,5 +21,6 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 Broadcast::channel('game.{gameId}', function ($user, $gameId) {
     // Il faut que l'utilisateur soit dans la partie pour accéder au channel
     $gamePlayer = GamePlayer::where('game_id', $gameId)->where('user_id', $user->id)->first();
-    return !empty($gamePlayer) && $user->id === $gamePlayer->user_id;
+
+    return ! empty($gamePlayer) && $user->id === $gamePlayer->user_id;
 });

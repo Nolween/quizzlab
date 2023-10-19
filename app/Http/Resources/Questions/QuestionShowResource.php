@@ -14,7 +14,6 @@ class QuestionShowResource extends JsonResource
      * Transform the resource into an array.
      *
      * @param  Request  $request
-     * @return array
      */
     public function toArray($request): array
     {
@@ -63,6 +62,7 @@ class QuestionShowResource extends JsonResource
                 }
                 $comment['responses'] = $responses;
             }
+
             return [
                 'id' => $this->id,
                 'question' => $this->question,
@@ -71,7 +71,7 @@ class QuestionShowResource extends JsonResource
                 'image' => $this->image,
                 'avatar' => $this->user->avatar,
                 'userName' => $this->user->name,
-                'isIntegrated' => (bool)$this->is_integrated,
+                'isIntegrated' => (bool) $this->is_integrated,
                 'tags' => $tagArray,
                 'comments' => $this->primary_comments,
                 'commentsCount' => $this->comments->count(),

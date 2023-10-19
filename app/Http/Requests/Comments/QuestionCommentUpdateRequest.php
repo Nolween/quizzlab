@@ -9,8 +9,6 @@ class QuestionCommentUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -25,7 +23,7 @@ class QuestionCommentUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'comment' => ['required', 'string'  ],
+            'comment' => ['required', 'string'],
             'questionid' => ['required', 'integer', 'exists:questions,id'],
             'commentreplyid' => ['nullable', 'integer', 'exists:question_comments,id'],
             'commentid' => ['required', 'integer', 'exists:question_comments,id'],

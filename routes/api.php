@@ -10,7 +10,6 @@ use App\Http\Controllers\Api\QuestionCommentController;
 use App\Http\Controllers\Api\QuestionController;
 use App\Http\Controllers\Api\TagController;
 use App\Http\Controllers\Api\UserController;
-use App\Models\CommentApproval;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,39 +29,36 @@ use Illuminate\Support\Facades\Route;
 // });
 
 //! Si besoin d'ajouter d'autres actions dans les Controller avec resources, les déclarer avant
-Route::controller(QuestionController::class)->group(function() {
-    Route::patch('/question/{question}/vote','vote')->name('question.vote');
-    Route::get('/questions/search','search')->name('questions.search');
-    Route::get('/admin/questions/','moderationIndex')->name('questions.moderationIndex');
-    Route::patch('/admin/questions/{question}/moderate','moderate')->name('questions.moderate');
-    Route::post('/admin/questions/{question}/moderateandedit','moderateAndEdit')->name('questions.moderateAndEdit');
+Route::controller(QuestionController::class)->group(function () {
+    Route::patch('/question/{question}/vote', 'vote')->name('question.vote');
+    Route::get('/questions/search', 'search')->name('questions.search');
+    Route::get('/admin/questions/', 'moderationIndex')->name('questions.moderationIndex');
+    Route::patch('/admin/questions/{question}/moderate', 'moderate')->name('questions.moderate');
+    Route::post('/admin/questions/{question}/moderateandedit', 'moderateAndEdit')->name('questions.moderateAndEdit');
 });
 
-
-
-Route::controller(TagController::class)->group(function() {
-    Route::get('/tags/search','search')->name('tags.search');
-    Route::get('/tags/questions/count','questionsCount')->name('tags.questionsCount');
+Route::controller(TagController::class)->group(function () {
+    Route::get('/tags/search', 'search')->name('tags.search');
+    Route::get('/tags/questions/count', 'questionsCount')->name('tags.questionsCount');
 });
-Route::controller(GameController::class)->group(function() {
-    Route::get('/games/join/{game}','join')->name('game.join');
-    Route::get('/games/code','code')->name('game.code');
-    Route::get('/games/results/{game}','results')->name('game.results');
-    Route::patch('/games/begin','begin')->name('game.begin');
+Route::controller(GameController::class)->group(function () {
+    Route::get('/games/join/{game}', 'join')->name('game.join');
+    Route::get('/games/code', 'code')->name('game.code');
+    Route::get('/games/results/{game}', 'results')->name('game.results');
+    Route::patch('/games/begin', 'begin')->name('game.begin');
 });
-Route::controller(GamePlayerController::class)->group(function() {
-    Route::patch('/gameplayers/ready','ready')->name('game.ready');
+Route::controller(GamePlayerController::class)->group(function () {
+    Route::patch('/gameplayers/ready', 'ready')->name('game.ready');
 });
 
-Route::controller(GameQuestionController::class)->group(function() {
-    Route::get('/gamequestions/question/{gameId}','question')->name('game.question');
+Route::controller(GameQuestionController::class)->group(function () {
+    Route::get('/gamequestions/question/{gameId}', 'question')->name('game.question');
 });
 
-Route::controller(UserController::class)->group(function() {
-    Route::get('/profile/get','getProfile')->name('user.profile.get');
-    Route::post('/profile/update','updateUserProfile')->name('user.profile.update');
+Route::controller(UserController::class)->group(function () {
+    Route::get('/profile/get', 'getProfile')->name('user.profile.get');
+    Route::post('/profile/update', 'updateUserProfile')->name('user.profile.update');
 });
-
 
 Route::get('/questions/vote', [QuestionController::class, 'vote']);
 // API Resources (middleware définis au __construct du Controller)
@@ -76,7 +72,7 @@ Route::apiResource('gameplayers', GamePlayerController::class);
 Route::apiResource('gamequestions', GamePlayerController::class);
 Route::apiResource('gameresults', GameResultController::class);
 
-Route::fallback(function(){
+Route::fallback(function () {
     return response()->json([
         'message' => 'Page Not Found.'], 404);
 });

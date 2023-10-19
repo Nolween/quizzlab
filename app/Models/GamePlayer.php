@@ -29,7 +29,6 @@ class GamePlayer extends Model
         return $this->belongsTo(User::class);
     }
 
-
     /**
      * Dans quelle partie le joueur est-il ?
      */

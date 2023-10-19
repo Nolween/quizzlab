@@ -14,7 +14,6 @@ class GameIndexResource extends JsonResource
      * Transform the resource into an array.
      *
      * @param  Request  $request
-     * @return array|Arrayable|JsonSerializable
      */
     public function toArray($request): array|JsonSerializable|Arrayable
     {
@@ -26,6 +25,7 @@ class GameIndexResource extends JsonResource
         }
         // Nombre de joueurs dans la partie
         $waitingPlayers = GamePlayer::where('game_id', $this->id)->get()->count();
+
         return [
             'id' => $this->id,
             'questionCount' => $this->question_count,
@@ -36,7 +36,7 @@ class GameIndexResource extends JsonResource
             'responseTime' => $this->response_time,
             'avatar' => $this->user->avatar,
             'userName' => $this->user->name,
-            'hasBegun' => (boolean)$this->has_begun,
+            'hasBegun' => (bool) $this->has_begun,
             'questionStep' => $this->question_step,
             'questions_have_all_tags' => $this->questions_have_all_tags,
             'tags' => $tagArray,

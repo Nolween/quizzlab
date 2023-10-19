@@ -21,8 +21,6 @@ class TagController extends Controller
 {
     /**
      * Affiche la totalité des tags
-     *
-     * @return AnonymousResourceCollection
      */
     public function index(): AnonymousResourceCollection
     {
@@ -31,9 +29,6 @@ class TagController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return Response
      */
     public function store(Request $request): Response
     {
@@ -43,9 +38,6 @@ class TagController extends Controller
 
     /**
      * Display the specified resource.
-     *
-     * @param Tag $tag
-     * @return Response
      */
     public function show(Tag $tag): Response
     {
@@ -65,7 +57,7 @@ class TagController extends Controller
                 return response()->json(['message' => "Erreur dans l'accès aux thèmes'"], 404);
             }
         } catch (Exception) {
-            return response()->json(['message' => "Erreur dans la requête"], 500);
+            return response()->json(['message' => 'Erreur dans la requête'], 500);
         }
     }
 
@@ -76,10 +68,11 @@ class TagController extends Controller
             if (empty($request->tags) && $request->allTags == 0) {
                 // Combien de questions intégrées au quizz
                 $totalQuestions = Question::where('is_moderated', true)->where('is_integrated', true)->get()->count();
+
                 return response()->json(['possibleQuestions' => $totalQuestions]);
             }
             // Si un/des thèmes sélectionnés
-            else if (!empty($request->tags)) {
+            elseif (! empty($request->tags)) {
                 // Récupération des ids de tags
                 $tagsIdsArray = Tag::whereIn('name', $request->tags)->get()->pluck('id');
                 // Si pas de liaison de thèmes
@@ -94,22 +87,18 @@ class TagController extends Controller
                         $query->whereIn('tag_id', $tagsIdsArray);
                     }, '>=', count($tagsIdsArray))->where('is_integrated', true)->get()->count();
                 }
+
                 return response()->json(['possibleQuestions' => $totalQuestions]);
             } else {
                 return response()->json(['message' => "Erreur dans l'accès aux thèmes'"], 404);
             }
         } catch (Exception) {
-            return response()->json(['message' => "Erreur dans la requête"], 500);
+            return response()->json(['message' => 'Erreur dans la requête'], 500);
         }
     }
 
-
     /**
      * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param Tag $tag
-     * @return Response
      */
     public function update(Request $request, Tag $tag): Response
     {
@@ -119,9 +108,6 @@ class TagController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param Tag $tag
-     * @return Response
      */
     public function destroy(Tag $tag): Response
     {

@@ -11,8 +11,6 @@ class GamePlayerSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run(): void
     {
@@ -20,11 +18,11 @@ class GamePlayerSeeder extends Seeder
         $games = Game::all();
         foreach ($games as $game) {
             // Si la partie est en attente, on met moins de joueurs que le max, si la partie est lancée, le max.
-            $playersCount =  $game->has_begun == 0 ? rand(1, $game->max_players) : $game->max_players;
+            $playersCount = $game->has_begun == 0 ? rand(1, $game->max_players) : $game->max_players;
             $finalCore = fake()->randomFloat(2, 20, 50);
             // Tant qu'on n'a pas le nombre de joueurs défini
             for ($i = 1; $i <= $playersCount; $i++) {
-                $playerScore = $finalCore - ($i  + fake()->randomFloat(2, 0, 1)) ;
+                $playerScore = $finalCore - ($i + fake()->randomFloat(2, 0, 1));
                 $playerScore = max($playerScore, 0);
                 // Création d'un joueur dans la partie
                 GamePlayer::create([

@@ -13,9 +13,8 @@ class QuestionVote extends Model
     protected $fillable = [
         'question_id',
         'user_id',
-        'has_approved'
+        'has_approved',
     ];
-
 
     /**
      * À quelle question correspond le vote ?
@@ -32,5 +31,4 @@ class QuestionVote extends Model
     {
         return $this->belongsTo(User::class);
     }
-
 }

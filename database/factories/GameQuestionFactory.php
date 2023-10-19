@@ -23,10 +23,11 @@ class GameQuestionFactory extends Factory
         // Quel est l'ordre de la dernière question ?
         $questionCount = GameQuestion::where('game_id', $gameId)->orderBy('order', 'DESC')->first();
         $order = ($questionCount !== null) ? $questionCount->order + 1 : 0;
+
         return [
             'game_id' => $gameId,
             'question_id' => Question::where('is_integrated', true)->inRandomOrder()->first()->id,
-            'order' => $order
+            'order' => $order,
         ];
     }
 }

@@ -9,8 +9,6 @@ class GameBeginRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -26,7 +24,7 @@ class GameBeginRequest extends FormRequest
     {
         return [
             'userId' => ['integer', 'required', 'exists:users,id'],
-            'gameId' => ['integer', 'required', 'exists:games,id']
+            'gameId' => ['integer', 'required', 'exists:games,id'],
         ];
     }
 }

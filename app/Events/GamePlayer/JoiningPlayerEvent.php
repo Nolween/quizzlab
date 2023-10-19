@@ -2,9 +2,7 @@
 
 namespace App\Events\GamePlayer;
 
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -14,11 +12,10 @@ class JoiningPlayerEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    
     /**
      * Infos sur le joueur dans la partie
      *
-     * @var \App\Models\GamePlayer $gamePlayer
+     * @var \App\Models\GamePlayer
      */
     public $gamePlayer;
 
@@ -32,13 +29,13 @@ class JoiningPlayerEvent implements ShouldBroadcast
         $this->gamePlayer = $gamePlayer;
     }
 
-
     /**
      * Le nom de l'évènement
      *
      * @return string
      */
-    public function broadcastAs() {
+    public function broadcastAs()
+    {
         return 'game.join';
     }
 
@@ -47,7 +44,8 @@ class JoiningPlayerEvent implements ShouldBroadcast
      *
      * @return array
      */
-    public function broadcastWith() {
+    public function broadcastWith()
+    {
         $data = [
             'final_place' => $this->gamePlayer->final_place,
             'final_score' => $this->gamePlayer->final_score,
@@ -58,12 +56,12 @@ class JoiningPlayerEvent implements ShouldBroadcast
             'user' => [
                 'avatar' => $this->gamePlayer->user->avatar,
                 'id' => $this->gamePlayer->user->id,
-                'name' => $this->gamePlayer->user->name
-            ]
+                'name' => $this->gamePlayer->user->name,
+            ],
         ];
+
         return $data;
     }
-
 
     /**
      * Get the channels the event should broadcast on.
@@ -72,6 +70,6 @@ class JoiningPlayerEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('game.' . $this->gamePlayer->game_id);
+        return new PrivateChannel('game.'.$this->gamePlayer->game_id);
     }
 }

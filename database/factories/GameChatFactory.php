@@ -20,11 +20,12 @@ class GameChatFactory extends Factory
     public function definition(): array
     {
         $gameId = Game::where('has_begun', true)->inRandomOrder()->first()->id;
+
         // Si la partie a déjà commencé, le joueur peut avoir discuté
         return [
             'game_id' => $gameId,
             'user_id' => User::inRandomOrder()->first()->id,
-            'text' => fake()->sentence()
+            'text' => fake()->sentence(),
         ];
     }
 }

@@ -13,9 +13,8 @@ class GameChat extends Model
     protected $fillable = [
         'game_id',
         'user_id',
-        'text'
+        'text',
     ];
-
 
     /**
      * Qui a écrit le message ?
@@ -32,5 +31,4 @@ class GameChat extends Model
     {
         return $this->belongsTo(Game::class);
     }
-
 }

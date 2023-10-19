@@ -11,8 +11,6 @@ class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run(): void
     {
@@ -33,7 +31,7 @@ class UserSeeder extends Seeder
             'email' => 'nolween.lopez@gmail.com',
             'password' => bcrypt('123456'),
             'role' => UserRoleEnum::Admin,
-            'is_banned' => false
+            'is_banned' => false,
         ]);
         // Utilisateurs random
         User::factory(29)->create();

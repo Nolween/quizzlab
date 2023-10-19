@@ -16,7 +16,7 @@ class QuestionChoice extends Model
     protected $fillable = [
         'question_id',
         'title',
-        'is_correct'
+        'is_correct',
     ];
 
     /**
@@ -26,6 +26,4 @@ class QuestionChoice extends Model
     {
         return $this->belongsTo(Question::class);
     }
-
-
 }

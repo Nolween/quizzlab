@@ -11,8 +11,6 @@ class QuestionVoteSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run(): void
     {
@@ -31,11 +29,11 @@ class QuestionVoteSeeder extends Seeder
                 // L'utilisateur a-t-il déjà voté pour la question ?
                 $voted = QuestionVote::where('user_id', $randomUserId)->where('question_id', $question->id)->first();
                 // Si la personne n'a pas encore voté pour la question
-                if (!$voted) {
+                if (! $voted) {
                     QuestionVote::create([
                         'user_id' => $randomUserId,
                         'question_id' => $question->id,
-                        'has_approved' => fake()->boolean(75)
+                        'has_approved' => fake()->boolean(75),
                     ]);
                 }
             }

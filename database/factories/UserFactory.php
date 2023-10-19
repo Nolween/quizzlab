@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+
 use function imageavif;
 
 /**
@@ -28,29 +29,29 @@ class UserFactory extends Factory
         //? Image Avatar
         $imageContent = file_get_contents('https://loremflickr.com/300/300/girl,boy,man,woman');
         // Si on a bien une image
-        if (!empty($imageContent)) {
-            Storage::disk('public')->put('img/profile/' . $filename . '.jpg', $imageContent);
+        if (! empty($imageContent)) {
+            Storage::disk('public')->put('img/profile/'.$filename.'.jpg', $imageContent);
 
             // Transformation en avif
-            $gdImage = imagecreatefromjpeg(storage_path('app/public/img/profile/' . $filename . '.jpg'));
+            $gdImage = imagecreatefromjpeg(storage_path('app/public/img/profile/'.$filename.'.jpg'));
             $resizeBigImg = ImageTransformation::image_resize_small($gdImage, 300, 300);
-            imageavif($resizeBigImg, storage_path('app/public/img/profile/' . $filename . '.avif'));
+            imageavif($resizeBigImg, storage_path('app/public/img/profile/'.$filename.'.avif'));
 
             imagedestroy($gdImage);
             imagedestroy($resizeBigImg);
             // On efface le png original
-            unlink(storage_path('app/public/img/profile/' . $filename . '.jpg'));
+            unlink(storage_path('app/public/img/profile/'.$filename.'.jpg'));
         }
 
         return [
             'name' => $name,
-            'avatar' => !empty($imageContent) ?  $filename . '.avif' : null,
+            'avatar' => ! empty($imageContent) ? $filename.'.avif' : null,
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => bcrypt(123456), // password
             'remember_token' => Str::random(10),
             'is_banned' => false,
-            'role' => fake()->randomElement([UserRoleEnum::Admin, UserRoleEnum::User])
+            'role' => fake()->randomElement([UserRoleEnum::Admin, UserRoleEnum::User]),
         ];
     }
 

@@ -36,7 +36,6 @@ class Question extends Model
         return $this->hasMany(GameQuestion::class);
     }
 
-
     /**
      * Quels sont les thèmes de cette question ?
      */
@@ -45,7 +44,6 @@ class Question extends Model
         return $this->hasMany(QuestionTag::class);
     }
 
-
     /**
      * Quels sont les commentaires de cette question ?
      */
@@ -53,7 +51,6 @@ class Question extends Model
     {
         return $this->hasMany(QuestionComment::class);
     }
-
 
     /**
      * Quels sont les commentaires de premier niveau de cette question ?
@@ -78,5 +75,4 @@ class Question extends Model
     {
         return $this->hasMany(QuestionChoice::class)->select('id', 'title');
     }
-
 }

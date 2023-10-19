@@ -11,12 +11,9 @@ class DatabaseSeeder extends Seeder
 {
     /**
      * Seed the application's database.
-     *
-     * @return void
      */
     public function run(): void
     {
-
 
         //? Partie Elasticsearch
         // Initialisation via le lancement de la commande

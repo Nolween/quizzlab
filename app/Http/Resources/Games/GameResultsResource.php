@@ -3,7 +3,6 @@
 namespace App\Http\Resources\Games;
 
 use App\Models\GameResult;
-use App\Models\QuestionChoice;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class GameResultsResource extends JsonResource
@@ -11,7 +10,7 @@ class GameResultsResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
     public function toArray($request)
@@ -40,23 +39,22 @@ class GameResultsResource extends JsonResource
                 foreach ($userChoices as $userChoice) {
                     $userChoicesArray[$userChoice->choice_id] = [
                         'user' => $userChoice->user->name,
-                        'avatar' => $userChoice->user->avatar
+                        'avatar' => $userChoice->user->avatar,
                     ];
                 }
                 $questionChoices[] = [
                     'title' => $choice->title,
                     'is_correct' => $choice->is_correct,
-                    'userChoices' => $userChoicesArray
+                    'userChoices' => $userChoicesArray,
                 ];
             }
-
 
             $results['questions'][] = [
                 'question' => $gameQuestion->question->question,
                 'isCorrect' => $userChoice ? $userChoice->is_correct : false,
                 'allChoices' => $questionChoices,
                 'score' => $gameQuestion->question->ratio_score,
-                'id' => $gameQuestion->id
+                'id' => $gameQuestion->id,
             ];
 
             // Récupération des scores de la partie

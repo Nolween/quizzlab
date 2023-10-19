@@ -19,7 +19,7 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
-        ]
+        ],
     ];
 
     /**
@@ -31,7 +31,7 @@ class EventServiceProvider extends ServiceProvider
     {
         // Lorsqu'un message est envoyé dans le chat, on déclenche des listeners, ici juste RefreshNewMessageListener, avec sa fonction handle
         Event::listen(MessageSentEvent::class, [
-            RefreshNewMessageListener::class, 'handle'
+            RefreshNewMessageListener::class, 'handle',
         ]);
     }
 

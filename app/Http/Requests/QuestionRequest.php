@@ -8,8 +8,6 @@ class QuestionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -24,13 +22,13 @@ class QuestionRequest extends FormRequest
     public function rules(): array
     {
         return [
-        'user_id' => ['required', 'exists:users,id'],
-        'question' => ['string', 'required'],
-        'answer' => ['string', 'required'],
-        'image' => ['string', 'nullable'],
-        'is_integrated' => ['boolean', 'nullable'],
-        'vote' => ['integer', 'nullable'],
-        'ratio_score' => ['numeric', 'min:0', 'max:1', 'nullable'],
+            'user_id' => ['required', 'exists:users,id'],
+            'question' => ['string', 'required'],
+            'answer' => ['string', 'required'],
+            'image' => ['string', 'nullable'],
+            'is_integrated' => ['boolean', 'nullable'],
+            'vote' => ['integer', 'nullable'],
+            'ratio_score' => ['numeric', 'min:0', 'max:1', 'nullable'],
         ];
     }
 }

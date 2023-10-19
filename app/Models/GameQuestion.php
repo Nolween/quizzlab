@@ -16,13 +16,11 @@ class GameQuestion extends Model
     // Pas besoin des created_at et updated_at
     public $timestamps = false;
 
-
     protected $fillable = [
         'game_id',
         'question_id',
         'order',
     ];
-
 
     /**
      * Dans quelle partie la question est-elle ?
@@ -31,7 +29,6 @@ class GameQuestion extends Model
     {
         return $this->belongsTo(Game::class);
     }
-
 
     /**
      * Quelle est la question ?
@@ -46,9 +43,8 @@ class GameQuestion extends Model
      */
     public function questionTags(): HasManyThrough
     {
-        return $this->hasManyThrough(QuestionTag::class,Question::class, 'id', 'question_id', 'id', 'id');
+        return $this->hasManyThrough(QuestionTag::class, Question::class, 'id', 'question_id', 'id', 'id');
     }
-
 
     /**
      * Quelle est la bonne réponse à cette question de partie ?
@@ -58,7 +54,6 @@ class GameQuestion extends Model
         return $this->hasOne(QuestionChoice::class)->where('is_correct', true);
     }
 
-
     /**
      * Quelles sont les mauvaises réponses à cette question de partie ?
      */
@@ -67,7 +62,6 @@ class GameQuestion extends Model
         return $this->hasMany(QuestionChoice::class)->where('is_correct', false);
     }
 
-
     /**
      * Quels sont les résultats à cette question de partie ?
      */
@@ -75,6 +69,4 @@ class GameQuestion extends Model
     {
         return $this->hasMany(GameResult::class);
     }
-
-
 }

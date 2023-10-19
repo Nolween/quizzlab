@@ -30,6 +30,7 @@ class GameFactory extends Factory
         } else {
             $questionStep = null;
         }
+
         return [
             'user_id' => User::inRandomOrder()->first()->id,
             'game_rule_id' => GameRule::inRandomOrder()->first()->id,
@@ -40,7 +41,7 @@ class GameFactory extends Factory
             'has_begun' => $hasBegun,
             'is_finished' => $isFinished,
             'game_code' => fake()->unique()->isbn13(),
-            'question_step' => $questionStep
+            'question_step' => $questionStep,
         ];
     }
 }

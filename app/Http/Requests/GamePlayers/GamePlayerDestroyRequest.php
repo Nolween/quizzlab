@@ -9,8 +9,6 @@ class GamePlayerDestroyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -25,7 +23,7 @@ class GamePlayerDestroyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'gamePlayerId' => ['integer', 'required', 'exists:game_players,id']
+            'gamePlayerId' => ['integer', 'required', 'exists:game_players,id'],
         ];
     }
 }

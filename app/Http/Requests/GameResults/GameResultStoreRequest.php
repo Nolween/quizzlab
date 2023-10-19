@@ -9,8 +9,6 @@ class GameResultStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -25,10 +23,10 @@ class GameResultStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'choice_id' => ['nullable','integer', 'exists:question_choices,id'],
+            'choice_id' => ['nullable', 'integer', 'exists:question_choices,id'],
             'game_question_id' => ['integer', 'exists:game_questions,id', 'required'],
             'question_id' => ['integer', 'exists:questions,id', 'required'],
-            'game_id' => ['integer', 'exists:games,id', 'required']
+            'game_id' => ['integer', 'exists:games,id', 'required'],
         ];
     }
 }

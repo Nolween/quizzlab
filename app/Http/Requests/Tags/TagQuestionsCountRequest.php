@@ -9,8 +9,6 @@ class TagQuestionsCountRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -26,7 +24,7 @@ class TagQuestionsCountRequest extends FormRequest
     {
         return [
             'tags' => ['array', 'nullable'],
-            'allTags' => ['boolean']
+            'allTags' => ['boolean'],
         ];
     }
 }

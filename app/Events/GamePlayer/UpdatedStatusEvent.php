@@ -2,9 +2,7 @@
 
 namespace App\Events\GamePlayer;
 
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -17,7 +15,7 @@ class UpdatedStatusEvent implements ShouldBroadcast
     /**
      * Infos sur le joueur dans la partie
      *
-     * @var \App\Models\GamePlayer $gamePlayer
+     * @var \App\Models\GamePlayer
      */
     public $gamePlayer;
 
@@ -31,7 +29,6 @@ class UpdatedStatusEvent implements ShouldBroadcast
         $this->gamePlayer = $gamePlayer;
     }
 
-
     /**
      * The event's broadcast name.
      *
@@ -42,7 +39,6 @@ class UpdatedStatusEvent implements ShouldBroadcast
         return 'game.ready';
     }
 
-    
     /**
      * Get the data to broadcast.
      *
@@ -60,12 +56,12 @@ class UpdatedStatusEvent implements ShouldBroadcast
             'user' => [
                 'avatar' => $this->gamePlayer->user->avatar,
                 'id' => $this->gamePlayer->user->id,
-                'name' => $this->gamePlayer->user->name
-            ]
+                'name' => $this->gamePlayer->user->name,
+            ],
         ];
+
         return $data;
     }
-
 
     /**
      * Get the channels the event should broadcast on.
@@ -74,6 +70,6 @@ class UpdatedStatusEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('game.' . $this->gamePlayer->game_id);
+        return new PrivateChannel('game.'.$this->gamePlayer->game_id);
     }
 }

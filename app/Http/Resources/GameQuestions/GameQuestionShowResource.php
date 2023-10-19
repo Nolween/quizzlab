@@ -14,13 +14,13 @@ class GameQuestionShowResource extends JsonResource
      * Transform the resource into an array.
      *
      * @param  GameQuestion  $gameQuestion
-     * @return array|Arrayable|JsonSerializable
      */
     public function toArray($gameQuestion): array|JsonSerializable|Arrayable
     {
         $uniqueTags = $this->questionTags->unique('tag_id')->pluck('tag_id');
         $tags = Tag::whereIn('id', $uniqueTags)->get()->pluck('name');
         $choices = $this->question->choicesWithoutCorrect->shuffle();
+
         // Récupération de tous les tags de la question
         // $tags = QuestionTag::with('tag')->where('question_id', $this->question->id)->get()->pluck('');
         return [

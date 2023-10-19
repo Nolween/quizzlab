@@ -19,9 +19,8 @@ class QuestionComment extends Model
         'comment',
         'disapprovals_count',
         'approvals_count',
-        'comment_id'
+        'comment_id',
     ];
-
 
     /**
      * À quelle question appartient le commentaire ?
@@ -39,7 +38,6 @@ class QuestionComment extends Model
         return $this->belongsTo(User::class);
     }
 
-
     /**
      * Combien d'avis positifs sur ce commentaire ?
      */
@@ -47,7 +45,6 @@ class QuestionComment extends Model
     {
         return $this->hasMany(CommentApproval::class, 'comment_id');
     }
-
 
     /**
      * Avis positifs sur ce commentaire ?
@@ -65,10 +62,8 @@ class QuestionComment extends Model
         return $this->hasMany(CommentApproval::class, 'comment_id')->where('has_approved', false);
     }
 
-
     /**
      * Indique l'avis de l'utilisateur sur le commentaire
-     *
      */
     public function userOpinion(): HasOne
     {
@@ -79,5 +74,4 @@ class QuestionComment extends Model
             $query->where('user_id', '=', Auth::id());
         });
     }
-
 }

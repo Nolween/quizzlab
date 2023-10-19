@@ -17,8 +17,6 @@ class GameResultSeeder extends Seeder
 
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run(): void
     {
@@ -46,7 +44,7 @@ class GameResultSeeder extends Seeder
                             'user_id' => $player->user_id,
                             'choice_id' => $choice,
                             'is_correct' => $isCorrect,
-                            'score' => $score
+                            'score' => $score,
                         ]);
                         $finalScore = $finalScore + $score;
                     }

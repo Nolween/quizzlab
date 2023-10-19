@@ -29,10 +29,8 @@ class CommentApprovalController extends Controller
 
     /**
      * Display a listing of the resource.
-     *
-     * @return Response
      */
-    public function index():Response
+    public function index(): Response
     {
         //
         return response();
@@ -40,9 +38,6 @@ class CommentApprovalController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param CommentApprovalStoreRequest $request
-     * @return CommentApprovalsStoreResource|JsonResponse
      */
     public function store(CommentApprovalStoreRequest $request): CommentApprovalsStoreResource|JsonResponse
     {
@@ -75,20 +70,19 @@ class CommentApprovalController extends Controller
             ];
             // Validation de la transaction
             DB::commit();
+
             // Retour dans le front des informations
             return new CommentApprovalsStoreResource($response);
         } // Si erreur dans la transaction
         catch (QueryException $e) {
             DB::rollback();
+
             return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
     }
 
     /**
      * Display the specified resource.
-     *
-     * @param CommentApproval $commentApproval
-     * @return Response
      */
     public function show(CommentApproval $commentApproval): Response
     {
@@ -98,10 +92,6 @@ class CommentApprovalController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param CommentApproval $commentApproval
-     * @return Response
      */
     public function update(Request $request, CommentApproval $commentApproval): Response
     {
@@ -111,9 +101,6 @@ class CommentApprovalController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param CommentApproval $commentApproval
-     * @return Response
      */
     public function destroy(CommentApproval $commentApproval): Response
     {

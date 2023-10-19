@@ -19,7 +19,8 @@ class QuestionCommentFactory extends Factory
      */
     public function definition(): array
     {
-        $randomSentencesCount = rand(1,5);
+        $randomSentencesCount = rand(1, 5);
+
         return [
             'question_id' => Question::where('is_moderated', true)->inRandomOrder()->first()->id,
             'user_id' => User::inRandomOrder()->first()->id,

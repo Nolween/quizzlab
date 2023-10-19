@@ -2,9 +2,7 @@
 
 namespace App\Events\GameChat;
 
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -15,7 +13,6 @@ class MessageSentEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-
     /**
      * Le message envoyé
      *
@@ -24,9 +21,8 @@ class MessageSentEvent implements ShouldBroadcast
     public $gameChat;
 
     /**
-     * @param \App\Models\GameChat $gameChat
+     * @param  \App\Models\GameChat  $gameChat
      * Create a new event instance.
-     *
      * @return void
      */
     public function __construct($gameChat)
@@ -43,7 +39,6 @@ class MessageSentEvent implements ShouldBroadcast
     {
         return 'message.sent';
     }
-
 
     /**
      * Get the data to broadcast.
@@ -62,9 +57,10 @@ class MessageSentEvent implements ShouldBroadcast
             'user' => [
                 'avatar' => $this->gameChat->user->avatar,
                 'id' => $this->gameChat->user->id,
-                'name' => $this->gameChat->user->name
-            ]
+                'name' => $this->gameChat->user->name,
+            ],
         ];
+
         return $data;
     }
 
@@ -75,6 +71,6 @@ class MessageSentEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('game.' . $this->gameChat->game_id);
+        return new PrivateChannel('game.'.$this->gameChat->game_id);
     }
 }

@@ -15,7 +15,6 @@ class QuestionIndexResource extends JsonResource
      * Transform the resource into an array.
      *
      * @param  Request  $request
-     * @return array|Arrayable|JsonSerializable
      */
     public function toArray($request): array|JsonSerializable|Arrayable
     {
@@ -34,10 +33,11 @@ class QuestionIndexResource extends JsonResource
         }
         // L'utilisateur est-il connecté ?
         $userId = auth()->id();
-        if($userId) {
+        if ($userId) {
             // A-t-il voté pour cette question ?
             $questionVote = QuestionVote::select('has_approved')->where('question_id', $this->id)->where('user_id', $userId)->first();
         }
+
         return [
             'id' => $this->id,
             'question' => $this->question,
@@ -46,11 +46,11 @@ class QuestionIndexResource extends JsonResource
             'image' => $this->image,
             'avatar' => $this->user->avatar,
             'userName' => $this->user->name,
-            'isIntegrated' => (bool)$this->is_integrated,
+            'isIntegrated' => (bool) $this->is_integrated,
             'tags' => $tagArray,
             'commentsCount' => $this->comments->count(),
             'ago' => $ago,
-            'hasVoted' => $questionVote->has_approved ?? null
+            'hasVoted' => $questionVote->has_approved ?? null,
         ];
         // return parent::toArray($request);
     }

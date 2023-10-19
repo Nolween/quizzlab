@@ -22,10 +22,11 @@ class QuestionVoteFactory extends Factory
         $userId = User::inRandomOrder()->first()->id;
         // On sélectionne une question dont la modération a été faite
         $questionId = Question::where('user_id', '!=', $userId)->where('is_moderated', true)->inRandomOrder()->first()->id;
+
         return [
             'user_id' => $userId,
             'question_id' => $questionId,
-            'has_approved' => rand(0, 1)
+            'has_approved' => rand(0, 1),
         ];
 
     }

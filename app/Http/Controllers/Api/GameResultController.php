@@ -21,8 +21,6 @@ class GameResultController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return Response
      */
     public function index(): Response
     {
@@ -32,15 +30,12 @@ class GameResultController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param GameResultStoreRequest $request
-     * @return JsonResponse
      */
     public function store(GameResultStoreRequest $request): JsonResponse
     {
         // Validation supplémentaire
         $request->validate([
-            'game_id' => [new BelongsToGameRule($request->game_question_id)]
+            'game_id' => [new BelongsToGameRule($request->game_question_id)],
         ]);
 
         // Début de la transaction
@@ -54,13 +49,13 @@ class GameResultController extends Controller
                 // Quand a été modifié pour la dernière fois la partie pour changer l'étape ?
                 $timeInMilliSeconds = Carbon::now()->diffInMilliseconds($game->updated_at);
                 // La dernière modification de l'étape doit avoir été faite il y a plus de 2 secondes
-                if ($timeInMilliSeconds >= 2000 && !$game->is_finished) {
+                if ($timeInMilliSeconds >= 2000 && ! $game->is_finished) {
                     if ($game->question_step + 1 < $game->question_count) {
                         // On modifie bien l'étape de la partie
                         $game->question_step = empty($game->question_step) ? 1 : $game->question_step + 1;
                         $game->save();
                     } // Si c'était la dernière question
-                    else if ($game->question_step + 1 == $game->question_count) {
+                    elseif ($game->question_step + 1 == $game->question_count) {
                         // Fin de partie
                         $game->question_step = $game->question_count;
                         $game->is_finished = true;
@@ -101,6 +96,7 @@ class GameResultController extends Controller
 
         } catch (Throwable $th) {
             DB::rollBack();
+
             return response()->json(['success' => false, 'message' => $th->getMessage()], 500);
         }
 
@@ -112,14 +108,12 @@ class GameResultController extends Controller
         $gamePlayer = GamePlayer::where('game_id', $game->id)->where('user_id', auth()->id())->first();
         $gamePlayer->final_score = $userPoints;
         $gamePlayer->save();
+
         return response()->json(['success' => true, 'endGame' => $endGame === true || $game->is_finished === true]);
     }
 
     /**
      * Display the specified resource.
-     *
-     * @param GameResult $gameResult
-     * @return Response
      */
     public function show(GameResult $gameResult): Response
     {
@@ -129,10 +123,6 @@ class GameResultController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param GameResult $gameResult
-     * @return Response
      */
     public function update(Request $request, GameResult $gameResult): Response
     {
@@ -142,9 +132,6 @@ class GameResultController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param GameResult $gameResult
-     * @return Response
      */
     public function destroy(GameResult $gameResult): Response
     {

@@ -20,10 +20,11 @@ class CommentApprovalFactory extends Factory
     public function definition(): array
     {
         $userId = User::inRandomOrder()->first()->id;
+
         return [
             'comment_id' => QuestionComment::where('user_id', '!=', $userId)->inRandomOrder()->first()->id,
             'user_id' => $userId,
-            'has_approved' => fake()->boolean(70)
+            'has_approved' => fake()->boolean(70),
         ];
     }
 }

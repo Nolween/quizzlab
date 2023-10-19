@@ -10,9 +10,6 @@ class GameResultObserver
 {
     /**
      * Handle the GameResult "creating" event.
-     *
-     * @param GameResult $gameResult
-     * @return void
      */
     public function creating(GameResult $gameResult): void
     {
@@ -28,9 +25,6 @@ class GameResultObserver
 
     /**
      * Handle the GameResult "created" event.
-     *
-     * @param GameResult $gameResult
-     * @return void
      */
     public function created(GameResult $gameResult): void
     {
@@ -39,9 +33,6 @@ class GameResultObserver
 
     /**
      * Handle the GameResult "updated" event.
-     *
-     * @param GameResult $gameResult
-     * @return void
      */
     public function updated(GameResult $gameResult): void
     {
@@ -50,9 +41,6 @@ class GameResultObserver
 
     /**
      * Handle the GameResult "deleted" event.
-     *
-     * @param GameResult $gameResult
-     * @return void
      */
     public function deleted(GameResult $gameResult): void
     {
@@ -61,9 +49,6 @@ class GameResultObserver
 
     /**
      * Handle the GameResult "restored" event.
-     *
-     * @param GameResult $gameResult
-     * @return void
      */
     public function restored(GameResult $gameResult): void
     {
@@ -72,9 +57,6 @@ class GameResultObserver
 
     /**
      * Handle the GameResult "force deleted" event.
-     *
-     * @param GameResult $gameResult
-     * @return void
      */
     public function forceDeleted(GameResult $gameResult): void
     {

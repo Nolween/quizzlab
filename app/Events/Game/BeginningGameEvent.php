@@ -2,9 +2,7 @@
 
 namespace App\Events\Game;
 
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -16,7 +14,6 @@ class BeginningGameEvent implements ShouldBroadcast
 
     public $game;
 
-
     /**
      * Create a new event instance.
      *
@@ -26,7 +23,6 @@ class BeginningGameEvent implements ShouldBroadcast
     {
         $this->game = $game;
     }
-
 
     /**
      * Définition du nom de l'évènement
@@ -61,13 +57,11 @@ class BeginningGameEvent implements ShouldBroadcast
             'user' => [
                 'avatar' => $this->game->user->avatar,
                 'id' => $this->game->user->id,
-                'name' => $this->game->user->name
+                'name' => $this->game->user->name,
             ],
             'user_id' => $this->game->user_id,
         ];
     }
-
-
 
     /**
      * Get the channels the event should broadcast on.
@@ -76,6 +70,6 @@ class BeginningGameEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('game.' . $this->game->id);
+        return new PrivateChannel('game.'.$this->game->id);
     }
 }

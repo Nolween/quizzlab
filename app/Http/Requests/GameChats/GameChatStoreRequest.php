@@ -5,12 +5,10 @@ namespace App\Http\Requests\GameChats;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-    class GameChatStoreRequest extends FormRequest
+class GameChatStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -26,7 +24,7 @@ use Illuminate\Support\Facades\Auth;
     {
         return [
             'message' => ['required', 'string'],
-            'gameId' => ['required', 'integer', 'exists:game_chats,id']
+            'gameId' => ['required', 'integer', 'exists:game_chats,id'],
         ];
     }
 }

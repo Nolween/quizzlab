@@ -7,29 +7,21 @@ use App\Services\ElasticService;
 
 class TagObserver
 {
-
-
     protected ElasticService $elastic;
 
     /**
      * Handle events after all transactions are committed.
-     *
-     * @var bool
      */
     public bool $afterCommit = true;
 
-    public function __construct(ElasticService $elasticService) {
+    public function __construct(ElasticService $elasticService)
+    {
         $this->elastic = $elasticService;
     }
-
-
 
     /**
      * Handle the Tag "created" event.
      * Ajout du tag dans Elasticsearch
-     *
-     * @param Tag $tag
-     * @return void
      */
     public function created(Tag $tag): void
     {
@@ -43,9 +35,6 @@ class TagObserver
 
     /**
      * Handle the Tag "updated" event.
-     *
-     * @param Tag $tag
-     * @return void
      */
     public function updated(Tag $tag): void
     {
@@ -54,9 +43,6 @@ class TagObserver
 
     /**
      * Handle the Tag "deleted" event.
-     *
-     * @param Tag $tag
-     * @return void
      */
     public function deleted(Tag $tag): void
     {
@@ -65,9 +51,6 @@ class TagObserver
 
     /**
      * Handle the Tag "restored" event.
-     *
-     * @param Tag $tag
-     * @return void
      */
     public function restored(Tag $tag): void
     {
@@ -76,9 +59,6 @@ class TagObserver
 
     /**
      * Handle the Tag "force deleted" event.
-     *
-     * @param Tag $tag
-     * @return void
      */
     public function forceDeleted(Tag $tag): void
     {

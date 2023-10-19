@@ -9,8 +9,6 @@ class GameStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -31,7 +29,7 @@ class GameStoreRequest extends FormRequest
             'allTags' => ['boolean'],
             'selectedThemes' => ['array', 'nullable'],
             'selectedThemes.*' => ['string'],
-            'possibleQuestions' => ['integer', 'required', 'min:1', 'gte:questionCount'] // On doit avoir plus de questions possibles que de questions définies
+            'possibleQuestions' => ['integer', 'required', 'min:1', 'gte:questionCount'], // On doit avoir plus de questions possibles que de questions définies
         ];
     }
 }

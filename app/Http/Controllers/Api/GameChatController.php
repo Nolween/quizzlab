@@ -14,8 +14,6 @@ class GameChatController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return Response
      */
     public function index(): Response
     {
@@ -25,9 +23,6 @@ class GameChatController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  GameChatStoreRequest  $request
-     * @return GameChatStoreResource
      */
     public function store(GameChatStoreRequest $request): GameChatStoreResource
     {
@@ -35,7 +30,7 @@ class GameChatController extends Controller
         $userId = auth()->id();
 
         // Création du message pour la partie
-        $newGameChat = GameChat::create(['user_id' => $userId, 'game_id' => $request->gameId, 'text' => $request ->message]);
+        $newGameChat = GameChat::create(['user_id' => $userId, 'game_id' => $request->gameId, 'text' => $request->message]);
 
         event(new MessageSentEvent($newGameChat));
 
@@ -44,9 +39,6 @@ class GameChatController extends Controller
 
     /**
      * Display the specified resource.
-     *
-     * @param  GameChat  $gameChat
-     * @return Response
      */
     public function show(GameChat $gameChat): Response
     {
@@ -56,10 +48,6 @@ class GameChatController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  Request  $request
-     * @param  GameChat  $gameChat
-     * @return Response
      */
     public function update(Request $request, GameChat $gameChat): Response
     {
@@ -69,9 +57,6 @@ class GameChatController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  GameChat  $gameChat
-     * @return Response
      */
     public function destroy(GameChat $gameChat): Response
     {

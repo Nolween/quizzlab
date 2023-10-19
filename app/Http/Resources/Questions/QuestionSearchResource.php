@@ -13,7 +13,6 @@ class QuestionSearchResource extends JsonResource
      * Transform the resource into an array.
      *
      * @param  Response  $response
-     * @return array|Arrayable|JsonSerializable
      */
     public function toArray($response): array|JsonSerializable|Arrayable
     {

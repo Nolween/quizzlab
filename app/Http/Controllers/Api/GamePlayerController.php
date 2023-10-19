@@ -17,8 +17,6 @@ class GamePlayerController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return Response
      */
     public function index(): Response
     {
@@ -29,9 +27,6 @@ class GamePlayerController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return Response
      */
     public function store(Request $request): Response
     {
@@ -41,9 +36,6 @@ class GamePlayerController extends Controller
 
     /**
      * Display the specified resource.
-     *
-     * @param GamePlayer $gamePlayer
-     * @return Response
      */
     public function show(GamePlayer $gamePlayer): Response
     {
@@ -53,10 +45,6 @@ class GamePlayerController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param GamePlayer $gamePlayer
-     * @return Response
      */
     public function update(Request $request, GamePlayer $gamePlayer): Response
     {
@@ -66,16 +54,13 @@ class GamePlayerController extends Controller
 
     /**
      * Mise à jour du statut prêt pour le joueur dans la partie
-     *
-     * @param GamePlayerReadyRequest $request
-     * @return JsonResponse
      */
     public function ready(GamePlayerReadyRequest $request): JsonResponse
     {
         // Récupération des infos du joueur dans la partie
         $gamePlayer = GamePlayer::where('game_id', $request->gameId)->where('user_id', $request->userId)->firstOrFail();
         // Switch true false selon le statut précédent
-        $gamePlayer->is_ready = !$gamePlayer->is_ready;
+        $gamePlayer->is_ready = ! $gamePlayer->is_ready;
         $gamePlayer->save();
 
         // Déclenchement d'un évènement pour le serveur websocket
@@ -87,9 +72,6 @@ class GamePlayerController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param GamePlayerDestroyRequest $request
-     * @return JsonResponse
      */
     public function destroy(GamePlayerDestroyRequest $request): JsonResponse
     {
@@ -98,13 +80,15 @@ class GamePlayerController extends Controller
         // Récupération des données de la partie
         $game = Game::findOrFail($gamePlayer->game_id);
         // Si la partie n'a pas encore commencé
-        if(!$game->has_begun) {
+        if (! $game->has_begun) {
             // Événement websocket pour mettre à jour la liste des joueurs présents dans la partie
             event(new LeavingPlayerEvent($gamePlayer));
             // On vire le joueur de la partie
             $gamePlayer->delete();
+
             return response()->json(['success' => true]);
         }
+
         return response()->json(['success' => false]);
 
     }

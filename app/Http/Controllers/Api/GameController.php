@@ -24,18 +24,16 @@ use App\Models\Question;
 use App\Models\Tag;
 use Carbon\Carbon;
 use Exception;
-use Illuminate\Http\Response;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class GameController extends Controller
 {
-
-
     /**
      * Instantiate a new controller instance.
      *
@@ -47,12 +45,8 @@ class GameController extends Controller
         $this->middleware('auth:sanctum');
     }
 
-
     /**
      * Display a listing of the resource.
-     *
-     * @param GameIndexRequest $request
-     * @return AnonymousResourceCollection
      */
     public function index(GameIndexRequest $request): AnonymousResourceCollection
     {
@@ -66,7 +60,7 @@ class GameController extends Controller
                     ->where('is_finished', false);
             })
                 // Soit des parties non finies ou l'utilisateur est présent
-                ->orWhere(function ($q)  use ($userId) {
+                ->orWhere(function ($q) use ($userId) {
                     $q->where('has_begun', true)
                         ->where('is_finished', false)
                         ->whereHas('players', function ($query) use ($userId) {
@@ -91,7 +85,7 @@ class GameController extends Controller
         else {
             // ID du tag correspondant à la recherche
             $tag = Tag::where('name', $request->search)->first();
-            if (!empty($tag->id)) {
+            if (! empty($tag->id)) {
                 // Récupération de toutes les parties ayant un rapport avec le thème recherché
                 $gameTagsIds = GameTag::where('tag_id', $tag->id)->orderBy('game_id', 'ASC')->get()->pluck('game_id');
                 // Toutes les parties non commencées, non finies, avec le nombre de joueurs en attente, crée dans l'heure
@@ -101,7 +95,7 @@ class GameController extends Controller
                         ->whereIn('id', $gameTagsIds);
                 })
                     // Soit des parties non finies ou l'utilisateur est présent
-                    ->orWhere(function ($q)  use ($userId, $gameTagsIds) {
+                    ->orWhere(function ($q) use ($userId, $gameTagsIds) {
                         $q->where('has_begun', true)
                             ->where('is_finished', false)
                             ->whereIn('id', $gameTagsIds)
@@ -120,6 +114,7 @@ class GameController extends Controller
                 $availableGames = $allGames->filter(function ($game) {
                     return $game->players_count < $game->max_players;
                 });
+
                 return GameIndexResource::collection($availableGames);
             } else {
                 return GameIndexResource::collection([]);
@@ -129,10 +124,6 @@ class GameController extends Controller
 
     /**
      * Informations de la partie dans la salle d'attente
-     *
-     * @param GameJoinRequest $request
-     * @param Game $game
-     * @return GameJoinResource|JsonResponse
      */
     public function join(GameJoinRequest $request, Game $game): JsonResponse|GameJoinResource
     {
@@ -146,44 +137,39 @@ class GameController extends Controller
             //? Ajout de l'utilisateur dans la partie
             // Avant d'entrer, reste t-il encore de la place dans la partie ?
             if ($playersCount >= $game->max_players) {
-                return response()->json(['success' => false, 'message' => "La partie est déjà remplie"], 500);
+                return response()->json(['success' => false, 'message' => 'La partie est déjà remplie'], 500);
             }
 
             // Si la partie n'est pas remplie, on ajoute le joueur dans la partie
             $newGamePlayer = GamePlayer::create([
                 'game_id' => $game->id,
                 'user_id' => auth()->id(),
-                'is_ready' => 0
+                'is_ready' => 0,
             ]);
             // Évènement websocket d'ajout du joueur dans la partie
             event(new JoiningPlayerEvent($newGamePlayer));
         }
 
-
         // Retour dans le front des informations
         return new GameJoinResource($game);
     }
 
-
     /**
      * Store a newly created resource in storage.
-     *
-     * @param GameStoreRequest $request
-     * @return GameStoreResource|JsonResponse
      */
     public function store(GameStoreRequest $request): GameStoreResource|JsonResponse
     {
         $userId = auth()->id();
 
         // L'utilisateur est-il encore dans une partie en cours?
-//        $userInGames = Game::with(
-//            ['players' => function ($query) use ($userId) {
-//                $query->where('user_id', $userId);
-//            }]
-//        )
-//            ->where('is_finished', false)
-//            ->where('created_at', '>', Carbon::now()->subMinutes(10))
-//            ->where('user_id', $userId)->get();
+        //        $userInGames = Game::with(
+        //            ['players' => function ($query) use ($userId) {
+        //                $query->where('user_id', $userId);
+        //            }]
+        //        )
+        //            ->where('is_finished', false)
+        //            ->where('created_at', '>', Carbon::now()->subMinutes(10))
+        //            ->where('user_id', $userId)->get();
 
         // Si le joueur est encore dans des parties en cours, refus
         // if (count($userInGames) > 0) {
@@ -204,7 +190,7 @@ class GameController extends Controller
                 'has_begun' => false,
                 'is_finished' => false,
                 'game_code' => $gameCode,
-                'questions_have_all_tags' => !empty($request->allTags) ? $request->allTags : false,
+                'questions_have_all_tags' => ! empty($request->allTags) ? $request->allTags : false,
             ]);
             // Assignation du joueur dans la file d'attente
             GamePlayer::create([
@@ -212,13 +198,13 @@ class GameController extends Controller
                 'user_id' => $userId,
             ]);
             // Assignation des thèmes pour la partie
-            if (!empty($request->selectedThemes)) {
+            if (! empty($request->selectedThemes)) {
                 foreach ($request->selectedThemes as $selectedTheme) {
                     // Le thème existe t-il?
                     $tag = Tag::where('name', $selectedTheme)->first();
                     GameTag::create([
                         'game_id' => $newGame->id,
-                        'tag_id' => $tag->id
+                        'tag_id' => $tag->id,
                     ]);
                 }
             }
@@ -247,7 +233,7 @@ class GameController extends Controller
                 for ($i = 0; $i < $request->question_count; $i++) {
                     // On cherche une Id de question pas encore dans la partie
                     //? S'il faut seulement que la question comporte un des thèmes associés
-                    if (!$request->allTags) {
+                    if (! $request->allTags) {
                         $questionToAddId = Question::whereHas('tags', function (Builder $query) use ($tagIds) {
                             $query->whereIn('tag_id', $tagIds);
                         })->where('is_integrated', true)->whereNotIn('id', $gameQuestionsIds)->inRandomOrder()->first()->id;
@@ -278,15 +264,13 @@ class GameController extends Controller
         // Si erreur
         catch (Exception $e) {
             DB::rollBack();
+
             return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
     }
 
     /**
      * Display the specified resource.
-     *
-     * @param Game $game
-     * @return Response
      */
     public function show(Game $game): Response
     {
@@ -296,18 +280,14 @@ class GameController extends Controller
 
     /**
      * Vérifier la disponibilité d'une partie à partir d'un code
-     *
-     * @param GameCodeRequest $request
-     * @return GameCodeResource|JsonResponse
      */
     public function code(GameCodeRequest $request): JsonResponse|GameCodeResource
     {
 
-
         $game = Game::withCount('players')->where('game_code', $request->gameCode)->firstOrFail();
         // Si la partie n'a pas encore commencé, reste t-il de la place ?
-        if (!$game->has_begun && $game->players_count >= $game->max_players) {
-            return response()->json(['success' => false, 'message' => "La partie est pleine"], 500);
+        if (! $game->has_begun && $game->players_count >= $game->max_players) {
+            return response()->json(['success' => false, 'message' => 'La partie est pleine'], 500);
         }
         // Si la partie a commencé
         if ($game->has_begun) {
@@ -318,16 +298,12 @@ class GameController extends Controller
                 return response()->json(['success' => false, 'message' => "Vous n'êtes pas autorisé à intégrer la partie"], 500);
             }
         }
+
         return new GameCodeResource($game);
     }
 
-
     /**
      * Récupération des résultats de la partie
-     *
-     * @param GameResultsRequest $request
-     * @param Game $game
-     * @return GameResultsResource|JsonResponse
      */
     public function results(GameResultsRequest $request, Game $game): JsonResponse|GameResultsResource
     {
@@ -335,16 +311,8 @@ class GameController extends Controller
         return new GameResultsResource($game);
     }
 
-
-
-
-
     /**
      * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param Game $game
-     * @return Response
      */
     public function update(Request $request, Game $game): Response
     {
@@ -354,9 +322,6 @@ class GameController extends Controller
 
     /**
      * Mise à jour du statut de partie commencée
-     *
-     * @param GameBeginRequest $request
-     * @return JsonResponse
      */
     public function begin(GameBeginRequest $request): JsonResponse
     {
@@ -382,7 +347,7 @@ class GameController extends Controller
                         ->inRandomOrder()->first()->id;
                 }
                 // Si des thèmes sont définis et que tous les thèmes ne sont pas liés pour chaque question
-                else if (!$game->questions_have_all_tags) {
+                elseif (! $game->questions_have_all_tags) {
                     $randomQuestionId = Question::with(['tags' => function ($query) use ($gameTags) {
                         $query->whereIn('tag_id', $gameTags);
                     }])->where('is_moderated', true)
@@ -413,7 +378,8 @@ class GameController extends Controller
             Db::commit();
         } catch (Exception $e) {
             DB::rollBack();
-            return response()->json(['message' => $e->getMessage() . " >>> " . $e->getLine()], 500);
+
+            return response()->json(['message' => $e->getMessage().' >>> '.$e->getLine()], 500);
         }
 
         // Déclenchement de l'évènement pour tout le monde
@@ -424,9 +390,6 @@ class GameController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param Game $game
-     * @return Response
      */
     public function destroy(Game $game): Response
     {
