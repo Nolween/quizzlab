@@ -341,7 +341,7 @@ class GameController extends Controller
             // Combien de question à attribuer pour la partie ?
             for ($i = 0; $i < $game->question_count; $i++) {
                 // Si on peut prendre n'importe quel thème
-                if (empty($gameTags)) {
+                if ($gameTags->isEmpty()) {
                     $randomQuestionId = Question::where('is_moderated', true)
                         ->where('is_integrated', true)->whereNotIn('id', $questionsIds)
                         ->inRandomOrder()->first()->id;
