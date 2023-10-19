@@ -67,25 +67,25 @@ class TagController extends Controller
             // Si pas de thèmes sélectionnés et pas de liaison de thèmes
             if (empty($request->tags) && $request->allTags == 0) {
                 // Combien de questions intégrées au quizz
-                $totalQuestions = Question::where('is_moderated', true)->where('is_integrated', true)->get()->count();
+                $totalQuestions = Question::where('is_moderated', true)->where('is_integrated', true)->count();
 
                 return response()->json(['possibleQuestions' => $totalQuestions]);
             }
             // Si un/des thèmes sélectionnés
             elseif (! empty($request->tags)) {
                 // Récupération des ids de tags
-                $tagsIdsArray = Tag::whereIn('name', $request->tags)->get()->pluck('id');
+                $tagsIdsArray = Tag::whereIn('name', $request->tags)->pluck('id');
                 // Si pas de liaison de thèmes
                 if ($request->allTags == 0) {
                     $totalQuestions = Question::whereHas('tags', function (Builder $query) use ($tagsIdsArray) {
                         $query->whereIn('tag_id', $tagsIdsArray);
-                    })->where('is_integrated', true)->get()->count();
+                    })->where('is_integrated', true)->count();
                 }
                 // Si liaison de thèmes
                 else {
                     $totalQuestions = Question::whereHas('tags', function (Builder $query) use ($tagsIdsArray) {
                         $query->whereIn('tag_id', $tagsIdsArray);
-                    }, '>=', count($tagsIdsArray))->where('is_integrated', true)->get()->count();
+                    }, '>=', count($tagsIdsArray))->where('is_integrated', true)->count();
                 }
 
                 return response()->json(['possibleQuestions' => $totalQuestions]);

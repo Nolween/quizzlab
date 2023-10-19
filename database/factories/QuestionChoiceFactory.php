@@ -22,7 +22,7 @@ class QuestionChoiceFactory extends Factory
         // Y a-t-il déjà une bonne réponse pour la question ?
         $rightChoice = QuestionChoice::where('question_id', $questionId)->where('is_correct', true)->first();
         // Combien y a-t-il de choix déjà présent pour la question ?
-        $choicesCount = QuestionChoice::where('question_id', $questionId)->get()->count();
+        $choicesCount = QuestionChoice::where('question_id', $questionId)->count();
 
         return [
             'question_id' => $questionId,

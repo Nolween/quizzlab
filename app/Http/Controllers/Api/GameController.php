@@ -87,7 +87,7 @@ class GameController extends Controller
             $tag = Tag::where('name', $request->search)->first();
             if (! empty($tag->id)) {
                 // Récupération de toutes les parties ayant un rapport avec le thème recherché
-                $gameTagsIds = GameTag::where('tag_id', $tag->id)->orderBy('game_id', 'ASC')->get()->pluck('game_id');
+                $gameTagsIds = GameTag::where('tag_id', $tag->id)->orderBy('game_id', 'ASC')->pluck('game_id');
                 // Toutes les parties non commencées, non finies, avec le nombre de joueurs en attente, crée dans l'heure
                 $allGames = Game::where(function ($q) use ($gameTagsIds) {
                     $q->where('has_begun', false)
@@ -209,7 +209,7 @@ class GameController extends Controller
                 }
             }
             // Récupération des tags dans un tableau d'ids
-            $tagIds = GameTag::where('game_id', $newGame->id)->get()->pluck('tag_id');
+            $tagIds = GameTag::where('game_id', $newGame->id)->pluck('tag_id');
             $gameQuestionsIds = [];
             //? Si aucun thème n'a été sélectionné
             if (empty($request->selectedThemes)) {
@@ -241,7 +241,7 @@ class GameController extends Controller
                     //? Si chaque question doit comporter tous les thèmes associés
                     else {
                         // Quels sont tous les thèmes associés de la partie ?
-                        $tagIds = GameTag::where('game_id', $newGame->id)->get()->pluck('tag_id');
+                        $tagIds = GameTag::where('game_id', $newGame->id)->pluck('tag_id');
                         $questionToAddId = Question::whereHas('tags', function (Builder $query) use ($tagIds) {
                             $query->whereIn('tag_id', $tagIds);
                         }, '>=', count($tagIds))->where('is_integrated', true)->whereNotIn('id', $gameQuestionsIds)->inRandomOrder()->first()->id;
@@ -336,7 +336,7 @@ class GameController extends Controller
             $game->save();
 
             // La partie a-t-elle des thèmes rattachés ?
-            $gameTags = GameTag::where('game_id', $game->id)->get()->pluck('tag_id');
+            $gameTags = GameTag::where('game_id', $game->id)->pluck('tag_id');
             $questionsIds = [];
             // Combien de question à attribuer pour la partie ?
             for ($i = 0; $i < $game->question_count; $i++) {

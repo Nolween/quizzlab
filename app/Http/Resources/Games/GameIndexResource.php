@@ -24,7 +24,7 @@ class GameIndexResource extends JsonResource
             $tagArray[] = ['id' => $tag->tag->id, 'name' => $tag->tag->name];
         }
         // Nombre de joueurs dans la partie
-        $waitingPlayers = GamePlayer::where('game_id', $this->id)->get()->count();
+        $waitingPlayers = GamePlayer::where('game_id', $this->id)->count();
 
         return [
             'id' => $this->id,

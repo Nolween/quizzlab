@@ -52,8 +52,8 @@ class CommentApprovalController extends Controller
             );
 
             // Recalcul des réactions positives
-            $positiveApprovals = CommentApproval::where('comment_id', $request->commentid)->where('has_approved', 1)->get()->count();
-            $negativeApprovals = CommentApproval::where('comment_id', $request->commentid)->where('has_approved', 0)->get()->count();
+            $positiveApprovals = CommentApproval::where('comment_id', $request->commentid)->where('has_approved', 1)->count();
+            $negativeApprovals = CommentApproval::where('comment_id', $request->commentid)->where('has_approved', 0)->count();
             // MAJ des comptes pour le commentaire
             $commentUpdate = QuestionComment::findOrFail($request->commentid);
             $commentUpdate->approvals_count = $positiveApprovals;

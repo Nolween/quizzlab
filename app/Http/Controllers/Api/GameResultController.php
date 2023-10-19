@@ -102,7 +102,7 @@ class GameResultController extends Controller
 
         //    Mise à jour du nombre de points pour le joueur
         // Quelles sont les questions de la partie ?
-        $gameQuestionsIds = GameQuestion::where('game_id', $game->id)->get()->pluck('id');
+        $gameQuestionsIds = GameQuestion::where('game_id', $game->id)->pluck('id');
         // Récupération du total de score des résultats de la partie du joueur
         $userPoints = GameResult::whereIn('game_question_id', $gameQuestionsIds)->where('user_id', auth()->id())->sum('score');
         $gamePlayer = GamePlayer::where('game_id', $game->id)->where('user_id', auth()->id())->first();

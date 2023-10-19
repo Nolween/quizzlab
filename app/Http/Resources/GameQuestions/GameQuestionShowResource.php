@@ -18,7 +18,7 @@ class GameQuestionShowResource extends JsonResource
     public function toArray($gameQuestion): array|JsonSerializable|Arrayable
     {
         $uniqueTags = $this->questionTags->unique('tag_id')->pluck('tag_id');
-        $tags = Tag::whereIn('id', $uniqueTags)->get()->pluck('name');
+        $tags = Tag::whereIn('id', $uniqueTags)->pluck('name');
         $choices = $this->question->choicesWithoutCorrect->shuffle();
 
         // Récupération de tous les tags de la question

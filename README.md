@@ -67,4 +67,12 @@
 -   Accès à Telescope pour le profiler du back: http://127.0.0.1:8000/telescope/requests
 -   Accès au serveur et voir les appels: http://127.0.0.1:8000/laravel-websockets
 
-# Environnement de production
+# Maintenance du projet
+
+-   Lancement du PHP CS Fixer, pour formater le code
+    -   `./vendor/bin/pint`
+
+-   Lancement de l'analyze statique du code avec écriture dans un fichier
+    -   `./vendor/bin/phpstan analyse --generate-baseline`
+-   Lancement de l'analyze statique dans un fichier particulier
+    -   `./vendor/bin/phpstan analyse path/to/your/file.php`

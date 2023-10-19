@@ -143,7 +143,7 @@ class ElasticService
      *
      * @param  string  $index Index / Table à créer
      * @param  array  $data Tableau avec les clés/valeurs à envoyer
-     * @return Response Réponse entière (avec ->body(), ->status(),...)
+     * @return Response|bool Réponse entière (avec ->body(), ->status(),...)
      */
     public function insertNewIndex(string $index, array $data = [])
     {
@@ -169,13 +169,14 @@ class ElasticService
 
             return $creationResponse;
         }
+        return false;
     }
 
     /**
      * Suppression d'un index dans Elasticsearch
      *
      * @param  string  $index Index / Table à supprimer
-     * @return Response Réponse entière (avec ->body(), ->status(),...)
+     * @return Response|false Réponse entière (avec ->body(), ->status(),...)
      */
     public function deleteIndex(string $index)
     {
@@ -195,6 +196,7 @@ class ElasticService
 
             return $response;
         }
+        return false;
     }
 
     /**

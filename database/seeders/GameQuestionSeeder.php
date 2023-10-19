@@ -26,7 +26,7 @@ class GameQuestionSeeder extends Seeder
             // Attribution des questions selon le nombre de questions défini
             for ($i = 0; $i < $game->question_count; $i++) {
                 // Quels sont tous les thèmes associés de la partie ?
-                $tagIds = GameTag::where('game_id', $game->id)->get()->pluck('tag_id');
+                $tagIds = GameTag::where('game_id', $game->id)->pluck('tag_id');
                 // Si la partie demande des questions qui ont tous les thèmes associés
                 if ($game->questions_have_all_tags) {
                     // Quels sont les thèmes de la partie ?
