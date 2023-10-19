@@ -10,13 +10,14 @@
 [Download Elasticsearch](https://www.elastic.co/fr/downloads/elasticsearch)
 
 1. Créer un dossier dans le disque qui rendra son contenu facile d’accès → C:/elasticsearch
-2. Dans le terminal, se rendre dans le dossier `cd /elasticsearch/bin` et exécuter `elasticsearch`
-3. Lors du premier lancement d’elasticsearch, une ligne indiquant le mot de passe généré devrait apparaitre:
+2. Dézipper le contenu du fichier téléchargé dans ce dossier
+3. Dans le terminal, se rendre dans le dossier `cd /elasticsearch/bin` et exécuter `elasticsearch`
+4. Lors du premier lancement d’elasticsearch, une ligne indiquant le mot de passe généré devrait apparaitre:
 
     Password for the elastic user (reset with `bin/elasticsearch-reset-password -u elastic`):
     MOTDEPASSE
 
-4. Pour le local, ce message peut apparaitre dans le terminal : `o.e.x.s.t.n.SecurityNetty4HttpServerTransport] [NOMDUPC] received plaintext http traffic on an https channel, closing connection Netty4HttpChannel`
+5. Pour le local, ce message peut apparaitre dans le terminal : `o.e.x.s.t.n.SecurityNetty4HttpServerTransport] [NOMDUPC] received plaintext http traffic on an https channel, closing connection Netty4HttpChannel`
 
     Cela veut dire que le SSL est activé, il faut le désactiver dans `/elasticsearch/config/elasticsearch.yml` >>
 
@@ -24,7 +25,7 @@
 
     **enabled: false**
 
-5. Une fois cela réglé et le serveur lancé via la commande `elasticsearch`, pour se connecter à la BDD >> username: elastic - password: le mot de passe donné au premier lancement
+6. Une fois cela réglé et le serveur lancé via la commande `elasticsearch`, pour se connecter à la BDD >> username: elastic - password: le mot de passe donné au premier lancement
 
 ## Back PHP
 

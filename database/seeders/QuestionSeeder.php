@@ -24,7 +24,7 @@ class QuestionSeeder extends Seeder
             $file->cleanDirectory(storage_path('app/public/img/questions/big'));
         } else {
             // Création du dossier
-            $file->makeDirectory(storage_path('app/public/img/questions/big'));
+            $file->makeDirectory(storage_path('app/public/img/questions/big'), 0755, true);
         }
 
         // Si le dossier des vignettes de question existe
@@ -33,7 +33,7 @@ class QuestionSeeder extends Seeder
             $file->cleanDirectory(storage_path('app/public/img/questions/small'));
         } else {
             // Création du dossier
-            $file->makeDirectory(storage_path('app/public/img/questions/small'));
+            $file->makeDirectory(storage_path('app/public/img/questions/small'), 0755, true);
         }
         // Création des nouvelles questions
         Question::factory(100)->create();

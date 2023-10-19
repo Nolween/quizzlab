@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
             $file->cleanDirectory(storage_path('app/public/img/profile'));
         } else {
             // Création du dossier
-            $file->makeDirectory(storage_path('app/public/img/profile'));
+            $file->makeDirectory(storage_path('app/public/img/profile'), 0755, true);
         }
 
         // Création de l'admin, fixe
