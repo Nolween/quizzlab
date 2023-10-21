@@ -15,44 +15,43 @@ class QuestionIndexResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param Question $question
      */
-    public function toArray($question): array|JsonSerializable|Arrayable
+    public function toArray(Request $request): array|JsonSerializable|Arrayable
     {
         // Conversion de la date de création
         Carbon::setLocale('fr');
-        $ago = $question->created_at->diffForHumans(Carbon::now(), true);
+        $ago = $this->created_at->diffForHumans(Carbon::now(), true);
         // Récupération des tags de la question
         $tagArray = [];
-        $tags = $question->tags;
+        $tags = $this->tags;
         foreach ($tags as $tag) {
             $tagArray[] = ['id' => $tag->tag->id, 'name' => $tag->tag->name];
         }
         $choiceArray = [];
-        foreach ($question->choices as $choice) {
+        foreach ($this->choices as $choice) {
             $choiceArray[] = ['title' => $choice->title, 'is_correct' => $choice->is_correct];
         }
         // L'utilisateur est-il connecté ?
         $userId = auth()->id();
         if ($userId) {
             // A-t-il voté pour cette question ?
-            $questionVote = QuestionVote::select('has_approved')->where('question_id', $question->id)->where(
+            $questionVote = QuestionVote::select('has_approved')->where('question_id', $this->id)->where(
                 'user_id',
                 $userId
             )->first();
         }
 
         return [
-            'id'            => $question->id,
-            'question'      => $question->question,
+            'id'            => $this->id,
+            'question'      => $this->question,
             'choices'       => $choiceArray,
-            'vote'          => $question->vote,
-            'image'         => $question->image,
-            'avatar'        => $question->user->avatar,
-            'userName'      => $question->user->name,
-            'isIntegrated'  => (bool)$question->is_integrated,
+            'vote'          => $this->vote,
+            'image'         => $this->image,
+            'avatar'        => $this->user->avatar,
+            'userName'      => $this->user->name,
+            'isIntegrated'  => (bool)$this->is_integrated,
             'tags'          => $tagArray,
-            'commentsCount' => $question->comments->count(),
+            'commentsCount' => $this->comments->count(),
             'ago'           => $ago,
             'hasVoted'      => $questionVote->has_approved ?? null,
         ];

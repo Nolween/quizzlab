@@ -14,32 +14,31 @@ class GameIndexResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param Game $game
      */
-    public function toArray($game): array|JsonSerializable|Arrayable
+    public function toArray(Request $request): array|JsonSerializable|Arrayable
     {
         // Récupération des tags de la partie
         $tagArray = [];
-        $tags = $game->tags;
+        $tags = $this->tags;
         foreach ($tags as $tag) {
             $tagArray[] = ['id' => $tag->tag->id, 'name' => $tag->tag->name];
         }
         // Nombre de joueurs dans la partie
-        $waitingPlayers = GamePlayer::where('game_id', $game->id)->count();
+        $waitingPlayers = GamePlayer::where('game_id', $this->id)->count();
 
         return [
-            'id'                      => $game->id,
-            'questionCount'           => $game->question_count,
-            'gameCode'                => $game->game_code,
-            'gameRule'                => $game->game_rule_id,
+            'id'                      => $this->id,
+            'questionCount'           => $this->question_count,
+            'gameCode'                => $this->game_code,
+            'gameRule'                => $this->game_rule_id,
             'waitingPlayers'          => $waitingPlayers,
-            'maxPlayers'              => $game->max_players,
-            'responseTime'            => $game->response_time,
-            'avatar'                  => $game->user->avatar,
-            'userName'                => $game->user->name,
-            'hasBegun'                => (bool)$game->has_begun,
-            'questionStep'            => $game->question_step,
-            'questions_have_all_tags' => $game->questions_have_all_tags,
+            'maxPlayers'              => $this->max_players,
+            'responseTime'            => $this->response_time,
+            'avatar'                  => $this->user->avatar,
+            'userName'                => $this->user->name,
+            'hasBegun'                => (bool)$this->has_begun,
+            'questionStep'            => $this->question_step,
+            'questions_have_all_tags' => $this->questions_have_all_tags,
             'tags'                    => $tagArray,
         ];
         // return parent::toArray($request);

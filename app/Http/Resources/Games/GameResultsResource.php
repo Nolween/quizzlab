@@ -5,6 +5,7 @@ namespace App\Http\Resources\Games;
 use App\Models\Game;
 use App\Models\GameResult;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use JsonSerializable;
 
@@ -13,21 +14,16 @@ class GameResultsResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param Game $game
      * @return array|Arrayable|JsonSerializable
      */
-    public function toArray($game)
+    public function toArray(Request $request)
     {
-        // $data = [];
-        // foreach ($game->gameQuestion as $question) {
-        //
-        // }
 
         // Récupération de tous les résultats
         $results = ['questions' => []];
 
         // Questions de la partie
-        $gameQuestions = $game->questions;
+        $gameQuestions = $this->questions;
 
         foreach ($gameQuestions as $gameQuestion) {
             // // Réponse de l'utilisateur à la question

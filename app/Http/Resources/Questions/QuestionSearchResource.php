@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Questions;
 
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use JsonSerializable;
@@ -12,12 +13,11 @@ class QuestionSearchResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  Response  $response
      */
-    public function toArray($response): array|JsonSerializable|Arrayable
+    public function toArray(Request $request): array|JsonSerializable|Arrayable
     {
         // On transforme ce qu'on a reçu d'Elastic en tableau
-        $arrayResponse = parent::toArray($response);
+        $arrayResponse = parent::toArray($request);
 
         // Déclaration du tableau final de retour
         $finalResponse = [];

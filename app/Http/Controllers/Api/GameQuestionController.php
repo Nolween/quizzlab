@@ -50,7 +50,7 @@ class GameQuestionController extends Controller
         $skip = max($game->question_step, 0);
         $gameQuestion = GameQuestion::where('game_id', $game->id)->orderBy('order', 'ASC')->skip($skip)->first();
 
-        return new GameQuestionShowResource($gameQuestion->question);
+        return new GameQuestionShowResource($gameQuestion);
     }
 
     /**

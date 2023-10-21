@@ -15,37 +15,36 @@ class QuestionShowResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  Question $question
      */
-    public function toArray($question): array
+    public function toArray(Request $request): array
     {
         // Les infos ne doivent être retournées que si la question n'est pas intégrée au quizz
-        if ($question->is_integrated) {
+        if ($this->is_integrated) {
             return ['forbidden' => true];
         }
         // Si la question n'est pas encore intégrée au quizz, on peut afficher
         else {
             // Conversion de la date de création
             Carbon::setLocale('fr');
-            $ago = $question->created_at->diffForHumans(Carbon::now(), true);
+            $ago = $this->created_at->diffForHumans(Carbon::now(), true);
             // Récupération des tags de la question
             $tagArray = [];
-            $tags = $question->tags;
+            $tags = $this->tags;
             foreach ($tags as $tag) {
                 $tagArray[] = ['id' => $tag->tag->id, 'name' => $tag->tag->name];
             }
             $choiceArray = [];
-            foreach ($question->choices as $choice) {
+            foreach ($this->choices as $choice) {
                 $choiceArray[] = ['title' => $choice->title, 'is_correct' => $choice->is_correct];
             }
             // L'utilisateur est-il connecté ?
             $userId = auth()->id();
             if ($userId) {
                 // A-t-il voté pour cette question ?
-                $questionVote = QuestionVote::select('has_approved')->where('question_id', $question->id)->where('user_id', $userId)->first();
+                $questionVote = QuestionVote::select('has_approved')->where('question_id', $this->id)->where('user_id', $userId)->first();
             }
             // Construction des commentaires
-            foreach ($question->primary_comments as $comment) {
+            foreach ($this->primary_comments as $comment) {
                 $comment['avatar'] = $comment->user->avatar;
                 $comment['userName'] = $comment->user->name;
                 $comment['ago'] = $comment->updated_at->diffForHumans(Carbon::now(), true);
@@ -66,17 +65,17 @@ class QuestionShowResource extends JsonResource
             }
 
             return [
-                'id' => $question->id,
-                'question' => $question->question,
+                'id' => $this->id,
+                'question' => $this->question,
                 'choices' => $choiceArray,
-                'vote' => $question->vote,
-                'image' => $question->image,
-                'avatar' => $question->user->avatar,
-                'userName' => $question->user->name,
-                'isIntegrated' => (bool) $question->is_integrated,
+                'vote' => $this->vote,
+                'image' => $this->image,
+                'avatar' => $this->user->avatar,
+                'userName' => $this->user->name,
+                'isIntegrated' => (bool) $this->is_integrated,
                 'tags' => $tagArray,
-                'comments' => $question->primary_comments,
-                'commentsCount' => $question->comments->count(),
+                'comments' => $this->primary_comments,
+                'commentsCount' => $this->comments->count(),
                 'ago' => $ago,
                 'hasVoted' => $questionVote->has_approved ?? null,
             ];
