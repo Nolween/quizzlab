@@ -26,11 +26,8 @@ class GameResultsResource extends JsonResource
         $gameQuestions = $this->questions;
 
         foreach ($gameQuestions as $gameQuestion) {
-            // // Réponse de l'utilisateur à la question
-            $userChoice = GameResult::where('user_id', auth()->id())->where(
-                'game_question_id',
-                $gameQuestion->id
-            )->first();
+            // Réponse de l'utilisateur à la question
+            $userChoix = GameResult::resultQuestionOfUser($gameQuestion->id, auth()->id())->first();
             $choices = $gameQuestion->question->choices;
 
             $questionChoices = [];

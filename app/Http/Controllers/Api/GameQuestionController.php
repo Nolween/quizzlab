@@ -48,7 +48,7 @@ class GameQuestionController extends Controller
         GamePlayer::where('user_id', $userId)->where('game_id', $game->id)->firstOrFail();
         // Quelle est le numéro de la question active ?
         $skip = max($game->question_step, 0);
-        $gameQuestion = GameQuestion::where('game_id', $game->id)->orderBy('order', 'ASC')->skip($skip)->first();
+        $gameQuestion = GameQuestion::where('game_id', $game->id)->orderBy('order', 'ASC')->skip($skip)->firstOrFail();
 
         return new GameQuestionShowResource($gameQuestion);
     }

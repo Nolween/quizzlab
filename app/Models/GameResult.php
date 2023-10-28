@@ -63,4 +63,9 @@ class GameResult extends Model
             'id',
             'id');
     }
+
+    public function scopeResultQuestionOfUser($query, $gameQuestionId, $userId)
+    {
+        return $query->where('game_question_id', $gameQuestionId)->where('user_id', $userId);
+    }
 }

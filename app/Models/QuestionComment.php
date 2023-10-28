@@ -74,4 +74,9 @@ class QuestionComment extends Model
             $query->where('user_id', '=', Auth::id());
         });
     }
+
+    public function responses(): HasMany
+    {
+        return $this->hasMany(QuestionComment::class, 'comment_id')->orderBy('created_at', 'ASC');
+    }
 }

@@ -1,9 +1,9 @@
 <template>
     <div
         class="pt-24 flex flex-wrap justify-center bg-quizzlab-primary"
-        v-if="questionStore.question && questionStore.question.length === 0"
+        v-if="questionStore.question && questionStore.question.length === 0 && questionStore.question.isIntegrated"
     >
-        <span v-if="loaded == true" class="text-center text-4xl text-white font-semibold mb-2">
+        <span v-if="loaded" class="text-center text-4xl text-white font-semibold mb-2">
             QUESTION INTEGREE AU QUIZZ</span
         >
 

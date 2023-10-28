@@ -152,7 +152,6 @@ const updateSearchMod = (value) => {
 
 // Aller sur la page de la question
 const goToQuestion = (questionId) => {
-    debugger
     router.push({
         name: 'question.show',
         params: {id: questionId},

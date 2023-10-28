@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\QuestionChoices\QuestionChoiceResource;
+use App\Http\Resources\QuestionTags\TagResource;
 use App\Models\Question;
 use App\Models\QuestionVote;
 use Carbon\Carbon;
@@ -21,16 +23,6 @@ class QuestionIndexResource extends JsonResource
         // Conversion de la date de création
         Carbon::setLocale('fr');
         $ago = $this->created_at->diffForHumans(Carbon::now(), true);
-        // Récupération des tags de la question
-        $tagArray = [];
-        $tags = $this->tags;
-        foreach ($tags as $tag) {
-            $tagArray[] = ['id' => $tag->tag->id, 'name' => $tag->tag->name];
-        }
-        $choiceArray = [];
-        foreach ($this->choices as $choice) {
-            $choiceArray[] = ['title' => $choice->title, 'is_correct' => $choice->is_correct];
-        }
         // L'utilisateur est-il connecté ?
         $userId = auth()->id();
         if ($userId) {
@@ -44,13 +36,13 @@ class QuestionIndexResource extends JsonResource
         return [
             'id'            => $this->id,
             'question'      => $this->question,
-            'choices'       => $choiceArray,
+            'choices'       => QuestionChoiceResource::collection($this->choices),
             'vote'          => $this->vote,
             'image'         => $this->image,
             'avatar'        => $this->user->avatar,
             'userName'      => $this->user->name,
             'isIntegrated'  => (bool)$this->is_integrated,
-            'tags'          => $tagArray,
+            'tags'          => TagResource::collection($this->tags),
             'commentsCount' => $this->comments->count(),
             'ago'           => $ago,
             'hasVoted'      => $questionVote->has_approved ?? null,
