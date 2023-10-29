@@ -4,6 +4,7 @@ namespace App\Http\Requests\Approvals;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class CommentApprovalStoreRequest extends FormRequest
 {
@@ -12,7 +13,7 @@ class CommentApprovalStoreRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Auth::check();
+        return Gate::allows('authorized-user');
     }
 
     /**

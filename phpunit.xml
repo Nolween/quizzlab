@@ -21,11 +21,15 @@
         <env name="APP_ENV" value="testing"/>
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="CACHE_DRIVER" value="array"/>
-        <!-- <env name="DB_CONNECTION" value="sqlite"/> -->
-        <!-- <env name="DB_DATABASE" value=":memory:"/> -->
+        <env name="DB_CONNECTION" value="mysql"/>
+        <env name="DB_DATABASE" value="quizzlab_test"/>
         <env name="MAIL_MAILER" value="array"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="SESSION_DRIVER" value="array"/>
+        <env name="ELASTIC_HOST" value="http://localhost"/>
+        <env name="ELASTIC_PORT" value="9200"/>
+        <env name="ELASTIC_USER" value="elastic"/>
+        <env name="ELASTIC_PASSWORD" value="QYplUc2YDD3Jc+Q4_YR4"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
     </php>
 </phpunit>

@@ -25,12 +25,15 @@ class QuestionObserver
      */
     public function created(Question $question): void
     {
-        // Préparation des paramètres pour l'API
-        $dataToSend = [
-            'question' => $question->question,
-            'question_id' => $question->id,
-        ];
-        $this->elastic->insertInIndex('questions', $dataToSend);
+        // Ne pas intéragir avec ES en environnement de test
+        if (!app()->environment('testing')) {
+            // Préparation des paramètres pour l'API
+            $dataToSend = [
+                'question'    => $question->question,
+                'question_id' => $question->id,
+            ];
+            $this->elastic->insertInIndex('questions', $dataToSend);
+        }
     }
 
     /**

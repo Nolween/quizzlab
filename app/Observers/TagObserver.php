@@ -25,12 +25,15 @@ class TagObserver
      */
     public function created(Tag $tag): void
     {
-        // Préparation des paramètres pour l'API
-        $dataToSend = [
-            'tag' => $tag->name,
-            'tag_id' => $tag->id,
-        ];
-        $this->elastic->insertInIndex('tags', $dataToSend);
+        // Ne pas intéragir avec ES en environnement de test
+        if (!app()->environment('testing')) {
+            // Préparation des paramètres pour l'API
+            $dataToSend = [
+                'tag'    => $tag->name,
+                'tag_id' => $tag->id,
+            ];
+            $this->elastic->insertInIndex('tags', $dataToSend);
+        }
     }
 
     /**
