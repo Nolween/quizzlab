@@ -4,6 +4,7 @@ namespace App\Http\Requests\GameChats;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class GameChatStoreRequest extends FormRequest
 {
@@ -12,7 +13,7 @@ class GameChatStoreRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Auth::check();
+        return Gate::allows('authorized-user');
     }
 
     /**
@@ -23,8 +24,8 @@ class GameChatStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'message' => ['required', 'string'],
-            'gameId' => ['required', 'integer', 'exists:game_chats,id'],
+            'message' => ['required', 'string', 'min:1'],
+            'gameId' => ['required', 'integer', 'exists:games,id'],
         ];
     }
 }
