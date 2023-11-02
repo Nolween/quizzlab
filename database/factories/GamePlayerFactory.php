@@ -19,14 +19,14 @@ class GamePlayerFactory extends Factory
      */
     public function definition(): array
     {
-        $gameId = Game::inRandomOrder()->first()->id;
+        $game = Game::inRandomOrder()->first();
 
         // Si la partie a déjà commencé, le joueur a été prêt
         return [
-            'game_id' => $gameId,
+            'game_id' => $game->id,
             'user_id' => User::inRandomOrder()->first()->id,
-            'is_ready' => $gameId->has_begun ? 1 : rand(0, 1),
-            'final_score' => fake()->randomFloat(),
+            'is_ready' => $game->has_begun ? 1 : rand(0, 1),
+            'final_score' => fake()->randomFloat(2, 0, 10000),
             'final_place' => null,
         ];
     }

@@ -4,6 +4,7 @@ namespace App\Http\Requests\Games;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class GameJoinRequest extends FormRequest
 {
@@ -12,7 +13,16 @@ class GameJoinRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Auth::check();
+        // Verify if game is not full
+        if ($this->game->players->count() >= $this->game->max_players) {
+            return false;
+        }
+        // Verify if game is not already finished
+        if ($this->game->is_finished) {
+            return false;
+        }
+
+        return Gate::allows('authorized-user');
     }
 
     /**
