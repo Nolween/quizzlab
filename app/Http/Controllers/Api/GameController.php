@@ -164,19 +164,21 @@ class GameController extends Controller
         $userId = auth()->id();
 
         // L'utilisateur est-il encore dans une partie en cours?
-        //        $userInGames = Game::with(
-        //            ['players' => function ($query) use ($userId) {
-        //                $query->where('user_id', $userId);
-        //            }]
-        //        )
-        //            ->where('is_finished', false)
-        //            ->where('created_at', '>', Carbon::now()->subMinutes(10))
-        //            ->where('user_id', $userId)->get();
+               $userInGames = Game::with(
+                   [
+                       'players' => function ($query) use ($userId) {
+                           $query->where('user_id', $userId);
+                       }
+                   ]
+               )
+                                  ->where('is_finished', false)
+                                  ->where('created_at', '>', Carbon::now()->subMinutes(10))
+                                  ->where('user_id', $userId)->get();
 
         // Si le joueur est encore dans des parties en cours, refus
-        // if (count($userInGames) > 0) {
-        //     return response()->json(['success' => false, 'message' => "Veuillez attendre 10 minutes"], 500);
-        // }
+        if (count($userInGames) > 0) {
+            return response()->json(['success' => false, 'message' => "Veuillez attendre 10 minutes"], 500);
+        }
 
         // Génération d'un code de partie si plus d'un joueur
         $gameCode = $request->maxPlayers > 1 ? fake()->regexify('[A-Z]{4}-[0-4]{4}') : null;
@@ -270,7 +272,6 @@ class GameController extends Controller
         } // Si erreur
         catch (Exception $e) {
             DB::rollBack();
-
             return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
     }

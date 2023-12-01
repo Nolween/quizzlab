@@ -4,6 +4,7 @@ namespace App\Http\Requests\Games;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class GameStoreRequest extends FormRequest
 {
@@ -12,7 +13,7 @@ class GameStoreRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Auth::check();
+        return Gate::allows('authorized-user');
     }
 
     /**
@@ -26,9 +27,9 @@ class GameStoreRequest extends FormRequest
             'maxPlayers' => ['integer', 'required', 'min:1', 'max:30'],
             'questionCount' => ['integer', 'required', 'min:1', 'max:50'],
             'responseTime' => ['integer', 'required', 'min:1', 'max:180'],
-            'allTags' => ['boolean'],
+            'allTags' => ['required', 'boolean'],
             'selectedThemes' => ['array', 'nullable'],
-            'selectedThemes.*' => ['string'],
+            'selectedThemes.*' => ['string', 'exists:tags,name'],
             'possibleQuestions' => ['integer', 'required', 'min:1', 'gte:questionCount'], // On doit avoir plus de questions possibles que de questions définies
         ];
     }
