@@ -1,64 +1,86 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Installation
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+- Aller dans le dossier
+    - `cd quizzlab`
 
-## About Laravel
+## Back Elasticsearch
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+1. Télécharger elasticsearch:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+[Download Elasticsearch](https://www.elastic.co/fr/downloads/elasticsearch)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+1. Créer un dossier dans le disque qui rendra son contenu facile d’accès → C:/elasticsearch
+2. Dézipper le contenu du fichier téléchargé dans ce dossier
+3. Dans le terminal, se rendre dans le dossier `cd /elasticsearch/bin` et exécuter `elasticsearch`
+4. Lors du premier lancement d’elasticsearch, une ligne indiquant le mot de passe généré devrait apparaitre:
 
-## Learning Laravel
+   Password for the elastic user (reset with `bin/elasticsearch-reset-password -u elastic`):
+   MOTDEPASSE
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+5. Pour le local, ce message peut apparaitre dans le
+   terminal : `o.e.x.s.t.n.SecurityNetty4HttpServerTransport] [NOMDUPC] received plaintext http traffic on an https channel, closing connection Netty4HttpChannel`
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+   Cela veut dire que le SSL est activé, il faut le désactiver dans `/elasticsearch/config/elasticsearch.yml` >>
 
-## Laravel Sponsors
+   **xpack.security.http.ssl:**
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+   **enabled: false**
 
-### Premium Partners
+6. Une fois cela réglé et le serveur lancé via la commande `elasticsearch`, pour se connecter à la BDD >> username:
+   elastic - password: le mot de passe donné au premier lancement
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+## Back PHP
 
-## Contributing
+- Installation des librairies PHP (Laravel,...)
+- `composer install`
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- Configuration du fichier \quizzlab\.env
 
-## Code of Conduct
+    - APP_..., DB_..., ELASTIC_..., MAIL\_...,
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- Création d'une base de données Mysql (ex: quizzlab)
 
-## Security Vulnerabilities
+- Création de la structure de la DB avec jeu de données(Migration)
+    - `php artisan migrate:refresh --seed`
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- Création d'un lien concernant le storage public et le public
+    - `php artisan storage:link`
 
-## License
+## Front
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- Installation des librairies
+    - `npm install`
+
+# Environnement de dévelopement
+
+- Lancement du serveur Elasticsearch
+    - Se rendre dans le dossier `cd /elasticsearch/bin` et exécuter `elasticsearch`
+
+- Lancement du serveur php
+    - `php artisan serve`
+
+- Lancement du serveur websocket
+    - `php artisan websockets:serve`
+
+- Lancement du compilateur JS Vite
+    - `npm run dev`
+
+- Accès au projet: http://127.0.0.1:8000/
+- Accès à Telescope pour le profiler du back: http://127.0.0.1:8000/telescope/requests
+- Accès au serveur et voir les appels: http://127.0.0.1:8000/laravel-websockets
+
+# Maintenance du projet
+
+- Lancement du PHP CS Fixer, pour formater le code
+    - `./vendor/bin/pint`
+
+- Lancement de l'analyze statique du code avec écriture dans un fichier
+    - `./vendor/bin/phpstan analyse --generate-baseline`
+- Lancement de l'analyze statique dans un fichier particulier
+    - `./vendor/bin/phpstan analyse path/to/your/file.php`
+- Lancement des test unitaires sous PEST PHP
+    - `./vendor/bin/pest`
+- Lancement d'un fichier de test unitaire particulier
+    - `./vendor/bin/pest path/to/your/file.php`
+- Lancement d'un test unitaire précis particulier
+    - `./vendor/bin/pest --filter name_of_test`

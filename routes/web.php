@@ -13,18 +13,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+
+require __DIR__.'/auth.php';
+
+//! Bien mettre les routes après le require, sinon erreur
+
+// Route::get('/', function () {
+//     return view('welcome');
+// })->name('welcome');
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 // })->middleware(['auth'])->name('dashboard');
 
-require __DIR__.'/auth.php';
-
-// Bien mettre cette route après le  require, sinon erreur
 Route::view('/{any}', 'welcome')
-    ->middleware(['auth'])
     ->where('any', '.*');

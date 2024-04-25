@@ -3,9 +3,9 @@
     "version": "2.2.11",
     "width": 2500,
     "height": 2500,
-    "scrollTop": 0,
-    "scrollLeft": 0,
-    "zoomLevel": 1,
+    "scrollTop": -80.79999999999997,
+    "scrollLeft": -58.39999999999998,
+    "zoomLevel": 0.8,
     "show": {
       "tableComment": true,
       "columnComment": true,
@@ -68,6 +68,29 @@
               "widthDefault": 60
             },
             "id": "d83d2ba2-aa7e-4576-bdcb-0f7a49466f7d"
+          },
+          {
+            "name": "role_id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "4d195d27-095b-4013-b50f-cae512948df3"
           },
           {
             "name": "name",
@@ -160,36 +183,13 @@
               "widthDefault": 60
             },
             "id": "63804719-adf2-4093-a578-46973983e3b9"
-          },
-          {
-            "name": "role_id",
-            "comment": "",
-            "dataType": "BIGINT",
-            "default": "",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": true
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
-              "fk": true,
-              "pfk": false,
-              "widthName": 60,
-              "widthComment": 60,
-              "widthDataType": 60,
-              "widthDefault": 60
-            },
-            "id": "4d195d27-095b-4013-b50f-cae512948df3"
           }
         ],
         "ui": {
           "active": false,
-          "left": 708.2046,
-          "top": 949.7199,
-          "zIndex": 7,
+          "left": 751.4696,
+          "top": 1721.3927,
+          "zIndex": 63,
           "widthName": 60,
           "widthComment": 69.96389770507812,
           "color": "#E91E63"
@@ -250,9 +250,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 1175.8078,
-          "top": 795.5389,
-          "zIndex": 14,
+          "left": 433.0051,
+          "top": 1980.337,
+          "zIndex": 83,
           "widthName": 60,
           "widthComment": 120,
           "color": "#FF5300"
@@ -332,29 +332,6 @@
               "widthDefault": 60
             },
             "id": "07d8eb33-3360-4fb4-8528-806eb487da15"
-          },
-          {
-            "name": "answer",
-            "comment": "",
-            "dataType": "TEXT",
-            "default": "",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": true
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
-              "fk": false,
-              "pfk": false,
-              "widthName": 60,
-              "widthComment": 60,
-              "widthDataType": 60,
-              "widthDefault": 60
-            },
-            "id": "45af50e3-a60c-47a5-8cbb-44b1514ff0ad"
           },
           {
             "name": "image",
@@ -493,13 +470,36 @@
               "widthDefault": 60
             },
             "id": "5f2e3d2e-4520-4a1d-994c-503efef03e83"
+          },
+          {
+            "name": "is_moderated",
+            "comment": "",
+            "dataType": "BOOLEAN",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 85.12190246582031,
+              "widthComment": 60,
+              "widthDataType": 62.98297119140625,
+              "widthDefault": 60
+            },
+            "id": "b786a2b3-7c6c-4c16-bd11-1100fc916a29"
           }
         ],
         "ui": {
           "active": false,
-          "left": 11.4592,
-          "top": 908.5603,
-          "zIndex": 6,
+          "left": 1499.933,
+          "top": 1743.0531,
+          "zIndex": 86,
           "widthName": 61.76092529296875,
           "widthComment": 120,
           "color": "#673AB7"
@@ -535,27 +535,27 @@
             "id": "0010234e-b62d-42c4-9c55-bdd0e9071f25"
           },
           {
-            "name": "has_approved",
+            "name": "user_id",
             "comment": "",
-            "dataType": "BOOL",
+            "dataType": "BIGINT",
             "default": "",
             "option": {
               "autoIncrement": false,
               "primaryKey": false,
               "unique": false,
-              "notNull": false
+              "notNull": true
             },
             "ui": {
               "active": false,
               "pk": false,
-              "fk": false,
+              "fk": true,
               "pfk": false,
-              "widthName": 87.25392150878906,
+              "widthName": 60,
               "widthComment": 60,
               "widthDataType": 60,
               "widthDefault": 60
             },
-            "id": "022a4f34-d868-44c6-bce7-7d31805641ea"
+            "id": "756c7035-14bd-45ec-aa1e-2a0c2fb3efb0"
           },
           {
             "name": "question_id",
@@ -579,6 +579,29 @@
               "widthDefault": 60
             },
             "id": "8c31e06a-8e12-4960-a1e4-92d232f63de4"
+          },
+          {
+            "name": "has_approved",
+            "comment": "",
+            "dataType": "BOOL",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 87.25392150878906,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "022a4f34-d868-44c6-bce7-7d31805641ea"
           },
           {
             "name": "created_at",
@@ -629,9 +652,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 0,
-          "top": 311.0322,
-          "zIndex": 4,
+          "left": 2122.0091094970703,
+          "top": 1716.1495,
+          "zIndex": 77,
           "widthName": 94.02687072753906,
           "widthComment": 120
         },
@@ -714,9 +737,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 10,
-          "top": 1320.0015,
-          "zIndex": 3,
+          "left": 1527.0518,
+          "top": 807.4822,
+          "zIndex": 68,
           "widthName": 87.51390075683594,
           "widthComment": 60,
           "color": "#009688"
@@ -777,9 +800,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 9.9998,
-          "top": 1649.1002,
-          "zIndex": 2,
+          "left": 1041.0491,
+          "top": 424.7276,
+          "zIndex": 59,
           "widthName": 60,
           "widthComment": 120,
           "color": "#FF9800"
@@ -813,29 +836,6 @@
               "widthDefault": 60
             },
             "id": "3f294323-b419-429d-b58c-c398aca5e80d"
-          },
-          {
-            "name": "comment",
-            "comment": "",
-            "dataType": "TEXT",
-            "default": "",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": true
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
-              "fk": false,
-              "pfk": false,
-              "widthName": 60.47395324707031,
-              "widthComment": 60,
-              "widthDataType": 60,
-              "widthDefault": 60
-            },
-            "id": "28d34ae3-d158-4912-befc-c1108f6d352b"
           },
           {
             "name": "question_id",
@@ -882,6 +882,29 @@
               "widthDefault": 60
             },
             "id": "f657ed99-6cd5-4da9-9c35-810de7d4d3f8"
+          },
+          {
+            "name": "comment",
+            "comment": "",
+            "dataType": "TEXT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60.47395324707031,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "28d34ae3-d158-4912-befc-c1108f6d352b"
           },
           {
             "name": "created_at",
@@ -1001,9 +1024,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 686.7271,
-          "top": 206.6352,
-          "zIndex": 5,
+          "left": 1912.199,
+          "top": 1189.9894,
+          "zIndex": 74,
           "widthName": 126.00686645507812,
           "widthComment": 120
         },
@@ -1155,9 +1178,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 607.4204,
-          "top": 625.9202,
-          "zIndex": 9,
+          "left": 1328.8439,
+          "top": 1120.7015,
+          "zIndex": 82,
           "widthName": 125.72088623046875,
           "widthComment": 120
         },
@@ -1397,12 +1420,35 @@
               "widthDefault": 60
             },
             "id": "c983efdc-2687-4d71-bb12-34568f91bc5e"
+          },
+          {
+            "name": "questions_have_all_tags",
+            "comment": "Les questions doivent elles comporter tous les tags associés?",
+            "dataType": "BOOLEAN",
+            "default": "0",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 148.54881286621094,
+              "widthComment": 120,
+              "widthDataType": 62.98297119140625,
+              "widthDefault": 60
+            },
+            "id": "bac72a8c-9397-43e7-9304-903e1046d61a"
           }
         ],
         "ui": {
           "active": false,
-          "left": 587.7347,
-          "top": 1675.7236,
+          "left": 124.17081324483735,
+          "top": 1177.1193973429856,
           "zIndex": 13,
           "widthName": 60,
           "widthComment": 97.82284545898438,
@@ -1464,9 +1510,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 651.6157,
-          "top": 2122.1023,
-          "zIndex": 8,
+          "left": 79.1118,
+          "top": 723.8913,
+          "zIndex": 80,
           "widthName": 72.8629150390625,
           "widthComment": 120,
           "color": "#CDDC39"
@@ -1619,9 +1665,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 1712.9651,
-          "top": 1311.4353,
-          "zIndex": 10,
+          "left": 682.3795,
+          "top": 813.4218,
+          "zIndex": 81,
           "widthName": 86.74690246582031,
           "widthComment": 120
         },
@@ -1704,9 +1750,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 0,
-          "top": 1927.5159,
-          "zIndex": 1,
+          "left": 332.2924,
+          "top": 410.9934,
+          "zIndex": 79,
           "widthName": 68.75494384765625,
           "widthComment": 120
         },
@@ -1739,29 +1785,6 @@
               "widthDefault": 60
             },
             "id": "f3a920c2-cfa6-4bc9-ac0b-63fec5d3b09e"
-          },
-          {
-            "name": "text",
-            "comment": "",
-            "dataType": "TEXT",
-            "default": "",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": false
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
-              "fk": false,
-              "pfk": false,
-              "widthName": 60,
-              "widthComment": 60,
-              "widthDataType": 60,
-              "widthDefault": 60
-            },
-            "id": "2ec2bf01-000d-4ded-bf0e-46fe37535ecf"
           },
           {
             "name": "game_id",
@@ -1808,6 +1831,29 @@
               "widthDefault": 60
             },
             "id": "005ad66c-fa15-4b8e-baa5-601d3af8663c"
+          },
+          {
+            "name": "text",
+            "comment": "",
+            "dataType": "TEXT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "2ec2bf01-000d-4ded-bf0e-46fe37535ecf"
           },
           {
             "name": "created_at",
@@ -1858,8 +1904,8 @@
         ],
         "ui": {
           "active": false,
-          "left": 1156.1005,
-          "top": 1379.9388,
+          "left": 0,
+          "top": 1710.4867474098419,
           "zIndex": 11,
           "widthName": 68.80694580078125,
           "widthComment": 120
@@ -1966,9 +2012,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 509.5597,
-          "top": 1301.8863,
-          "zIndex": 12,
+          "left": 242.1925,
+          "top": 2135.0747,
+          "zIndex": 84,
           "widthName": 102.30789184570312,
           "widthComment": 120
         },
@@ -2120,14 +2166,122 @@
         ],
         "ui": {
           "active": false,
-          "left": 1589.3152,
-          "top": 976.7576,
-          "zIndex": 15,
+          "left": 716.7977,
+          "top": 2257.9997,
+          "zIndex": 85,
           "widthName": 83.52290344238281,
           "widthComment": 120
         },
         "visible": true,
         "id": "97f1007e-94eb-47d9-a23c-b4e8da986149"
+      },
+      {
+        "name": "question_choices",
+        "comment": "",
+        "columns": [
+          {
+            "name": "id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": true,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": true,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "e45e2f7a-87d1-423b-878f-a5040081429f"
+          },
+          {
+            "name": "question_id",
+            "comment": "",
+            "dataType": "BIGINT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 72.6549072265625,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "5ed85d42-7065-4c5f-b488-2699cbb30e98"
+          },
+          {
+            "name": "title",
+            "comment": "",
+            "dataType": "TEXT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "5ccbe908-59a5-4582-84f8-59e9aee28a3a"
+          },
+          {
+            "name": "is_correct",
+            "comment": "",
+            "dataType": "BOOL",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60.200897216796875,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "980d5327-8506-4b5d-871d-cceb9bf96028"
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 1881.1192,
+          "top": 2202.4531,
+          "zIndex": 69,
+          "widthName": 106.59785461425781,
+          "widthComment": 60
+        },
+        "visible": true,
+        "id": "6143d1be-5303-46d4-ba74-e8cac8bab9c3"
       }
     ],
     "indexes": []
@@ -2146,18 +2300,18 @@
           "columnIds": [
             "103fea22-d1e3-4b3f-a9b3-3ad339e9af29"
           ],
-          "x": 1175.8078,
-          "y": 850.5389,
-          "direction": "left"
+          "x": 780.0051000000001,
+          "y": 2035.337,
+          "direction": "right"
         },
         "end": {
           "tableId": "146eefbf-954d-4a18-8671-4e4490182f53",
           "columnIds": [
             "4d195d27-095b-4013-b50f-cae512948df3"
           ],
-          "x": 1062.2235056396485,
-          "y": 981.7199,
-          "direction": "right"
+          "x": 839.9743264099121,
+          "y": 1913.3927,
+          "direction": "bottom"
         },
         "constraintName": "fk_role_to_users",
         "visible": true,
@@ -2172,18 +2326,18 @@
           "columnIds": [
             "d83d2ba2-aa7e-4576-bdcb-0f7a49466f7d"
           ],
-          "x": 708.2046,
-          "y": 1045.7199,
-          "direction": "left"
+          "x": 1105.4885056396483,
+          "y": 1753.3927,
+          "direction": "right"
         },
         "end": {
           "tableId": "febc21bb-b091-4d07-b011-07130268f1d0",
           "columnIds": [
             "0638c87e-b4d6-48a6-a7a4-6b051186cc9f"
           ],
-          "x": 383.37906083984376,
-          "y": 977.0603,
-          "direction": "right"
+          "x": 1499.933,
+          "y": 1811.5531,
+          "direction": "left"
         },
         "constraintName": "fk_users_to_questions",
         "visible": true,
@@ -2198,18 +2352,18 @@
           "columnIds": [
             "dfa69463-1ee8-4fd8-bd95-1e20d5567536"
           ],
-          "x": 104.43916520996093,
-          "y": 908.5603,
-          "direction": "top"
+          "x": 1875.791871459961,
+          "y": 1880.0531,
+          "direction": "right"
         },
         "end": {
           "tableId": "8a8fd910-7c18-4a2e-a293-375728d47b5c",
           "columnIds": [
             "8c31e06a-8e12-4960-a1e4-92d232f63de4"
           ],
-          "x": 188.99544525146484,
-          "y": 482.5322,
-          "direction": "bottom"
+          "x": 2122.0091094970703,
+          "y": 1812.1495,
+          "direction": "left"
         },
         "constraintName": "fk_questions_to_question_votes",
         "visible": true,
@@ -2224,18 +2378,18 @@
           "columnIds": [
             "dfa69463-1ee8-4fd8-bd95-1e20d5567536"
           ],
-          "x": 197.41913041992188,
-          "y": 1182.5603,
-          "direction": "bottom"
+          "x": 1781.8271535949707,
+          "y": 1743.0531,
+          "direction": "top"
         },
         "end": {
           "tableId": "c50567a8-dda4-4aa8-bad6-1eb2b962b9a4",
           "columnIds": [
             "dcf8d6cf-c464-40c2-900c-80084f15e5af"
           ],
-          "x": 189.82745361328125,
-          "y": 1320.0015,
-          "direction": "top"
+          "x": 1706.8792536132812,
+          "y": 937.9822,
+          "direction": "bottom"
         },
         "constraintName": "fk_questions_to_question_tags",
         "visible": true,
@@ -2250,18 +2404,18 @@
           "columnIds": [
             "0ae23793-d8bd-4033-bb66-8654a34e0a34"
           ],
-          "x": 183.4998,
-          "y": 1649.1002,
-          "direction": "top"
+          "x": 1388.0491,
+          "y": 479.7276,
+          "direction": "right"
         },
         "end": {
           "tableId": "c50567a8-dda4-4aa8-bad6-1eb2b962b9a4",
           "columnIds": [
             "d1172476-e0a8-48bf-8d51-35578001967b"
           ],
-          "x": 189.82745361328125,
-          "y": 1450.5015,
-          "direction": "bottom"
+          "x": 1527.0518,
+          "y": 872.7322,
+          "direction": "left"
         },
         "constraintName": "fk_tags_to_question_tags",
         "visible": true,
@@ -2276,8 +2430,8 @@
           "columnIds": [
             "dfa69463-1ee8-4fd8-bd95-1e20d5567536"
           ],
-          "x": 290.3990956298828,
-          "y": 908.5603,
+          "x": 1593.8977178649902,
+          "y": 1743.0531,
           "direction": "top"
         },
         "end": {
@@ -2285,8 +2439,8 @@
           "columnIds": [
             "d059fae9-11db-4aad-897f-e918991b28c6"
           ],
-          "x": 686.7271,
-          "y": 333.3852,
+          "x": 1912.199,
+          "y": 1316.7394,
           "direction": "left"
         },
         "constraintName": "fk_questions_to_question_comments",
@@ -2302,18 +2456,18 @@
           "columnIds": [
             "d83d2ba2-aa7e-4576-bdcb-0f7a49466f7d"
           ],
-          "x": 973.7187792297364,
-          "y": 949.7199,
-          "direction": "top"
+          "x": 1105.4885056396483,
+          "y": 1881.3927,
+          "direction": "right"
         },
         "end": {
           "tableId": "55554c9f-a52b-45e2-8331-84db87fc0310",
           "columnIds": [
             "f657ed99-6cd5-4da9-9c35-810de7d4d3f8"
           ],
-          "x": 1054.3957058044434,
-          "y": 460.1352,
-          "direction": "bottom"
+          "x": 1912.199,
+          "y": 1401.2394,
+          "direction": "left"
         },
         "constraintName": "fk_users_to_question_comments",
         "visible": true,
@@ -2328,18 +2482,18 @@
           "columnIds": [
             "3f294323-b419-429d-b58c-c398aca5e80d"
           ],
-          "x": 809.2833019348144,
-          "y": 460.1352,
-          "direction": "bottom"
+          "x": 1912.199,
+          "y": 1232.2394,
+          "direction": "left"
         },
         "end": {
           "tableId": "f9f41302-3aab-415c-83db-35d61d885836",
           "columnIds": [
             "e35e8d01-1f12-4515-b562-20038793bb9f"
           ],
-          "x": 796.4158452514648,
-          "y": 625.9202,
-          "direction": "top"
+          "x": 1706.8347905029298,
+          "y": 1216.7015,
+          "direction": "right"
         },
         "constraintName": "fk_question_comments_to_comment_approvals",
         "visible": true,
@@ -2354,18 +2508,18 @@
           "columnIds": [
             "d83d2ba2-aa7e-4576-bdcb-0f7a49466f7d"
           ],
-          "x": 796.7093264099121,
-          "y": 949.7199,
-          "direction": "top"
+          "x": 1105.4885056396483,
+          "y": 1817.3927,
+          "direction": "right"
         },
         "end": {
           "tableId": "f9f41302-3aab-415c-83db-35d61d885836",
           "columnIds": [
             "afdeadb2-18ca-4bcb-b2a9-a88559e196f9"
           ],
-          "x": 796.4158452514648,
-          "y": 817.9202,
-          "direction": "bottom"
+          "x": 1328.8439,
+          "y": 1216.7015,
+          "direction": "left"
         },
         "constraintName": "fk_users_to_comment_approvals",
         "visible": true,
@@ -2380,18 +2534,18 @@
           "columnIds": [
             "d83d2ba2-aa7e-4576-bdcb-0f7a49466f7d"
           ],
-          "x": 973.7187792297364,
-          "y": 1141.7199,
-          "direction": "bottom"
+          "x": 839.9743264099121,
+          "y": 1721.3927,
+          "direction": "top"
         },
         "end": {
           "tableId": "a0fdeb75-1075-4c78-844b-b266ee34a76f",
           "columnIds": [
             "8cb7f613-5bfe-48c1-9a04-b45c73c5afc9"
           ],
-          "x": 922.3508460876465,
-          "y": 1675.7236,
-          "direction": "top"
+          "x": 622.7025973024545,
+          "y": 1397.9943973429856,
+          "direction": "right"
         },
         "constraintName": "fk_users_to_games",
         "visible": true,
@@ -2406,18 +2560,18 @@
           "columnIds": [
             "dba4f1c6-4707-4a67-ab4c-cae902802e74"
           ],
-          "x": 825.1157,
-          "y": 2122.1023,
-          "direction": "top"
+          "x": 252.61180000000002,
+          "y": 833.8913,
+          "direction": "bottom"
         },
         "end": {
           "tableId": "a0fdeb75-1075-4c78-844b-b266ee34a76f",
           "columnIds": [
             "1fdfdf74-307d-41f0-b0bb-438dd08140e9"
           ],
-          "x": 810.8121307250976,
-          "y": 1949.7236,
-          "direction": "bottom"
+          "x": 248.80375925924164,
+          "y": 1177.1193973429856,
+          "direction": "top"
         },
         "constraintName": "fk_game_rules_to_games",
         "visible": true,
@@ -2432,8 +2586,8 @@
           "columnIds": [
             "82a4a965-d2d3-4ceb-ae79-55e52e51fa66"
           ],
-          "x": 1033.8895614501953,
-          "y": 1881.2236,
+          "x": 622.7025973024545,
+          "y": 1250.7443973429856,
           "direction": "right"
         },
         "end": {
@@ -2441,9 +2595,9 @@
           "columnIds": [
             "8b19ecb8-93de-4a0d-be24-23f95563b35d"
           ],
-          "x": 1712.9651,
-          "y": 1455.4353,
-          "direction": "left"
+          "x": 771.6382203979492,
+          "y": 1005.4218,
+          "direction": "bottom"
         },
         "constraintName": "fk_games_to_game_players",
         "visible": true,
@@ -2458,18 +2612,18 @@
           "columnIds": [
             "d83d2ba2-aa7e-4576-bdcb-0f7a49466f7d"
           ],
-          "x": 1062.2235056396485,
-          "y": 1109.7199,
-          "direction": "right"
+          "x": 1016.9837792297363,
+          "y": 1721.3927,
+          "direction": "top"
         },
         "end": {
           "tableId": "058af893-7ce2-459c-b722-2ac01cb6fc77",
           "columnIds": [
             "f8d09ed5-565a-4388-b021-04324df5d722"
           ],
-          "x": 1712.9651,
-          "y": 1359.4353,
-          "direction": "left"
+          "x": 950.1556611938477,
+          "y": 1005.4218,
+          "direction": "bottom"
         },
         "constraintName": "fk_users_to_game_players",
         "visible": true,
@@ -2484,18 +2638,18 @@
           "columnIds": [
             "82a4a965-d2d3-4ceb-ae79-55e52e51fa66"
           ],
-          "x": 587.7347,
-          "y": 1812.7236,
-          "direction": "left"
+          "x": 498.06965128805024,
+          "y": 1177.1193973429856,
+          "direction": "top"
         },
         "end": {
           "tableId": "364f43be-aa85-4b61-801d-5545aa627a9b",
           "columnIds": [
             "42a941ec-fa2a-4de5-acd6-54414044ef2e"
           ],
-          "x": 347,
-          "y": 1992.7659,
-          "direction": "right"
+          "x": 505.7924,
+          "y": 541.4934000000001,
+          "direction": "bottom"
         },
         "constraintName": "fk_games_to_game_tags",
         "visible": true,
@@ -2510,18 +2664,18 @@
           "columnIds": [
             "0ae23793-d8bd-4033-bb66-8654a34e0a34"
           ],
-          "x": 183.4998,
-          "y": 1759.1002,
-          "direction": "bottom"
+          "x": 1041.0491,
+          "y": 479.7276,
+          "direction": "left"
         },
         "end": {
           "tableId": "364f43be-aa85-4b61-801d-5545aa627a9b",
           "columnIds": [
             "4e2e3e49-0443-44e1-9dc0-faaf652e910b"
           ],
-          "x": 173.5,
-          "y": 1927.5159,
-          "direction": "top"
+          "x": 679.2924,
+          "y": 476.2434,
+          "direction": "right"
         },
         "constraintName": "fk_tags_to_game_tags",
         "visible": true,
@@ -2536,18 +2690,18 @@
           "columnIds": [
             "82a4a965-d2d3-4ceb-ae79-55e52e51fa66"
           ],
-          "x": 1033.8895614501953,
-          "y": 1744.2236,
-          "direction": "right"
+          "x": 248.80375925924164,
+          "y": 1471.6193973429856,
+          "direction": "bottom"
         },
         "end": {
           "tableId": "6df3d8b4-b94e-4f44-9a8d-7bf5daa41f5f",
           "columnIds": [
             "b804b1ac-7c05-4b96-8d29-acb18fddeb00"
           ],
-          "x": 1156.1005,
-          "y": 1427.9388,
-          "direction": "left"
+          "x": 180.91595458984375,
+          "y": 1710.4867474098419,
+          "direction": "top"
         },
         "constraintName": "fk_games_to_game_chat",
         "visible": true,
@@ -2562,18 +2716,18 @@
           "columnIds": [
             "d83d2ba2-aa7e-4576-bdcb-0f7a49466f7d"
           ],
-          "x": 796.7093264099121,
-          "y": 1141.7199,
-          "direction": "bottom"
+          "x": 751.4696,
+          "y": 1817.3927,
+          "direction": "left"
         },
         "end": {
           "tableId": "6df3d8b4-b94e-4f44-9a8d-7bf5daa41f5f",
           "columnIds": [
             "005ad66c-fa15-4b8e-baa5-601d3af8663c"
           ],
-          "x": 1156.1005,
-          "y": 1523.9388,
-          "direction": "left"
+          "x": 361.8319091796875,
+          "y": 1806.4867474098419,
+          "direction": "right"
         },
         "constraintName": "fk_users_to_game_chat",
         "visible": true,
@@ -2588,18 +2742,18 @@
           "columnIds": [
             "dfa69463-1ee8-4fd8-bd95-1e20d5567536"
           ],
-          "x": 383.37906083984376,
-          "y": 1114.0603,
-          "direction": "right"
+          "x": 1499.933,
+          "y": 1948.5531,
+          "direction": "left"
         },
         "end": {
           "tableId": "be160ef9-01e4-448c-8d41-4e2c0ee93edb",
           "columnIds": [
             "113337ce-4585-46b8-b637-ce7cb9952bdf"
           ],
-          "x": 509.5597,
-          "y": 1377.3863,
-          "direction": "left"
+          "x": 601.8474072265625,
+          "y": 2248.3247,
+          "direction": "right"
         },
         "constraintName": "fk_questions_to_game_questions",
         "visible": true,
@@ -2614,18 +2768,18 @@
           "columnIds": [
             "82a4a965-d2d3-4ceb-ae79-55e52e51fa66"
           ],
-          "x": 699.2734153625488,
-          "y": 1675.7236,
-          "direction": "top"
+          "x": 498.06965128805024,
+          "y": 1471.6193973429856,
+          "direction": "bottom"
         },
         "end": {
           "tableId": "be160ef9-01e4-448c-8d41-4e2c0ee93edb",
           "columnIds": [
             "f0af9919-c70c-4996-8f9e-4bbc00a912f2"
           ],
-          "x": 689.3871536132813,
-          "y": 1452.8863,
-          "direction": "bottom"
+          "x": 422.01995361328125,
+          "y": 2135.0747,
+          "direction": "top"
         },
         "constraintName": "fk_games_to_game_questions",
         "visible": true,
@@ -2640,8 +2794,8 @@
           "columnIds": [
             "6dd74f8b-d5b5-4c29-bb67-048bb92df517"
           ],
-          "x": 869.2146072265625,
-          "y": 1377.3863,
+          "x": 601.8474072265625,
+          "y": 2172.8247,
           "direction": "right"
         },
         "end": {
@@ -2649,8 +2803,8 @@
           "columnIds": [
             "531042d2-e6ab-40d5-99b8-0ac2ab2933c0"
           ],
-          "x": 1589.3152,
-          "y": 1120.7576,
+          "x": 716.7977,
+          "y": 2353.9997,
           "direction": "left"
         },
         "constraintName": "fk_game_questions_to_game_results",
@@ -2666,22 +2820,74 @@
           "columnIds": [
             "d83d2ba2-aa7e-4576-bdcb-0f7a49466f7d"
           ],
-          "x": 1062.2235056396485,
-          "y": 1045.7199,
-          "direction": "right"
+          "x": 1016.9837792297363,
+          "y": 1913.3927,
+          "direction": "bottom"
         },
         "end": {
           "tableId": "97f1007e-94eb-47d9-a23c-b4e8da986149",
           "columnIds": [
             "126be27d-7600-4187-b02c-dd717bd1931c"
           ],
-          "x": 1589.3152,
-          "y": 1024.7576,
-          "direction": "left"
+          "x": 918.3901224853515,
+          "y": 2257.9997,
+          "direction": "top"
         },
         "constraintName": "fk_users_to_game_results",
         "visible": true,
         "id": "171aa01b-3d8d-4812-887c-e08cae5ac4a3"
+      },
+      {
+        "identification": false,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "55554c9f-a52b-45e2-8331-84db87fc0310",
+          "columnIds": [
+            "3f294323-b419-429d-b58c-c398aca5e80d"
+          ],
+          "x": 2157.311403869629,
+          "y": 1443.4894,
+          "direction": "bottom"
+        },
+        "end": {
+          "tableId": "8a8fd910-7c18-4a2e-a293-375728d47b5c",
+          "columnIds": [
+            "756c7035-14bd-45ec-aa1e-2a0c2fb3efb0"
+          ],
+          "x": 2311.004554748535,
+          "y": 1716.1495,
+          "direction": "top"
+        },
+        "constraintName": "fk_question_comments_to_question_votes",
+        "visible": true,
+        "id": "56066f97-0b65-4f57-a7af-1ea1b5bd837d"
+      },
+      {
+        "identification": false,
+        "relationshipType": "ZeroN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "febc21bb-b091-4d07-b011-07130268f1d0",
+          "columnIds": [
+            "dfa69463-1ee8-4fd8-bd95-1e20d5567536"
+          ],
+          "x": 1687.8624357299805,
+          "y": 2017.0531,
+          "direction": "bottom"
+        },
+        "end": {
+          "tableId": "6143d1be-5303-46d4-ba74-e8cac8bab9c3",
+          "columnIds": [
+            "5ed85d42-7065-4c5f-b488-2699cbb30e98"
+          ],
+          "x": 1881.1192,
+          "y": 2277.9531,
+          "direction": "left"
+        },
+        "constraintName": "fk_questions_to_question_choices",
+        "visible": true,
+        "id": "f85f9eb4-50ea-43e9-8167-19f47c0eee7e"
       }
     ]
   }
